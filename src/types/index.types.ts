@@ -25,3 +25,19 @@ export interface StringResponse extends RestResponse {
 export interface BooleanResponse extends RestResponse {
   data?: string;
 }
+
+export interface LoginRes extends RestResponse {
+  data?: {
+    token: string;
+  };
+}
+
+export interface UserRes extends RestResponse {
+  data?: {
+    id: string;
+    createdAt: string;
+    email: string;
+    admin: boolean;
+    password: null;
+  };
+}

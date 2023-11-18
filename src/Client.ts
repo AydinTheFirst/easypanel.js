@@ -8,7 +8,12 @@ import { Routes } from "./utils/Routes.js";
 
 import EventEmitter from "node:events";
 
-import { ClientConfig } from "./types/index.types.js";
+import {
+  ClientConfig,
+  LoginRes,
+  NoResponse,
+  UserRes,
+} from "./types/index.types.js";
 
 export class Client extends EventEmitter {
   config: ClientConfig;
@@ -32,7 +37,7 @@ export class Client extends EventEmitter {
     this.services = new ServicesManager(this);
   }
 
-  async login() {
+  async login(): Promise<Client> {
     if ((await this.getUser()).ok) {
       console.log("Provided API token works.");
       this.emit("ready");
@@ -47,28 +52,27 @@ export class Client extends EventEmitter {
     }
 
     this.rest.setToken(res.data.token);
-
     this.emit("ready");
-    return res;
+    return this;
   }
 
-  async logout() {
+  async logout(): Promise<NoResponse> {
     const res = await this.rest.post(Routes.Auth.Logout, {});
     return res;
   }
 
-  async getUser() {
+  async getUser(): Promise<UserRes> {
     const res = await this.rest.get(Routes.Auth.GetUser, { json: null });
     if (!res.data) res.ok = false;
     return res;
   }
 
-  async getLicensePayload(type: "lemon" | "portal") {
+  async getLicensePayload(type: "lemon" | "portal"): Promise<NoResponse> {
     const res = await this.rest.get(Routes.License(type).Get, { json: null });
     return res;
   }
 
-  async activateLicense(type: "lemon" | "portal") {
+  async activateLicense(type: "lemon" | "portal"): Promise<NoResponse> {
     const res = await this.rest.post(Routes.License(type).Activate, {
       json: null,
     });
