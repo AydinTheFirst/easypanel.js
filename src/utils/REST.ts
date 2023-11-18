@@ -1,7 +1,7 @@
 import REST from "ft-rest";
 
 REST.prototype._bodyToQueryParams = (body = null) => {
-  return "input=" + encodeURIComponent(JSON.stringify({ json: body }));
+  return "input=" + encodeURIComponent(JSON.stringify({ body }));
 };
 
 REST.prototype._responseResolver = (res) => {

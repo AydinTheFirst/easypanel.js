@@ -1,9 +1,10 @@
 // eslint-disable-next-line no-unused-vars
+import { Client } from "../Client.js";
 import { Routes } from "../utils/Routes.js";
 import { BaseManager } from "./BaseManager.js";
 
 export class ProjectsManager extends BaseManager {
-  constructor(client) {
+  constructor(client: Client) {
     super(client);
   }
 
@@ -12,44 +13,28 @@ export class ProjectsManager extends BaseManager {
    * @returns {Promise<object>}
    */
   async canCreate() {
-    const res = await this.client.rest.get(Routes.Projets.CanCreate);
+    const res = await this.client.rest.get(Routes.Projets.CanCreate, {
+      json: null,
+    });
     return res;
   }
 
-  /**
-   * Creates project
-   * @param {object} body
-   * @param {string} body.name
-   * @returns {Promise<object>}
-   */
-  async create(body) {
-    const Route = Routes.Projets.Create.replace("app", body.type);
+  async create(body: ProjectConf) {
+    const Route = Routes.Projets.Create.replace("app", body.name);
     const res = await this.client.rest.post(Route, {
       json: body,
     });
     return res;
   }
 
-  /**
-   * Destroys project
-   * @param {object} body
-   * @param {string} body.name
-   * @returns {Promise<object>}
-   */
-  async destory(body) {
+  async destory(body: ProjectConf) {
     const res = await this.client.rest.post(Routes.Projets.Destroy, {
       json: body,
     });
     return res;
   }
 
-  /**
-   * Inspects project
-   * @param {object} body
-   * @param {string} body.projectName
-   * @returns {Promise<object>}
-   */
-  async inspect(body) {
+  async inspect(body: ProjectQueryConf) {
     const res = await this.client.rest.get(Routes.Projets.Inspect, body);
     return res;
   }
@@ -59,7 +44,9 @@ export class ProjectsManager extends BaseManager {
    * @returns {Promise<object>}
    */
   async list() {
-    const res = await this.client.rest.get(Routes.Projets.List);
+    const res = await this.client.rest.get(Routes.Projets.List, {
+      json: null,
+    });
     return res;
   }
 
@@ -68,7 +55,17 @@ export class ProjectsManager extends BaseManager {
    * @returns {Promise<object>}
    */
   async listWithServices() {
-    const res = await this.client.rest.get(Routes.Projets.ListWithServices);
+    const res = await this.client.rest.get(Routes.Projets.ListWithServices, {
+      json: null,
+    });
     return res;
   }
+}
+
+interface ProjectConf {
+  name: string;
+}
+
+interface ProjectQueryConf {
+  projectName: string;
 }

@@ -1,19 +1,13 @@
+import { Client } from "../Client.js";
 import { Routes } from "../utils/Routes.js";
 import { BaseManager } from "./BaseManager.js";
 
-export class Settings extends BaseManager {
-  constructor(client) {
+export class SettingsManager extends BaseManager {
+  constructor(client: Client) {
     super(client);
   }
 
-  /**
-   *
-   * @param {object} body
-   * @param {string} body.email
-   * @param {string} body.oldPassword
-   * @param {string} body.newPassword
-   */
-  async changeCredentials(body) {
+  async changeCredentials(body: object) {
     const res = await this.client.rest.post(Routes.Settings.ChangeCredentials, {
       json: body,
     });
@@ -24,7 +18,9 @@ export class Settings extends BaseManager {
    * Returns github token
    */
   async getGithubToken() {
-    const res = await this.client.rest.get(Routes.Settings.GetGithubToken);
+    const res = await this.client.rest.get(Routes.Settings.GetGithubToken, {
+      json: null,
+    });
     return res;
   }
 
@@ -32,7 +28,10 @@ export class Settings extends BaseManager {
    * Returns Let's encrypt email
    */
   async getLetsEncryptEmail() {
-    const res = await this.client.rest.get(Routes.Settings.GetLetsEncryptEmail);
+    const res = await this.client.rest.get(
+      Routes.Settings.GetLetsEncryptEmail,
+      { json: null }
+    );
     return res;
   }
 
@@ -40,7 +39,9 @@ export class Settings extends BaseManager {
    * Returns panel domain
    */
   async getPanelDomain() {
-    const res = await this.client.rest.get(Routes.Settings.GetPanelDomain);
+    const res = await this.client.rest.get(Routes.Settings.GetPanelDomain, {
+      json: null,
+    });
     return res;
   }
 
@@ -48,7 +49,9 @@ export class Settings extends BaseManager {
    *  Returns server IP
    */
   async getServerIp() {
-    const res = await this.client.rest.get(Routes.Settings.GetServerIp);
+    const res = await this.client.rest.get(Routes.Settings.GetServerIp, {
+      json: null,
+    });
     return res;
   }
 
@@ -57,7 +60,10 @@ export class Settings extends BaseManager {
    */
   async getTraefikCustomConfig() {
     const res = await this.client.rest.get(
-      Routes.Settings.GetTraefikCustomConfig
+      Routes.Settings.GetTraefikCustomConfig,
+      {
+        json: null,
+      }
     );
     return res;
   }
@@ -89,7 +95,9 @@ export class Settings extends BaseManager {
    * Refreshes server IP
    */
   async refreshServerIp() {
-    const res = await this.client.rest.post(Routes.Settings.RefreshServerIp);
+    const res = await this.client.rest.post(Routes.Settings.RefreshServerIp, {
+      json: null,
+    });
     return res;
   }
 
@@ -97,7 +105,9 @@ export class Settings extends BaseManager {
    * Restarts Easypanel.
    */
   async restartEasypanel() {
-    const res = await this.client.rest.post(Routes.Settings.RestartEasypanel);
+    const res = await this.client.rest.post(Routes.Settings.RestartEasypanel, {
+      json: null,
+    });
     return res;
   }
 
@@ -115,7 +125,7 @@ export class Settings extends BaseManager {
    * @param {object} body
    * @param {boolean} body.pruneDockerDaily
    */
-  async setDockerPruneDaily(body) {
+  async setDockerPruneDaily(body: object) {
     const res = await this.client.rest.post(
       Routes.Settings.SetDockerPruneDaily,
       {
@@ -129,7 +139,7 @@ export class Settings extends BaseManager {
    * @param {object} body
    * @param {string} body.githubToken
    */
-  async setGithubToken(body) {
+  async setGithubToken(body: object) {
     const res = await this.client.rest.post(Routes.Settings.SetGithubToken, {
       json: body,
     });
@@ -143,7 +153,7 @@ export class Settings extends BaseManager {
    * @param {string} body.panelDomain
 
    */
-  async setPanelDomain(body) {
+  async setPanelDomain(body: object) {
     const res = await this.client.rest.post(Routes.Settings.SetPanelDomain, {
       json: body,
     });
@@ -155,7 +165,7 @@ export class Settings extends BaseManager {
    * @param {string} body.config
 
    */
-  async updateTraefikCustomConfig(body) {
+  async updateTraefikCustomConfig(body: object) {
     const res = await this.client.rest.post(
       Routes.Settings.UpdateTraefikCustomConfig,
       {
@@ -170,7 +180,7 @@ export class Settings extends BaseManager {
    * @param {string} body.letsEncryptEmail
 
    */
-  async setLetsEncryptEmail(body) {
+  async setLetsEncryptEmail(body: object) {
     const res = await this.client.rest.post(
       Routes.Settings.setLetsEncryptEmail,
       {

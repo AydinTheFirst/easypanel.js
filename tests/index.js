@@ -1,8 +1,8 @@
 /* eslint-disable no-undef */
 import "dotenv/config";
-import Easypanel from "../index.js";
+import { Client } from "../dist/index.js";
 
-export const client = new Easypanel.Client({
+export const client = new Client({
   endpoint: process.env.domain,
   credentials: {
     email: process.env.email,
@@ -13,6 +13,8 @@ export const client = new Easypanel.Client({
 
 client.on("ready", async () => {
   console.log("Client is ready!");
+
+  console.log(await client.getUser());
 });
 
 await client.login();

@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "target": "ESNext", // Choose the ECMAScript target version
+    "module": "NodeNext", // Specify module code generation
+    "declaration": true, // Generate .d.ts files
+    "outDir": "./dist", // Specify the output directory
+    "rootDir": "./src", // Specify the root directory of input files
+    "strict": true, // Enable all strict type-checking options
+    "moduleResolution": "NodeNext",
+    "esModuleInterop": true, // Emit additional JavaScript to simplify import
+    "skipLibCheck": true, // Skip type checking of declaration files
+    "forceConsistentCasingInFileNames": true // Ensure that casing is consistent in file names
+  },
+  "include": ["src/**/*.ts"], // Specify files to include in compilation
+  "exclude": ["node_modules", "dist"] // Specify files to exclude from compilation
+}

@@ -8,7 +8,7 @@ const Projets = {
   Destroy: "/api/trpc/projects.destroyProject", // POST
 };
 
-const Services = (type) => {
+const Services = (type: string) => {
   let Routes = {
     Create: "/api/trpc/services.app.createService", // POST
     Inspect: "/api/trpc/services.app.inspectService", // GET
@@ -36,6 +36,7 @@ const Services = (type) => {
   };
 
   for (const [key, value] of Object.entries(Routes)) {
+    // @ts-ignore
     Routes[key] = value.replace("app", type);
   }
 

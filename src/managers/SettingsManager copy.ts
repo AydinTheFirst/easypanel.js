@@ -1,8 +1,9 @@
+import { Client } from "../Client.js";
 import { Routes } from "../utils/Routes.js";
 import { BaseManager } from "./BaseManager.js";
 
 export class ServiceManager extends BaseManager {
-  constructor(client) {
+  constructor(client: Client) {
     super(client);
   }
 
@@ -12,7 +13,7 @@ export class ServiceManager extends BaseManager {
    * @param {object} body
    * @returns {Promise<object>}
    */
-  async create(serviceType, body) {
+  async create(serviceType: ServiceType, body: object): Promise<object> {
     const Route = Routes.Services(serviceType).Create;
     const res = await this.client.rest.post(Route, { json: body });
     return res;
@@ -24,7 +25,7 @@ export class ServiceManager extends BaseManager {
    * @param {object} body
    * @returns {Promise<object>}
    */
-  async inspect(serviceType, body) {
+  async inspect(serviceType: ServiceType, body: object): Promise<object> {
     const Route = Routes.Services(serviceType).Inspect;
     const res = await this.client.rest.get(Route, { json: body });
     return res;
@@ -36,7 +37,7 @@ export class ServiceManager extends BaseManager {
    * @param {object} body
    * @returns {Promise<object>}
    */
-  async destroy(serviceType, body) {
+  async destroy(serviceType: ServiceType, body: object): Promise<object> {
     const Route = Routes.Services(serviceType).Destroy;
     const res = await this.client.rest.post(Route, { json: body });
     return res;
@@ -48,7 +49,7 @@ export class ServiceManager extends BaseManager {
    * @param {object} body
    * @returns {Promise<object>}
    */
-  async deploy(serviceType, body) {
+  async deploy(serviceType: ServiceType, body: object): Promise<object> {
     const Route = Routes.Services(serviceType).Deploy;
     const res = await this.client.rest.post(Route, { json: body });
     return res;
@@ -60,7 +61,7 @@ export class ServiceManager extends BaseManager {
    * @param {object} body
    * @returns {Promise<object>}
    */
-  async disable(serviceType, body) {
+  async disable(serviceType: ServiceType, body: object): Promise<object> {
     const Route = Routes.Services(serviceType).Disable;
     const res = await this.client.rest.post(Route, { json: body });
     return res;
@@ -72,7 +73,7 @@ export class ServiceManager extends BaseManager {
    * @param {object} body
    * @returns {Promise<object>}
    */
-  async enable(serviceType, body) {
+  async enable(serviceType: ServiceType, body: object): Promise<object> {
     const Route = Routes.Services(serviceType).Enable;
     const res = await this.client.rest.post(Route, { json: body });
     return res;
@@ -84,7 +85,7 @@ export class ServiceManager extends BaseManager {
    * @param {object} body
    * @returns {Promise<object>}
    */
-  async exposeService(serviceType, body) {
+  async exposeService(serviceType: ServiceType, body: object): Promise<object> {
     const Route = Routes.Services(serviceType).ExposeService;
     const res = await this.client.rest.post(Route, { json: body });
     return res;
@@ -96,7 +97,10 @@ export class ServiceManager extends BaseManager {
    * @param {object} body
    * @returns {Promise<object>}
    */
-  async getServiceStats(serviceType, body) {
+  async getServiceStats(
+    serviceType: ServiceType,
+    body: object
+  ): Promise<object> {
     const Route = Routes.Services(serviceType).GetServiceStats;
     const res = await this.client.rest.get(Route, { json: body });
     return res;
@@ -108,7 +112,10 @@ export class ServiceManager extends BaseManager {
    * @param {object} body
    * @returns {Promise<object>}
    */
-  async refreshDeployToken(serviceType, body) {
+  async refreshDeployToken(
+    serviceType: ServiceType,
+    body: object
+  ): Promise<object> {
     const Route = Routes.Services(serviceType).RefreshDeployToken;
     const res = await this.client.rest.post(Route, { json: body });
     return res;
@@ -120,7 +127,10 @@ export class ServiceManager extends BaseManager {
    * @param {object} body
    * @returns {Promise<object>}
    */
-  async updateSourceGithub(serviceType, body) {
+  async updateSourceGithub(
+    serviceType: ServiceType,
+    body: object
+  ): Promise<object> {
     const Route = Routes.Services(serviceType).UpdateSourceGithub;
     const res = await this.client.rest.post(Route, { json: body });
     return res;
@@ -132,7 +142,10 @@ export class ServiceManager extends BaseManager {
    * @param {object} body
    * @returns {Promise<object>}
    */
-  async updateSourceGit(serviceType, body) {
+  async updateSourceGit(
+    serviceType: ServiceType,
+    body: object
+  ): Promise<object> {
     const Route = Routes.Services(serviceType).UpdateSourceGit;
     const res = await this.client.rest.post(Route, { json: body });
     return res;
@@ -144,7 +157,10 @@ export class ServiceManager extends BaseManager {
    * @param {object} body
    * @returns {Promise<object>}
    */
-  async updateSourceImage(serviceType, body) {
+  async updateSourceImage(
+    serviceType: ServiceType,
+    body: object
+  ): Promise<object> {
     const Route = Routes.Services(serviceType).UpdateSourceImage;
     const res = await this.client.rest.post(Route, { json: body });
     return res;
@@ -156,7 +172,7 @@ export class ServiceManager extends BaseManager {
    * @param {object} body
    * @returns {Promise<object>}
    */
-  async updateBuild(serviceType, body) {
+  async updateBuild(serviceType: ServiceType, body: object): Promise<object> {
     const Route = Routes.Services(serviceType).UpdateBuild;
     const res = await this.client.rest.post(Route, { json: body });
     return res;
@@ -168,7 +184,7 @@ export class ServiceManager extends BaseManager {
    * @param {object} body
    * @returns {Promise<object>}
    */
-  async updateEnv(serviceType, body) {
+  async updateEnv(serviceType: ServiceType, body: object): Promise<object> {
     const Route = Routes.Services(serviceType).UpdateEnv;
     const res = await this.client.rest.post(Route, { json: body });
     return res;
@@ -180,7 +196,7 @@ export class ServiceManager extends BaseManager {
    * @param {object} body
    * @returns {Promise<object>}
    */
-  async updateDomains(serviceType, body) {
+  async updateDomains(serviceType: ServiceType, body: object): Promise<object> {
     const Route = Routes.Services(serviceType).UpdateDomains;
     const res = await this.client.rest.post(Route, { json: body });
     return res;
@@ -192,7 +208,10 @@ export class ServiceManager extends BaseManager {
    * @param {object} body
    * @returns {Promise<object>}
    */
-  async updateRedirects(serviceType, body) {
+  async updateRedirects(
+    serviceType: ServiceType,
+    body: object
+  ): Promise<object> {
     const Route = Routes.Services(serviceType).UpdateRedirects;
     const res = await this.client.rest.post(Route, { json: body });
     return res;
@@ -204,7 +223,10 @@ export class ServiceManager extends BaseManager {
    * @param {object} body
    * @returns {Promise<object>}
    */
-  async updateBasicAuth(serviceType, body) {
+  async updateBasicAuth(
+    serviceType: ServiceType,
+    body: object
+  ): Promise<object> {
     const Route = Routes.Services(serviceType).UpdateBasicAuth;
     const res = await this.client.rest.post(Route, { json: body });
     return res;
@@ -216,7 +238,7 @@ export class ServiceManager extends BaseManager {
    * @param {object} body
    * @returns {Promise<object>}
    */
-  async updateMounts(serviceType, body) {
+  async updateMounts(serviceType: ServiceType, body: object): Promise<object> {
     const Route = Routes.Services(serviceType).UpdateMounts;
     const res = await this.client.rest.post(Route, { json: body });
     return res;
@@ -228,7 +250,7 @@ export class ServiceManager extends BaseManager {
    * @param {object} body
    * @returns {Promise<object>}
    */
-  async updatePorts(serviceType, body) {
+  async updatePorts(serviceType: ServiceType, body: object): Promise<object> {
     const Route = Routes.Services(serviceType).UpdatePorts;
     const res = await this.client.rest.post(Route, { json: body });
     return res;
@@ -240,8 +262,10 @@ export class ServiceManager extends BaseManager {
    * @param {object} body
    * @returns {Promise<object>}
    */
-  async updateResources(serviceType, body) {
-    serviceType;
+  async updateResources(
+    serviceType: ServiceType,
+    body: object
+  ): Promise<object> {
     const Route = Routes.Services(serviceType).UpdateResources;
     const res = await this.client.rest.post(Route, { json: body });
     return res;
@@ -253,7 +277,7 @@ export class ServiceManager extends BaseManager {
    * @param {object} body
    * @returns {Promise<object>}
    */
-  async updateDeploy(serviceType, body) {
+  async updateDeploy(serviceType: ServiceType, body: object): Promise<object> {
     const Route = Routes.Services(serviceType).UpdateDeploy;
     const res = await this.client.rest.post(Route, { json: body });
     return res;
@@ -265,7 +289,7 @@ export class ServiceManager extends BaseManager {
    * @param {object} body
    * @returns {Promise<object>}
    */
-  async updateBackup(serviceType, body) {
+  async updateBackup(serviceType: ServiceType, body: object): Promise<object> {
     const Route = Routes.Services(serviceType).UpdateBackup;
     const res = await this.client.rest.post(Route, { json: body });
     return res;
@@ -277,7 +301,10 @@ export class ServiceManager extends BaseManager {
    * @param {object} body
    * @returns {Promise<object>}
    */
-  async updateAdvanced(serviceType, body) {
+  async updateAdvanced(
+    serviceType: ServiceType,
+    body: object
+  ): Promise<object> {
     const Route = Routes.Services(serviceType).UpdateAdvanced;
     const res = await this.client.rest.post(Route, { json: body });
     return res;
@@ -287,3 +314,15 @@ export class ServiceManager extends BaseManager {
 /**
  * @typedef {"app" | "mysql" | "mariadb" | "postrages" | "mongo" | "redis"} ServiceType
  */
+type ServiceType =
+  | "app"
+  | "mysql"
+  | "mariadb"
+  | "postrages"
+  | "mongo"
+  | "redis";
+
+/**
+ * Define YourClientType appropriately based on the type of your client.
+ */
+type YourClientType = any; // Change 'any' to the actual type of your client
