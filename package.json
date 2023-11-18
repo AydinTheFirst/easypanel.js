@@ -1,14 +1,16 @@
 {
   "name": "easypanel-api",
-  "version": "1.0.1",
+  "version": "1.2.0",
   "description": "A module for interacting with the Easypanel API",
   "main": "dist/index.js",
+  "module": "dist/index.js",
   "types": "dist/index.d.ts",
   "type": "module",
   "scripts": {
-    "dev": "npm run build && npm test",
+    "dev": "npm run build && vitest",
     "start": "node index.js",
-    "docs": "documentation build index.js -f md > API.md",
+    "docs": "documentation build dist/Client.js -f md > README.md",
+    "typedoc": "typedoc src/index.ts src/types/index.types.ts src/managers/BaseManager.ts",
     "test": "node tests/index.js",
     "build": "rimraf dist & tsc"
   },
@@ -21,10 +23,19 @@
     "@types/node": "^20.9.1",
     "documentation": "^14.0.2",
     "dotenv": "^16.3.1",
-    "jasmine": "^5.1.0",
-    "rimraf": "^5.0.5"
+    "rimraf": "^5.0.5",
+    "typedoc": "^0.25.3",
+    "vitest": "^0.34.6"
   },
   "dependencies": {
     "ft-rest": "^1.1.4"
+  },
+  "homepage": "https://easypanel-api.fristroop.com",
+  "repository": {
+    "url": "https://github.com/Fristroop/easypanel-api",
+    "type": "git"
+  },
+  "bugs": {
+    "url": "https://github.com/Fristroop/easypanel-api/issues"
   }
 }

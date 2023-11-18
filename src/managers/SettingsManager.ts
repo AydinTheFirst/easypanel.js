@@ -2,12 +2,27 @@ import { Client } from "../Client.js";
 import { Routes } from "../utils/Routes.js";
 import { BaseManager } from "./BaseManager.js";
 
+import {
+  ChangeCredentialsParams,
+  GithubTokenParams,
+  LetsEncryptParams,
+  PanelDomainParams,
+  PanelDomainRes,
+  PruneDockerDailyParams,
+  TreafikConfParams,
+} from "../types/settings.types.js";
+import {
+  BooleanResponse,
+  NoResponse,
+  StringResponse,
+} from "../types/index.types.js";
+
 export class SettingsManager extends BaseManager {
   constructor(client: Client) {
     super(client);
   }
 
-  async changeCredentials(body: object) {
+  async changeCredentials(body: ChangeCredentialsParams): Promise<NoResponse> {
     const res = await this.client.rest.post(Routes.Settings.ChangeCredentials, {
       json: body,
     });
@@ -17,7 +32,7 @@ export class SettingsManager extends BaseManager {
   /**
    * Returns github token
    */
-  async getGithubToken() {
+  async getGithubToken(): Promise<StringResponse> {
     const res = await this.client.rest.get(Routes.Settings.GetGithubToken, {
       json: null,
     });
@@ -27,7 +42,7 @@ export class SettingsManager extends BaseManager {
   /**
    * Returns Let's encrypt email
    */
-  async getLetsEncryptEmail() {
+  async getLetsEncryptEmail(): Promise<StringResponse> {
     const res = await this.client.rest.get(
       Routes.Settings.GetLetsEncryptEmail,
       { json: null }
@@ -35,30 +50,21 @@ export class SettingsManager extends BaseManager {
     return res;
   }
 
-  /**
-   * Returns panel domain
-   */
-  async getPanelDomain() {
+  async getPanelDomain(): Promise<PanelDomainRes> {
     const res = await this.client.rest.get(Routes.Settings.GetPanelDomain, {
       json: null,
     });
     return res;
   }
 
-  /**
-   *  Returns server IP
-   */
-  async getServerIp() {
+  async getServerIp(): Promise<StringResponse> {
     const res = await this.client.rest.get(Routes.Settings.GetServerIp, {
       json: null,
     });
     return res;
   }
 
-  /**
-   * Returns traefik custom config
-   */
-  async getTraefikCustomConfig() {
+  async getTraefikCustomConfig(): Promise<StringResponse> {
     const res = await this.client.rest.get(
       Routes.Settings.GetTraefikCustomConfig,
       {
@@ -68,10 +74,7 @@ export class SettingsManager extends BaseManager {
     return res;
   }
 
-  /**
-   * Prunes docker builder
-   */
-  async pruneDockerBuilder() {
+  async pruneDockerBuilder(): Promise<StringResponse> {
     const res = await this.client.rest.post(
       Routes.Settings.PruneDockerBuilder,
       {
@@ -81,51 +84,37 @@ export class SettingsManager extends BaseManager {
     return res;
   }
 
-  /**
-   * Prunes docker images
-   */
-  async pruneDockerImages() {
+  async pruneDockerImages(): Promise<StringResponse> {
     const res = await this.client.rest.post(Routes.Settings.PruneDockerImages, {
       json: null,
     });
     return res;
   }
 
-  /**
-   * Refreshes server IP
-   */
-  async refreshServerIp() {
+  async refreshServerIp(): Promise<NoResponse> {
     const res = await this.client.rest.post(Routes.Settings.RefreshServerIp, {
       json: null,
     });
     return res;
   }
 
-  /**
-   * Restarts Easypanel.
-   */
-  async restartEasypanel() {
+  async restartEasypanel(): Promise<NoResponse> {
     const res = await this.client.rest.post(Routes.Settings.RestartEasypanel, {
       json: null,
     });
     return res;
   }
 
-  /**
-   * Restarts Traefik
-   */
-  async restartTraefik() {
+  async restartTraefik(): Promise<NoResponse> {
     const res = await this.client.rest.post(Routes.Settings.RestartTraefik, {
       json: null,
     });
     return res;
   }
 
-  /**
-   * @param {object} body
-   * @param {boolean} body.pruneDockerDaily
-   */
-  async setDockerPruneDaily(body: object) {
+  async setDockerPruneDaily(
+    body: PruneDockerDailyParams
+  ): Promise<BooleanResponse> {
     const res = await this.client.rest.post(
       Routes.Settings.SetDockerPruneDaily,
       {
@@ -135,37 +124,23 @@ export class SettingsManager extends BaseManager {
     return res;
   }
 
-  /**
-   * @param {object} body
-   * @param {string} body.githubToken
-   */
-  async setGithubToken(body: object) {
+  async setGithubToken(body: GithubTokenParams): Promise<StringResponse> {
     const res = await this.client.rest.post(Routes.Settings.SetGithubToken, {
       json: body,
     });
     return res;
   }
 
-  /**
-   * @param {object} body
-   * @param {boolean} body.serveOnIp
-   * @param {string} body.defaultPanelDomain
-   * @param {string} body.panelDomain
-
-   */
-  async setPanelDomain(body: object) {
+  async setPanelDomain(body: PanelDomainParams): Promise<NoResponse> {
     const res = await this.client.rest.post(Routes.Settings.SetPanelDomain, {
       json: body,
     });
     return res;
   }
 
-  /**
-   * @param {object} body
-   * @param {string} body.config
-
-   */
-  async updateTraefikCustomConfig(body: object) {
+  async updateTraefikCustomConfig(
+    body: TreafikConfParams
+  ): Promise<NoResponse> {
     const res = await this.client.rest.post(
       Routes.Settings.UpdateTraefikCustomConfig,
       {
@@ -175,12 +150,7 @@ export class SettingsManager extends BaseManager {
     return res;
   }
 
-  /**
-   * @param {object} body
-   * @param {string} body.letsEncryptEmail
-
-   */
-  async setLetsEncryptEmail(body: object) {
+  async setLetsEncryptEmail(body: LetsEncryptParams): Promise<StringResponse> {
     const res = await this.client.rest.post(
       Routes.Settings.setLetsEncryptEmail,
       {

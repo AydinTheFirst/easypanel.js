@@ -1,9 +1,10 @@
 import { client } from "./index.js";
+import { expect, test, describe } from "vitest";
 
 describe("Setting Tests", () => {
   let githubToken = "";
   let settings = {};
-  it("Change Credentials", async () => {
+  test("Change Credentials", async () => {
     const result = await client.settings.changeCredentials({
       email: process.env.email,
       oldPassword: process.env.psw,
@@ -12,48 +13,48 @@ describe("Setting Tests", () => {
     expect(result.ok).toBe(true);
   });
 
-  it("Get Github Token", async () => {
+  test("Get Github Token", async () => {
     const result = await client.settings.getGithubToken();
     githubToken = result.data;
     expect(result.ok).toBe(true);
   });
 
-  it("Get Let's Encrypt Email", async () => {
+  test("Get Let's Encrypt Email", async () => {
     const result = await client.settings.getLetsEncryptEmail();
     expect(result.ok).toBe(true);
   });
 
-  it("Get Panel Domain", async () => {
+  test("Get Panel Domain", async () => {
     const result = await client.settings.getPanelDomain();
     expect(result.ok).toBe(true);
   });
 
-  it("Get Server IP", async () => {
+  test("Get Server IP", async () => {
     const result = await client.settings.getServerIp();
     expect(result.ok).toBe(true);
   });
 
-  it("Get Traefik Custom Config", async () => {
+  test("Get Traefik Custom Config", async () => {
     const result = await client.settings.getTraefikCustomConfig();
     expect(result.ok).toBe(true);
   });
 
-  it("Prune Docker Builder", async () => {
+  test("Prune Docker Builder", async () => {
     const result = await client.settings.pruneDockerBuilder();
     expect(result.ok).toBe(true);
   });
 
-  it("Prune Docker Images", async () => {
+  test("Prune Docker Images", async () => {
     const result = await client.settings.pruneDockerImages();
     expect(result.ok).toBe(true);
   });
 
-  it("Refresh Server IP", async () => {
+  test("Refresh Server IP", async () => {
     const result = await client.settings.refreshServerIp();
     expect(result.ok).toBe(true);
   });
 
-  it("Set Panel Domain", async () => {
+  test("Set Panel Domain", async () => {
     const panelDomainData = {
       serveOnIp: true,
       defaultPanelDomain: "",
@@ -64,7 +65,7 @@ describe("Setting Tests", () => {
     expect(result.ok).toBe(true);
   });
 
-  it("Set Docker Prune Daily", async () => {
+  test("Set Docker Prune Daily", async () => {
     const dockerPruneData = {
       pruneDockerDaily: true,
     };
@@ -73,7 +74,7 @@ describe("Setting Tests", () => {
     expect(result.ok).toBe(true);
   });
 
-  it("Set Github Token", async () => {
+  test("Set Github Token", async () => {
     const githubTokenData = {
       githubToken,
     };
@@ -82,7 +83,7 @@ describe("Setting Tests", () => {
     expect(result.ok).toBe(true);
   });
 
-  it("Update Traefik Custom Config", async () => {
+  test("Update Traefik Custom Config", async () => {
     const traefikConfigData = {
       config: "",
     };
@@ -93,7 +94,7 @@ describe("Setting Tests", () => {
     expect(result.ok).toBe(true);
   });
 
-  it("Set Let's Encrypt Email", async () => {
+  test("Set Let's Encrypt Email", async () => {
     const letsEncryptEmailData = {
       letsEncryptEmail: process.env.email,
     };
@@ -104,13 +105,13 @@ describe("Setting Tests", () => {
     expect(result.ok).toBe(true);
   });
 
-  it("Restart Traefik", async () => {
+  test("Restart Traefik", async () => {
     const result = await client.settings.restartTraefik();
     expect(result.ok).toBe(true);
   });
 
-  it("Restart Easypanel", async () => {
+  test("Restart Easypanel", async () => {
     //const result = await client.settings.restartEasypanel();
-    expect(2 + 2).toBe(4);
+    expect(2 + 2 == 4).toBe(true);
   });
 });

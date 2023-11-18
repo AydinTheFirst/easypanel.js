@@ -9,3 +9,8 @@ export class BaseManager {
     this.client = client;
   }
 }
+
+export * from "./MonitorManager.js";
+export * from "./ProjectsManager.js";
+export * from "./ServicesManager.js";
+export * from "./SettingsManager.js";

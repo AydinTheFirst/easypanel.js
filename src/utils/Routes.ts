@@ -59,11 +59,18 @@ const Auth = {
 };
 
 // Completed
-const License = {
-  Portal: "/api/trpc/portalLicense.getLicensePayload", // GET
-  ActivatePortal: "/api/trpc/portalLicense.activate", // POST
-  Lemon: "/api/trpc/lemonLicense.getLicensePayload", // GET
-  ActivateLemon: "/api/trpc/lemonLicense.activate", // POST
+const License = (type: string) => {
+  const Routes = {
+    Get: "/api/trpc/portalLicense.getLicensePayload", // GET
+    Activate: "/api/trpc/portalLicense.activate", // POST
+  };
+
+  for (const [key, value] of Object.entries(Routes)) {
+    // @ts-ignore
+    Routes[key] = value.replace("portal", type);
+  }
+
+  return Routes;
 };
 
 // Completed

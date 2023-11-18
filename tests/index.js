@@ -13,8 +13,7 @@ export const client = new Client({
 
 client.on("ready", async () => {
   console.log("Client is ready!");
-
-  console.log(await client.getUser());
+  console.log(await client.projects.list());
 });
 
 await client.login();
