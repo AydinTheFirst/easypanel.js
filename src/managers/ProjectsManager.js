@@ -1,117 +1,74 @@
-import { Client } from "../Client.js";
+// eslint-disable-next-line no-unused-vars
+import { Routes } from "../utils/Routes.js";
+import { BaseManager } from "./BaseManager.js";
 
-/**
- * Project Manager
- */
-export class ProjectsManager {
-  /**
-   *
-   * @param {Client} client
-   */
+export class ProjectsManager extends BaseManager {
   constructor(client) {
-    this.client = client;
+    super(client);
   }
 
   /**
-   * Creates new project
-   * @param {string} name projectName
-   * @returns {Promise<ProjectInfo>}
+   * Checks whether user can create more projects
+   * @returns {Promise<object>}
    */
-  create = async (name) => {
-    const res = await this.client.makeRequest(
-      "/api/trpc/projects.createProject",
-      "post",
-      {
-        json: { name },
-      }
-    );
+  async canCreate() {
+    const res = await this.client.rest.get(Routes.Projets.CanCreate);
     return res;
-  };
+  }
 
   /**
-   * Destorys project
-   * @param {string} name projectName
-   * @returns {Promise<null>}
+   * Creates project
+   * @param {object} body
+   * @param {string} body.name
+   * @returns {Promise<object>}
    */
-  destory = async (name) => {
-    const res = await this.client.makeRequest(
-      "/api/trpc/projects.destroyProject",
-      "post",
-      {
-        json: { name },
-      }
-    );
+  async create(body) {
+    const Route = Routes.Projets.Create.replace("app", body.type);
+    const res = await this.client.rest.post(Route, {
+      json: body,
+    });
     return res;
-  };
+  }
 
   /**
-   * List projects with names
-   * @returns {Promise<Projects>}
+   * Destroys project
+   * @param {object} body
+   * @param {string} body.name
+   * @returns {Promise<object>}
    */
-  list = async () => {
-    const res = await this.client.makeRequest(
-      "/api/trpc/projects.listProjects"
-    );
+  async destory(body) {
+    const res = await this.client.rest.post(Routes.Projets.Destroy, {
+      json: body,
+    });
     return res;
-  };
+  }
 
   /**
-   * Returns all services and projects with details
-   * @returns {Promise<ProjectsWithServices>}
+   * Inspects project
+   * @param {object} body
+   * @param {string} body.projectName
+   * @returns {Promise<object>}
    */
-
-  listWithServices = async () => {
-    const query = this.client.query();
-    const res = await this.client.makeRequest(
-      "/api/trpc/projects.listProjectsAndServices" + `?input=${query}`
-    );
+  async inspect(body) {
+    const res = await this.client.rest.get(Routes.Projets.Inspect, body);
     return res;
-  };
+  }
 
   /**
-   *
-   * @param {string} projectName
-   * @returns {Promise<ProjectInspect>}
+   * Lists all projects
+   * @returns {Promise<object>}
    */
-  inspect = async (projectName) => {
-    const query = this.client.query({ projectName });
-    const res = await this.client.makeRequest(
-      "/api/trpc/projects.inspectProject" + `?input=${query}`
-    );
+  async list() {
+    const res = await this.client.rest.get(Routes.Projets.List);
     return res;
-  };
+  }
 
   /**
-   * Checks if you can create new project
-   * @returns {Promise<boolean>}
+   * Lists all projects with services
+   * @returns {Promise<object>}
    */
-  canCreateProject = async () => {
-    const query = this.client.query();
-    const res = await this.client.makeRequest(
-      "/api/trpc/projects.canCreateProject" + `?input=${query}`
-    );
+  async listWithServices() {
+    const res = await this.client.rest.get(Routes.Projets.ListWithServices);
     return res;
-  };
+  }
 }
-
-/**
- * @typedef {Object} ProjectInfo
- * @property {string} name
- * @property {string} createdAt
- */
-
-/**
- * @typedef {ProjectInfo[]} Projects
- */
-
-/**
- * @typedef {Object} ProjectsWithServices
- * @property {Projects} projects
- * @property {import("./ServicesManager.js").ServiceConf[]} services
- */
-
-/**
- * @typedef {Object} ProjectInspect
- * @property {ProjectInfo} project
- * @property {import("./ServicesManager.js").ServiceConf[]} services
- */

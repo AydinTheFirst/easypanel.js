@@ -1,11 +1,13 @@
 import EventEmitter from "node:events";
-import { APIError, makeRequest } from "./Utils.js";
+import REST from "./utils/REST.js";
+import { Routes } from "./utils/Routes.js";
 
 import { ProjectsManager } from "./managers/ProjectsManager.js";
 import { MonitorManager } from "./managers/MonitorManager.js";
-import { ServicesManager } from "./managers/ServicesManager.js";
+import { Settings } from "./managers/Settings.js";
 
 /**
+ * @typedef {Client} Client
  * The client Object
  */
 export class Client extends EventEmitter {
@@ -19,31 +21,38 @@ export class Client extends EventEmitter {
     this.credentials = config.credentials;
     this.token = config.token || null;
 
-    this.rest = {
-      monitor: new MonitorManager(this),
-      projects: new ProjectsManager(this),
-      services: new ServicesManager(this),
-    };
+    /**
+     * @type {REST}
+     */
+    this.rest = new REST({
+      baseURL: this.endpoint,
+      token: this.token,
+    });
 
-    // Request Manager for REST API
-    this.makeRequest = (...args) => makeRequest(this, ...args);
+    /**
+     * @type {ProjectsManager}
+     */
+    this.projects = new ProjectsManager(this);
+
+    /**
+     * @type {MonitorManager}
+     */
+    this.monitor = new MonitorManager(this);
+
+    /**
+     * @type {Settings}
+     */
+    this.settings = new Settings(this);
+
+    //   this.services = new ServicesManager(this);
   }
 
   /**
-   * returns query params for api requests
-   * @param {object} obj
-   * @returns {string}
-   * @private
-   */
-  query = (obj = null) => {
-    return encodeURIComponent(JSON.stringify({ json: obj }));
-  };
-
-  /**
    * Uses email and username to get api token
-   * @returns {Promise<null>}
+   * Or just checks if your api token works
+   * @returns {Promise<Client>}
    */
-  login = async () => {
+  async login() {
     if (this.token) {
       const user = await this.getUser();
       if (user) {
@@ -51,61 +60,73 @@ export class Client extends EventEmitter {
           "Valid API token was provided, Authentication was skipped!"
         );
         this.emit("ready");
-        return;
+        return this;
       }
     }
 
-    const res = await this.makeRequest("/api/trpc/auth.login", "post", {
+    const res = await this.rest.post(Routes.Auth.Login, {
       json: this.credentials,
     });
 
-    if (!res) return;
+    if (!res.ok) {
+      throw new Error("An error occured: " + JSON.stringify(res));
+    }
 
     this.token = res.token;
 
     this.emit("ready");
-  };
+    return this;
+  }
+
+  /**
+   * Logouts user
+   * @returns {Promise<null>}
+   */
+  async logout() {
+    const res = await this.rest.post(Routes.Auth.Logout);
+    return res;
+  }
 
   /**
    * Returns authenticated user
-   * @returns
+   * @returns {User}
    */
-  getUser = async () => {
-    const query = encodeURIComponent(JSON.stringify({ json: null }));
-
-    const res = await this.makeRequest(
-      "/api/trpc/auth.getUser" + `?input=${query}`
-    );
-
+  async getUser() {
+    const res = await this.rest.get(Routes.Auth.GetUser);
     return res;
-  };
-
-  /**
-   * Returns server IP
-   * @returns {Promise<number>}
-   */
-  getServerIp = async () => {
-    try {
-      const res = await this.makeRequest("/api/trpc/settings.getServerIp");
-      return res;
-    } catch (error) {
-      return APIError(null, error);
-    }
-  };
+  }
 
   /**
    *
    * @param {"portalLicense" | "lemonLicense" } type
-   * @returns
+   * @returns {Promise} idk im poor to buy a license
    */
-  getLicensePayload = async (type) => {
-    try {
-      const res = await this.makeRequest(`/api/trpc/${type}.getLicensePayload`);
-      return res;
-    } catch (error) {
-      return APIError(null, error);
-    }
-  };
+  async getLicensePayload(type) {
+    const license =
+      type === "lemonLicense" ? Routes.License.Lemon : Routes.License.Portal;
+
+    const res = await this.rest.get(license);
+
+    return res;
+  }
+
+  /**
+   *
+   * @param {"portalLicense" | "lemonLicense" } type
+   * @param {object} body
+   * @param {?string} body.licenseKey If license type is lemonLicense it requires this field
+   * @returns {Promise} idk im poor to buy a license
+   */
+  async activateLicense(type, body) {
+    const license =
+      type === "lemonLicense"
+        ? Routes.License.ActivateLemon
+        : Routes.License.ActivatePortal;
+
+    const res = await this.rest.post(license, body);
+
+    return res;
+  }
 }
 
 /**
@@ -119,4 +140,25 @@ export class Client extends EventEmitter {
  * @property {String} endpoint - The API endpoint for the client.
  * @property {Credentials} credentials - The credentials for authenticating the client.
  * @property {String} token - The API token for additional authentication (optional).
+ */
+
+/**
+ * @typedef {Object} Managers
+ * @property {ProjectsManager} projects
+ * @property {MonitorManager} monitor
+ * @property {ServicesManager} services
+ */
+
+/**
+ * Emitted when a client is ready!
+ * @event Client#ready
+ */
+
+/**
+ * @typedef {Object} User
+ * @property {string} id - The unique identifier of the user.
+ * @property {string} createdAt - The timestamp indicating when the user was created.
+ * @property {string} email - The email address of the user.
+ * @property {boolean} admin - Indicates whether the user has admin privileges.
+ * @property {string | null} password - The password of the user (nullable for security reasons).
  */

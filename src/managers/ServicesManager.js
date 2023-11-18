@@ -1,309 +1,289 @@
-import { Client } from "../Client.js";
+import { Routes } from "../utils/Routes.js";
+import { BaseManager } from "./BaseManager.js";
 
-/**
- * Service Manager
- */
-export class ServicesManager {
-  /**
-   * @param {Client} client
-   */
+export class ServiceManager extends BaseManager {
   constructor(client) {
-    this.client = client;
+    super(client);
   }
 
   /**
-   * Stops the running service.
-   * @param {SelectServiceOptions} options
-   * @param {Boolean} force - When true force rebuild gets triggered
-   * @returns {Promise<any>}
+   * Creates a new service.
+   * @param {ServiceType} serviceType
+   * @param {object} body
+   * @returns {Promise<object>}
    */
-  deploy = async (options, force) => {
-    const res = await this.client.makeRequest(
-      `/api/trpc/services.${options.type}.disableService`,
-      "post",
-      {
-        json: { ...options, forceRebuild: force },
-      }
-    );
+  async create(serviceType, body) {
+    const Route = Routes.Services(serviceType).Create;
+    const res = await this.client.rest.post(Route, { json: body });
     return res;
-  };
+  }
 
   /**
-   * Stops the running service.
-   * @param {SelectServiceOptions} options
-   * @returns {Promise}
+   * Retrieves information about a service.
+   * @param {ServiceType} serviceType
+   * @param {object} body
+   * @returns {Promise<object>}
    */
-  stopService = async (options) => {
-    const res = await this.client.makeRequest(
-      `/api/trpc/services.${options.type}.disableService`,
-      "post",
-      {
-        json: { ...options },
-      }
-    );
+  async inspect(serviceType, body) {
+    const Route = Routes.Services(serviceType).Inspect;
+    const res = await this.client.rest.get(Route, { json: body });
     return res;
-  };
+  }
 
   /**
-   * Starts the service.
-   * @param {SelectServiceOptions} options
-   * @returns {Promise}
+   * Destroys a service.
+   * @param {ServiceType} serviceType
+   * @param {object} body
+   * @returns {Promise<object>}
    */
-  startService = async (options) => {
-    const res = await this.client.makeRequest(
-      `/api/trpc/services.${options.type}.enableService`,
-      "post",
-      {
-        json: { ...options },
-      }
-    );
+  async destroy(serviceType, body) {
+    const Route = Routes.Services(serviceType).Destroy;
+    const res = await this.client.rest.post(Route, { json: body });
     return res;
-  };
+  }
 
   /**
-   * Creates new Service
-   * @param {SelectServiceOptions} options
-   * @param {Domains} domains
-   * @returns {Promise<ServiceConf>}
+   * Deploys a service.
+   * @param {ServiceType} serviceType
+   * @param {object} body
+   * @returns {Promise<object>}
    */
-  create = async (options, domains) => {
-    if (!domains) domains = [{ host: "$(EASYPANEL_DOMAIN)" }];
-
-    const res = await this.client.makeRequest(
-      `/api/trpc/services.${options.type}.createService`,
-      "post",
-      {
-        json: { ...options },
-      }
-    );
+  async deploy(serviceType, body) {
+    const Route = Routes.Services(serviceType).Deploy;
+    const res = await this.client.rest.post(Route, { json: body });
     return res;
-  };
+  }
 
   /**
-   * Inspects the existing Service
-   * @param {SelectServiceOptions} options
-   * @returns {Promise<ServiceConf>}
+   * Disables a service.
+   * @param {ServiceType} serviceType
+   * @param {object} body
+   * @returns {Promise<object>}
    */
-  inspect = async (options) => {
-    const query = this.client.query({
-      ...options,
-    });
-
-    const res = await this.client.makeRequest(
-      `/api/trpc/services.${options.type}.inspectService` + `?input=${query}`,
-      "get"
-    );
+  async disable(serviceType, body) {
+    const Route = Routes.Services(serviceType).Disable;
+    const res = await this.client.rest.post(Route, { json: body });
     return res;
-  };
+  }
 
   /**
-   * Destroy existing service
-   * @param {SelectServiceOptions} options
-   * @returns {Promise}
+   * Enables a service.
+   * @param {ServiceType} serviceType
+   * @param {object} body
+   * @returns {Promise<object>}
    */
-  destroy = async (options) => {
-    const res = await this.client.makeRequest(
-      `/api/trpc/services.${options.type}.destroyService`,
-      "post",
-      {
-        json: { ...options },
-      }
-    );
+  async enable(serviceType, body) {
+    const Route = Routes.Services(serviceType).Enable;
+    const res = await this.client.rest.post(Route, { json: body });
     return res;
-  };
+  }
 
   /**
-   * Updates the source of Github
-   * @param {SelectServiceOptions} options
-   * @param {string} env - The environment of project
-   * @returns {Promise}
+   * Exposes a service.
+   * @param {ServiceType} serviceType
+   * @param {object} body
+   * @returns {Promise<object>}
    */
-  updateEnv = async (options, env) => {
-    const res = await this.client.makeRequest(
-      `/api/trpc/services.${options.type}.updateEnv`,
-      "post",
-      {
-        json: { ...options, env },
-      }
-    );
+  async exposeService(serviceType, body) {
+    const Route = Routes.Services(serviceType).ExposeService;
+    const res = await this.client.rest.post(Route, { json: body });
     return res;
-  };
+  }
 
   /**
-   * Updates the domains of Service (!it does not add new domain!)
-   * @param {SelectServiceOptions} options
-   * @param {Domains} domains
-   * @returns {Promise}
+   * Retrieves statistics for a service.
+   * @param {ServiceType} serviceType
+   * @param {object} body
+   * @returns {Promise<object>}
    */
-  updateDomains = async (options, domains) => {
-    const res = await this.client.makeRequest(
-      `/api/trpc/services.${options.type}.updateDomains`,
-      "post",
-      {
-        json: { ...options, domains },
-      }
-    );
+  async getServiceStats(serviceType, body) {
+    const Route = Routes.Services(serviceType).GetServiceStats;
+    const res = await this.client.rest.get(Route, { json: body });
     return res;
-  };
+  }
 
   /**
-   * Updates the source of Github
-   * @param {GithubSourceConfiguration} options
-   * @returns {Promise}
+   * Refreshes the deploy token for a service.
+   * @param {ServiceType} serviceType
+   * @param {object} body
+   * @returns {Promise<object>}
    */
-  updateSourceGithub = async (options) => {
-    const res = await this.client.makeRequest(
-      `/api/trpc/services.${options.type}.updateSourceGithub`,
-      "post",
-      {
-        json: { ...options },
-      }
-    );
+  async refreshDeployToken(serviceType, body) {
+    const Route = Routes.Services(serviceType).RefreshDeployToken;
+    const res = await this.client.rest.post(Route, { json: body });
     return res;
-  };
+  }
 
   /**
-   * Updates the Docker Image
-   * @param {DockerImageConfiguration} options
-   * @returns {Promise}
+   * Updates the source from GitHub for a service.
+   * @param {ServiceType} serviceType
+   * @param {object} body
+   * @returns {Promise<object>}
    */
-  updateSourceImage = async (options) => {
-    const res = await this.client.makeRequest(
-      `/api/trpc/services.${options.type}.updateSourceImage`,
-      "post",
-      {
-        json: { ...options },
-      }
-    );
+  async updateSourceGithub(serviceType, body) {
+    const Route = Routes.Services(serviceType).UpdateSourceGithub;
+    const res = await this.client.rest.post(Route, { json: body });
     return res;
-  };
+  }
 
   /**
-   * Updates the Source Git
-   * @param {GitConfiguration} options
-   * @returns {Promise}
+   * Updates the source from Git for a service.
+   * @param {ServiceType} serviceType
+   * @param {object} body
+   * @returns {Promise<object>}
    */
-  updateSourceGit = async (options) => {
-    const res = await this.client.makeRequest(
-      `/api/trpc/services.${options.type}.updateSourceGit`,
-      "post",
-      {
-        json: { ...options },
-      }
-    );
+  async updateSourceGit(serviceType, body) {
+    const Route = Routes.Services(serviceType).UpdateSourceGit;
+    const res = await this.client.rest.post(Route, { json: body });
     return res;
-  };
+  }
 
   /**
-   * Updates the Build
-   * @param {SelectServiceOptions} options
-   * @param {BuildOptions} build
-   * @returns {Promise}
+   * Updates the source from an image for a service.
+   * @param {ServiceType} serviceType
+   * @param {object} body
+   * @returns {Promise<object>}
    */
-  updateBuild = async (options, build) => {
-    options.build = build;
-
-    const res = await this.client.makeRequest(
-      `/api/trpc/services.${options.type}.updateBuild`,
-      "post",
-      {
-        json: { ...options },
-      }
-    );
+  async updateSourceImage(serviceType, body) {
+    const Route = Routes.Services(serviceType).UpdateSourceImage;
+    const res = await this.client.rest.post(Route, { json: body });
     return res;
-  };
+  }
 
   /**
-   * Refresh Deploy token of service
-   * @param {SelectServiceOptions} options
-   * @returns {Promise}
+   * Updates the build configuration for a service.
+   * @param {ServiceType} serviceType
+   * @param {object} body
+   * @returns {Promise<object>}
    */
-  refreshDeployToken = async (options) => {
-    const res = await this.client.makeRequest(
-      `/api/trpc/services.${options.type}.refreshDeployToken`,
-      "post",
-      {
-        json: { ...options },
-      }
-    );
+  async updateBuild(serviceType, body) {
+    const Route = Routes.Services(serviceType).UpdateBuild;
+    const res = await this.client.rest.post(Route, { json: body });
     return res;
-  };
+  }
+
+  /**
+   * Updates the environment variables for a service.
+   * @param {ServiceType} serviceType
+   * @param {object} body
+   * @returns {Promise<object>}
+   */
+  async updateEnv(serviceType, body) {
+    const Route = Routes.Services(serviceType).UpdateEnv;
+    const res = await this.client.rest.post(Route, { json: body });
+    return res;
+  }
+
+  /**
+   * Updates the domain configuration for a service.
+   * @param {ServiceType} serviceType
+   * @param {object} body
+   * @returns {Promise<object>}
+   */
+  async updateDomains(serviceType, body) {
+    const Route = Routes.Services(serviceType).UpdateDomains;
+    const res = await this.client.rest.post(Route, { json: body });
+    return res;
+  }
+
+  /**
+   * Updates the redirects configuration for a service.
+   * @param {ServiceType} serviceType
+   * @param {object} body
+   * @returns {Promise<object>}
+   */
+  async updateRedirects(serviceType, body) {
+    const Route = Routes.Services(serviceType).UpdateRedirects;
+    const res = await this.client.rest.post(Route, { json: body });
+    return res;
+  }
+
+  /**
+   * Updates the basic authentication configuration for a service.
+   * @param {ServiceType} serviceType
+   * @param {object} body
+   * @returns {Promise<object>}
+   */
+  async updateBasicAuth(serviceType, body) {
+    const Route = Routes.Services(serviceType).UpdateBasicAuth;
+    const res = await this.client.rest.post(Route, { json: body });
+    return res;
+  }
+
+  /**
+   * Updates the mounts configuration for a service.
+   * @param {ServiceType} serviceType
+   * @param {object} body
+   * @returns {Promise<object>}
+   */
+  async updateMounts(serviceType, body) {
+    const Route = Routes.Services(serviceType).UpdateMounts;
+    const res = await this.client.rest.post(Route, { json: body });
+    return res;
+  }
+
+  /**
+   * Updates the ports configuration for a service.
+   * @param {ServiceType} serviceType
+   * @param {object} body
+   * @returns {Promise<object>}
+   */
+  async updatePorts(serviceType, body) {
+    const Route = Routes.Services(serviceType).UpdatePorts;
+    const res = await this.client.rest.post(Route, { json: body });
+    return res;
+  }
+
+  /**
+   * Updates the resources configuration for a service.
+   * @param {ServiceType} serviceType
+   * @param {object} body
+   * @returns {Promise<object>}
+   */
+  async updateResources(serviceType, body) {
+    serviceType;
+    const Route = Routes.Services(serviceType).UpdateResources;
+    const res = await this.client.rest.post(Route, { json: body });
+    return res;
+  }
+
+  /**
+   * Updates the deployment configuration for a service.
+   * @param {ServiceType} serviceType
+   * @param {object} body
+   * @returns {Promise<object>}
+   */
+  async updateDeploy(serviceType, body) {
+    const Route = Routes.Services(serviceType).UpdateDeploy;
+    const res = await this.client.rest.post(Route, { json: body });
+    return res;
+  }
+
+  /**
+   * Updates the backup configuration for a service.
+   * @param {ServiceType} serviceType
+   * @param {object} body
+   * @returns {Promise<object>}
+   */
+  async updateBackup(serviceType, body) {
+    const Route = Routes.Services(serviceType).UpdateBackup;
+    const res = await this.client.rest.post(Route, { json: body });
+    return res;
+  }
+
+  /**
+   * Updates the advanced configuration for a service.
+   * @param {ServiceType} serviceType
+   * @param {object} body
+   * @returns {Promise<object>}
+   */
+  async updateAdvanced(serviceType, body) {
+    const Route = Routes.Services(serviceType).UpdateAdvanced;
+    const res = await this.client.rest.post(Route, { json: body });
+    return res;
+  }
 }
 
 /**
- * Type of service
- * @typedef {"app" | "mysql" | "mariadb" | "postgres" | "mongo" | "redis"} ServiceType
- */
-
-/**
- * @typedef {Object} DomainObject
- * @property {string} host - The host property in the domain object.
- * @property {boolean} https - The https property in the domain object.
- * @property {number} port - The port property in the domain object.
- * @property {string} path - The path property in the domain object.
- */
-
-/**
- * @typedef {Array<DomainObject>} Domains - The domains array.
- */
-
-/**
- * @typedef {Object} ServiceConf
- * @property {string} projectName - The name of the project.
- * @property {string} name - The name property.
- * @property {ServiceType} type - The type property (e.g., "app").
- * @property {boolean} enabled - The enabled property.
- * @property {string} token - The token property.
- * @property {string} env - The env property.
- * @property {Object} deploy - The deploy configuration object.
- * @property {string} deploymentUrl - The deployment url
- * @property {number} deploy.replicas - The number of replicas.
- * @property {string | null} deploy.command - The deploy command (nullable).
- * @property {boolean} deploy.zeroDowntime - The zeroDowntime property.
- * @property {Domains} domains - The domains array
- * @property {Array<Object>} mounts - The mounts array.
- * @property {Array<Object>} ports - The ports array.
- */
-
-/**
- * @typedef {Object} SelectServiceOptions
- * @property {string} projectName - The name of the project.
- * @property {string} serviceName - The name of the project.
- * @property {ServiceType} type - The name of the project.
- */
-
-/**
- * @typedef {Object} GithubSourceConfiguration
- * @property {boolean} autoDeploy - Indicates whether auto deploy is enabled or not.
- * @property {string} owner - Github username or organization name.
- * @property {string} path - This is useful if you have a monorepo.
- * @property {string} ref - This has to be a valid branch in your repo.
- * @property {string} repo - The GitHub repository name.
- * @property {string} projectName - The name of the project.
- * @property {string} serviceName - The name of the service.
- * @property {ServiceType} type - The type of the service.
- */
-
-/**
- * @typedef {Object} DockerImageConfiguration
- * @property {string} image - Enter a public image name from any Docker registry.
- * @property {string} username - Used for private registries
- * @property {string} password - Used for private registries.
- * @property {string} projectName - The name of the project.
- * @property {string} serviceName - The name of the service.
- * @property {ServiceType} type - The type of the service.
- */
-
-/**
- * @typedef {Object} GitConfiguration
- * @property {string} repo - Git repo URL
- * @property {string} ref - This has to be a valid branch in your repo.
- * @property {string} path - This is useful if you have a monorepo.
- * @property {string} projectName - The name of the project.
- * @property {string} serviceName - The name of the service.
- * @property {ServiceType} type - The type of the service.
- */
-
-/**
- * @typedef {{ type: "dockerfile" | "heroku-buildpacks" | "paketo-buildpacks" | "nixpacks", file?: string }} BuildOptions
+ * @typedef {"app" | "mysql" | "mariadb" | "postrages" | "mongo" | "redis"} ServiceType
  */

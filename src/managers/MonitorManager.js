@@ -1,89 +1,46 @@
-import { Client } from "../Client.js";
+import { Routes } from "../utils/Routes.js";
+import { BaseManager } from "./BaseManager.js";
 
 /**
- * Monitor Manager
+ * Manager for monitoring-related operations.
  */
-export class MonitorManager {
-  /**
-   * @param {Client} client
-   */
+export class MonitorManager extends BaseManager {
   constructor(client) {
-    this.client = client;
+    super(client);
   }
 
   /**
-   * Returns docker task info
-   * @returns {Promise<Object>}
+   *
+   * @returns {Promise<AdvancedStatsResponse>}
    */
-  getDockerTaskStats = async () => {
-    const query = this.client.query();
-    const res = await this.client.makeRequest(
-      "/api/trpc/monitor.getDockerTaskStats" + `?input=${query}`
-    );
+  async getAdvancedStats() {
+    const res = await this.client.rest.get(Routes.Monitor.GetAdvancedStats);
     return res;
-  };
+  }
 
-  /**
-   * Returns basic system info
-   * @returns {SystemInfo}
-   */
-  getSystemStats = async () => {
-    const query = this.client.query();
-    const res = await this.client.makeRequest(
-      "/api/trpc/monitor.getSystemStats" + `?input=${query}`
-    );
+  async getDockerTaskStats() {
+    const res = await this.client.rest.get(Routes.Monitor.GetDockerTaskStats);
     return res;
-  };
+  }
 
-  /**
-   * Returns advanced stats
-   * @returns {Object}
-   */
-  getAdvancedStats = async () => {
-    const query = this.client.query();
-    const res = await this.client.makeRequest(
-      "/api/trpc/monitor.getAdvancedStats" + `?input=${query}`
-    );
+  async getMonitorTableData() {
+    const res = await this.client.rest.get(Routes.Monitor.GetMonitorTableData);
     return res;
-  };
+  }
+
+  async getSystemStats() {
+    const res = await this.client.rest.get(Routes.Monitor.GetSystemStats);
+    return res;
+  }
 }
 
 /**
- * @typedef {Object} SystemInfo
- * @property {number} uptime - System uptime in seconds.
- * @property {MemoryInfo} memInfo - Memory information.
- * @property {DiskInfo} diskInfo - Disk information.
- * @property {CpuInfo} cpuInfo - CPU information.
- * @property {NetworkInfo} network - Network information.
+ * @typedef {import("ft-rest/src/REST.js").RESTResponse} BaseRes
  */
 
 /**
- * @typedef {Object} MemoryInfo
- * @property {number} totalMemMb - Total memory in megabytes.
- * @property {number} usedMemMb - Used memory in megabytes.
- * @property {number} freeMemMb - Free memory in megabytes.
- * @property {number} usedMemPercentage - Used memory percentage.
- * @property {number} freeMemPercentage - Free memory percentage.
- */
-
-/**
- * @typedef {Object} DiskInfo
- * @property {string} totalGb - Total disk space in gigabytes.
- * @property {string} usedGb - Used disk space in gigabytes.
- * @property {string} freeGb - Free disk space in gigabytes.
- * @property {string} usedPercentage - Used disk space percentage.
- * @property {string} freePercentage - Free disk space percentage.
- */
-
-/**
- * @typedef {Object} CpuInfo
- * @property {number} usedPercentage - CPU usage percentage.
- * @property {number} count - Number of CPUs.
- * @property {number[]} loadavg - CPU load average.
- */
-
-/**
- * @typedef {Object} NetworkInfo
- * @property {number} inputMb - Network input in megabytes.
- * @property {number} outputMb - Network output in megabytes.
+ * @typedef {Object} AdvancedStatsResponse
+ * @extends {BaseRes}
+ *
+ * @property {boolean} data
  */

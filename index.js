@@ -1,7 +1,6 @@
 import { Client } from "./src/Client.js";
 
-const Easypanel = {
+export const Easypanel = {
   Client,
 };
-
 export default Easypanel;
