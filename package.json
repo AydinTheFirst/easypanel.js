@@ -1,6 +1,6 @@
 {
   "name": "easypanel-api",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "description": "A module for interacting with the Easypanel API",
   "main": "dist/index.js",
   "module": "dist/index.js",
@@ -8,14 +8,15 @@
   "type": "module",
   "scripts": {
     "dev": "npm run build && vitest",
-    "start": "serve",
-    "docs": "documentation build dist/Client.js -f md > README.md",
-    "typedoc": "typedoc src/index.ts src/types/index.types.ts src/managers/index.ts",
+    "start": "",
+    "docs": "typedoc src/index.ts src/types/index.types.ts src/managers/index.ts",
     "test": "node tests/index.js",
     "build": "rimraf dist & tsc"
   },
   "keywords": [
-    "easypanel"
+    "easypanel",
+    "easypanel api",
+    "hosting panel"
   ],
   "author": "AydinTheFirst",
   "license": "ISC",
