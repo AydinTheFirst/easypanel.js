@@ -14,6 +14,7 @@ export const client = new Client({
 client.on("ready", async () => {
   console.log("Client is ready!");
   console.log(await client.projects.list());
+  const service = await client.services.inspect();
 });
 
 await client.login();

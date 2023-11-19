@@ -17,8 +17,9 @@ import {
   UpdateResources,
   MountParams,
   DeployParams,
-  Service,
+  ServiceRes,
 } from "../types/services.types.js";
+
 import { NoResponse } from "../types/index.types.js";
 
 export class ServicesManager extends BaseManager {
@@ -32,7 +33,7 @@ export class ServicesManager extends BaseManager {
   async create(
     serviceType: ServiceType,
     body: CreateService
-  ): Promise<Service> {
+  ): Promise<ServiceRes> {
     body.domains = [
       {
         host: "$(EASYPANEL_DOMAIN)",
@@ -49,7 +50,7 @@ export class ServicesManager extends BaseManager {
   async inspect(
     serviceType: ServiceType,
     body: SelectService
-  ): Promise<Service> {
+  ): Promise<ServiceRes> {
     const Route = Routes.Services(serviceType).Inspect;
     const res = await this.client.rest.get(Route, { json: body });
     return res;

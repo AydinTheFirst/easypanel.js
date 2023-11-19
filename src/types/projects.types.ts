@@ -1,4 +1,5 @@
 import { RestResponse } from "ft-rest/dist/types/index.js";
+import { Service } from "./services.types.js";
 
 /**
  * Params
@@ -31,7 +32,7 @@ export interface Create extends RestResponse {
 export interface Project extends RestResponse {
   data?: {
     project: ProjectInfo;
-    services: [];
+    services: Service[];
   };
 }
 
@@ -42,6 +43,6 @@ export interface ListProjects extends RestResponse {
 export interface ListWithServices extends RestResponse {
   data?: {
     projects: ProjectInfo[];
-    services: [];
+    services: Service[];
   };
 }
