@@ -1,6 +1,6 @@
 {
-  "name": "easypanel-api",
-  "version": "1.2.5",
+  "name": "easypanel.js",
+  "version": "1.0.0",
   "description": "A module for interacting with the Easypanel API",
   "main": "dist/index.js",
   "module": "dist/index.js",
@@ -10,12 +10,14 @@
     "dev": "npm run build && vitest",
     "start": "",
     "docs": "typedoc src/index.ts src/types/index.types.ts src/managers/index.ts",
-    "test": "node tests/index.js",
-    "build": "rimraf dist & tsc"
+    "test": "npm run build && node tests/index.js",
+    "build": "rimraf dist & tsc",
+    "relase": "npm run build && npm publish"
   },
   "keywords": [
     "easypanel",
     "easypanel api",
+    "easypanel js",
     "hosting panel"
   ],
   "author": "AydinTheFirst",
@@ -30,12 +32,12 @@
   "dependencies": {
     "ft-rest": "^1.1.4"
   },
-  "homepage": "https://easypanel-api.fristroop.com",
+  "homepage": "https://easypanel-js.fristroop.com",
   "repository": {
-    "url": "https://github.com/Fristroop/easypanel-api",
+    "url": "https://github.com/Fristroop/easypanel.js",
     "type": "git"
   },
   "bugs": {
-    "url": "https://github.com/Fristroop/easypanel-api/issues"
+    "url": "https://github.com/Fristroop/easypanel.js/issues"
   }
 }

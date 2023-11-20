@@ -33,6 +33,7 @@ const Services = (type: string) => {
     UpdateDeploy: "/api/trpc/services.app.updateResources", // POST
     UpdateBackup: "/api/trpc/services.app.updateBackup", // POST
     UpdateAdvanced: "/api/trpc/services.mariadb.updateAdvanced", // POST,
+    GetServiceLogs: "/api/trpc/logs.getServiceLogs", // GET
   };
 
   for (const [key, value] of Object.entries(Routes)) {

@@ -20,7 +20,7 @@ import {
   ServiceRes,
 } from "../types/services.types.js";
 
-import { NoResponse } from "../types/index.types.js";
+import { NoResponse, StringResponse } from "../types/index.types.js";
 
 export class ServicesManager extends BaseManager {
   constructor(client: Client) {
@@ -257,6 +257,18 @@ export class ServicesManager extends BaseManager {
   ): Promise<NoResponse> {
     const Route = Routes.Services(serviceType).UpdateDeploy;
     const res = await this.client.rest.post(Route, { json: body });
+    return res;
+  }
+
+  async getServiceLogs(body: SelectService): Promise<StringResponse> {
+    const service = body.projectName + "_" + body.serviceName;
+    const res = await this.client.rest.get(Routes.Services("").GetServiceLogs, {
+      json: {
+        service,
+        lines: 50,
+      },
+    });
+
     return res;
   }
 }

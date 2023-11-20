@@ -13,8 +13,13 @@ export const client = new Client({
 
 client.on("ready", async () => {
   console.log("Client is ready!");
-  console.log(await client.projects.list());
-  const service = await client.services.inspect();
+  console.log(
+    await client.services.getServiceLogs({
+      type: "app",
+      serviceName: "fristroop",
+      projectName: "fristroop",
+    })
+  );
 });
 
 await client.login();
