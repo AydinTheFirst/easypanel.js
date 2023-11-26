@@ -1,4 +1,4 @@
-import { RestResponse } from "ft-rest/dist/types/index.js";
+import { IRestResponse } from "../utils/REST.js";
 
 export type ServiceType =
   | "app"
@@ -9,6 +9,7 @@ export type ServiceType =
   | "redis";
 
 export interface SelectService {
+  type: ServiceType;
   projectName: string;
   serviceName: string;
   password?: string;
@@ -137,6 +138,6 @@ export interface UpdateResources extends SelectService {
   };
 }
 
-export interface ServiceRes extends RestResponse {
+export interface ServiceRes extends IRestResponse {
   data?: Service;
 }

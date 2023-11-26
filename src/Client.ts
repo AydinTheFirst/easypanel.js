@@ -1,29 +1,30 @@
-import { MonitorManager } from "./managers/MonitorManager.js";
-import { ProjectsManager } from "./managers/ProjectsManager.js";
-import { ServicesManager } from "./managers/ServicesManager.js";
-import { SettingsManager } from "./managers/SettingsManager.js";
+import { MonitorManager } from "./managers/Monitor.js";
+import { ProjectsManager } from "./managers/Projects.js";
+import { ServicesManager } from "./managers/Services.js";
+import { SettingsManager } from "./managers/Settings.js";
 
-import REST from "./utils/REST.js";
+import { REST } from "./utils/REST.js";
 import { Routes } from "./utils/Routes.js";
 
 import EventEmitter from "node:events";
 
-import {
-  ClientConfig,
-  LoginRes,
-  NoResponse,
-  UserRes,
-} from "./types/index.types.js";
+import { ClientConfig, NoResponse, UserRes } from "./types/index.types.js";
 
+/**
+ * Client class for interacting with the API.
+ * Manages configuration, REST requests, and various managers.
+ */
 export class Client extends EventEmitter {
-  config: ClientConfig;
+  config: ClientConfig; // Client Config
   rest: REST;
   settings: SettingsManager;
   monitor: MonitorManager;
   projects: ProjectsManager;
   services: ServicesManager;
+  routes: typeof Routes;
   constructor(config: ClientConfig) {
     super();
+
     this.config = config;
 
     this.rest = new REST({
@@ -31,19 +32,37 @@ export class Client extends EventEmitter {
       token: this.config.token || "token",
     });
 
+    this.routes = Routes;
+
     this.settings = new SettingsManager(this);
+
     this.monitor = new MonitorManager(this);
+
     this.projects = new ProjectsManager(this);
+
     this.services = new ServicesManager(this);
   }
 
+  /**
+   * Middleware before making requests to API!
+   * If you provide a token on clientConfig this functions just checks it
+   * If you did not,  it will make regular request
+   * 2FA is not supported yet for credentials authenticating use API token instead
+   */
   async login(): Promise<Client> {
-    if ((await this.getUser()).ok) {
-      console.log("Provided API token works.");
+    // Token provided see if it works
+    if (this.config.token) {
+      const userRes = await this.getUser();
+      if (!userRes.ok) {
+        throw new Error("Authentication Failed! " + JSON.stringify(userRes));
+      }
+      console.log("Provided token works");
       this.emit("ready");
       return this;
     }
-    const res = await this.rest.post(Routes.Auth.Login, {
+
+    // Skipped token
+    const res = await this.rest.post(this.routes.Auth.Login, {
       json: this.config.credentials,
     });
 
@@ -56,24 +75,37 @@ export class Client extends EventEmitter {
     return this;
   }
 
+  /**
+   * It logouts regular autentication not API token
+   */
   async logout(): Promise<NoResponse> {
-    const res = await this.rest.post(Routes.Auth.Logout, {});
+    const res = await this.rest.post(this.routes.Auth.Logout, {});
     return res;
   }
 
+  /**
+   * Returns user object
+   */
   async getUser(): Promise<UserRes> {
-    const res = await this.rest.get(Routes.Auth.GetUser, { json: null });
-    if (!res.data) res.ok = false;
+    const res = await this.rest.get(this.routes.Auth.GetUser, { json: null });
     return res;
   }
 
-  async getLicensePayload(type: "lemon" | "portal"): Promise<NoResponse> {
-    const res = await this.rest.get(Routes.License(type).Get, { json: null });
+  /**
+   * Returns long license payload
+   */
+  async getLicensePayload(type: "lemon" | "portal"): Promise<any> {
+    const res = await this.rest.get(this.routes.License(type).Get, {
+      json: null,
+    });
     return res;
   }
 
-  async activateLicense(type: "lemon" | "portal"): Promise<NoResponse> {
-    const res = await this.rest.post(Routes.License(type).Activate, {
+  /**
+   * Activates your license
+   */
+  async activateLicense(type: "lemon" | "portal"): Promise<any> {
+    const res = await this.rest.post(this.routes.License(type).Activate, {
       json: null,
     });
     return res;

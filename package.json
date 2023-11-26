@@ -7,11 +7,11 @@
   "types": "dist/index.d.ts",
   "type": "module",
   "scripts": {
-    "dev": "npm run build && vitest",
+    "build": "tsup",
+    "dev": "tsup --watch",
     "start": "",
     "docs": "typedoc src/index.ts src/types/index.types.ts src/managers/index.ts",
-    "test": "npm run build && node tests/index.js",
-    "build": "rimraf dist & tsc",
+    "test": "npm build && vitest",
     "relase": "npm run build && npm publish"
   },
   "keywords": [
@@ -23,14 +23,14 @@
   "author": "AydinTheFirst",
   "license": "ISC",
   "devDependencies": {
-    "@types/node": "^20.9.1",
     "dotenv": "^16.3.1",
-    "rimraf": "^5.0.5",
+    "eslint": "^8.54.0",
+    "tsup": "^8.0.1",
     "typedoc": "^0.25.3",
     "vitest": "^0.34.6"
   },
   "dependencies": {
-    "ft-rest": "^1.1.4"
+    "axios": "^1.6.2"
   },
   "homepage": "https://easypanel-js.fristroop.com",
   "repository": {

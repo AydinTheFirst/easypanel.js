@@ -1,6 +1,6 @@
-import { RestResponse } from "ft-rest/dist/types/index.js";
+import { IRestResponse } from "../utils/REST.js";
 
-export interface AdvancedStats extends RestResponse {
+export interface AdvancedStats extends IRestResponse {
   data?: {
     cpu: { value: string; time: string }[];
     disk: { value: string; time: string }[];
@@ -9,7 +9,7 @@ export interface AdvancedStats extends RestResponse {
   };
 }
 
-export interface DockerTaskStats extends RestResponse {
+export interface DockerTaskStats extends IRestResponse {
   data?: {
     [key: string]: {
       actual: number;
@@ -18,7 +18,7 @@ export interface DockerTaskStats extends RestResponse {
   };
 }
 
-export interface SystemStats extends RestResponse {
+export interface SystemStats extends IRestResponse {
   data?: {
     uptime: number;
     memInfo: {
@@ -47,7 +47,7 @@ export interface SystemStats extends RestResponse {
   };
 }
 
-export interface ContainerStats extends RestResponse {
+export interface ContainerStats extends IRestResponse {
   data?: {
     id: string;
     stats: {

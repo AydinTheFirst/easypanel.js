@@ -1,4 +1,5 @@
-import { RestResponse } from "ft-rest/dist/types/index.js";
+import { IRestResponse } from "../utils/REST.js";
+
 import { Service } from "./services.types.js";
 
 /**
@@ -21,26 +22,26 @@ export interface ProjectQueryConf {
  * Returns
  */
 
-export interface CanCreate extends RestResponse {
+export interface CanCreate extends IRestResponse {
   data?: boolean;
 }
 
-export interface Create extends RestResponse {
+export interface Create extends IRestResponse {
   data?: ProjectInfo;
 }
 
-export interface Project extends RestResponse {
+export interface Project extends IRestResponse {
   data?: {
     project: ProjectInfo;
     services: Service[];
   };
 }
 
-export interface ListProjects extends RestResponse {
+export interface ListProjects extends IRestResponse {
   data?: ProjectInfo[];
 }
 
-export interface ListWithServices extends RestResponse {
+export interface ListWithServices extends IRestResponse {
   data?: {
     projects: ProjectInfo[];
     services: Service[];

@@ -1,4 +1,4 @@
-import { RestResponse } from "ft-rest/dist/types/index.js";
+import { IRestResponse } from "../utils/REST.js";
 
 export type * from "./monitor.types.js";
 export type * from "./projects.types.js";
@@ -7,32 +7,32 @@ export type * from "./settings.types.js";
 
 export interface ClientConfig {
   endpoint: string;
-  credentials: {
+  credentials?: {
     email: string;
     password: string;
   };
   token?: string;
 }
 
-export interface NoResponse extends RestResponse {
+export interface NoResponse extends IRestResponse {
   data?: null;
 }
 
-export interface StringResponse extends RestResponse {
+export interface StringResponse extends IRestResponse {
   data?: string;
 }
 
-export interface BooleanResponse extends RestResponse {
+export interface BooleanResponse extends IRestResponse {
   data?: string;
 }
 
-export interface LoginRes extends RestResponse {
+export interface LoginRes extends IRestResponse {
   data?: {
     token: string;
   };
 }
 
-export interface UserRes extends RestResponse {
+export interface UserRes extends IRestResponse {
   data?: {
     id: string;
     createdAt: string;

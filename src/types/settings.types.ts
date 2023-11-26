@@ -1,4 +1,4 @@
-import { RestResponse } from "ft-rest/dist/types/index.js";
+import { IRestResponse } from "../utils/REST.js";
 
 /**
  * Params
@@ -35,7 +35,7 @@ export interface LetsEncryptParams {
 /**
  * Returns
  */
-export interface PanelDomainRes extends RestResponse {
+export interface PanelDomainRes extends IRestResponse {
   data?: {
     serveOnIp: boolean;
     panelDomain: string;

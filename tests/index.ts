@@ -1,12 +1,12 @@
 /* eslint-disable no-undef */
 import "dotenv/config";
-import { Client } from "../dist/index.js";
+import { Client } from "../dist/index.cjs";
 
 export const client = new Client({
-  endpoint: process.env.domain,
+  endpoint: process.env.endpoint as string,
   credentials: {
-    email: process.env.email,
-    password: process.env.psw,
+    email: process.env.email as string,
+    password: process.env.psw as string,
   },
   token: process.env.token, // when provided package will skip authenticating if token works!
 });

@@ -1,5 +1,4 @@
 import { Client } from "../Client.js";
-import { Routes } from "../utils/Routes.js";
 import { BaseManager } from "./BaseManager.js";
 
 import {
@@ -21,10 +20,14 @@ import {
 } from "../types/services.types.js";
 
 import { NoResponse, StringResponse } from "../types/index.types.js";
+import { Routes } from "../utils/Routes.js";
 
 export class ServicesManager extends BaseManager {
+  routes: typeof Routes.Services;
   constructor(client: Client) {
     super(client);
+
+    this.routes = Routes.Services;
   }
 
   /**
@@ -39,7 +42,7 @@ export class ServicesManager extends BaseManager {
         host: "$(EASYPANEL_DOMAIN)",
       },
     ];
-    const Route = Routes.Services(serviceType).Create;
+    const Route = this.routes(serviceType).Create;
     const res = await this.client.rest.post(Route, { json: body });
     return res;
   }
@@ -51,7 +54,7 @@ export class ServicesManager extends BaseManager {
     serviceType: ServiceType,
     body: SelectService
   ): Promise<ServiceRes> {
-    const Route = Routes.Services(serviceType).Inspect;
+    const Route = this.routes(serviceType).Inspect;
     const res = await this.client.rest.get(Route, { json: body });
     return res;
   }
@@ -63,7 +66,7 @@ export class ServicesManager extends BaseManager {
     serviceType: ServiceType,
     body: SelectService
   ): Promise<NoResponse> {
-    const Route = Routes.Services(serviceType).Destroy;
+    const Route = this.routes(serviceType).Destroy;
     const res = await this.client.rest.post(Route, { json: body });
     return res;
   }
@@ -75,7 +78,7 @@ export class ServicesManager extends BaseManager {
     serviceType: ServiceType,
     body: SelectService
   ): Promise<NoResponse> {
-    const Route = Routes.Services(serviceType).Deploy;
+    const Route = this.routes(serviceType).Deploy;
     const res = await this.client.rest.post(Route, { json: body });
     return res;
   }
@@ -87,7 +90,7 @@ export class ServicesManager extends BaseManager {
     serviceType: ServiceType,
     body: SelectService
   ): Promise<NoResponse> {
-    const Route = Routes.Services(serviceType).Disable;
+    const Route = this.routes(serviceType).Disable;
     const res = await this.client.rest.post(Route, { json: body });
     return res;
   }
@@ -99,7 +102,7 @@ export class ServicesManager extends BaseManager {
     serviceType: ServiceType,
     body: SelectService
   ): Promise<NoResponse> {
-    const Route = Routes.Services(serviceType).Enable;
+    const Route = this.routes(serviceType).Enable;
     const res = await this.client.rest.post(Route, { json: body });
     return res;
   }
@@ -111,7 +114,7 @@ export class ServicesManager extends BaseManager {
     serviceType: ServiceType,
     body: SelectService
   ): Promise<NoResponse> {
-    const Route = Routes.Services(serviceType).RefreshDeployToken;
+    const Route = this.routes(serviceType).RefreshDeployToken;
     const res = await this.client.rest.post(Route, { json: body });
     return res;
   }
@@ -123,7 +126,7 @@ export class ServicesManager extends BaseManager {
     serviceType: ServiceType,
     body: UpdateGithub
   ): Promise<NoResponse> {
-    const Route = Routes.Services(serviceType).UpdateSourceGithub;
+    const Route = this.routes(serviceType).UpdateSourceGithub;
     const res = await this.client.rest.post(Route, { json: body });
     return res;
   }
@@ -135,7 +138,7 @@ export class ServicesManager extends BaseManager {
     serviceType: ServiceType,
     body: UpdateGit
   ): Promise<NoResponse> {
-    const Route = Routes.Services(serviceType).UpdateSourceGit;
+    const Route = this.routes(serviceType).UpdateSourceGit;
     const res = await this.client.rest.post(Route, { json: body });
     return res;
   }
@@ -147,7 +150,7 @@ export class ServicesManager extends BaseManager {
     serviceType: ServiceType,
     body: UpdateImage
   ): Promise<NoResponse> {
-    const Route = Routes.Services(serviceType).UpdateSourceImage;
+    const Route = this.routes(serviceType).UpdateSourceImage;
     const res = await this.client.rest.post(Route, { json: body });
     return res;
   }
@@ -159,7 +162,7 @@ export class ServicesManager extends BaseManager {
     serviceType: ServiceType,
     body: UpdateBuild
   ): Promise<NoResponse> {
-    const Route = Routes.Services(serviceType).UpdateBuild;
+    const Route = this.routes(serviceType).UpdateBuild;
     const res = await this.client.rest.post(Route, { json: body });
     return res;
   }
@@ -171,7 +174,7 @@ export class ServicesManager extends BaseManager {
     serviceType: ServiceType,
     body: UpdateEnv
   ): Promise<NoResponse> {
-    const Route = Routes.Services(serviceType).UpdateEnv;
+    const Route = this.routes(serviceType).UpdateEnv;
     const res = await this.client.rest.post(Route, { json: body });
     return res;
   }
@@ -183,7 +186,7 @@ export class ServicesManager extends BaseManager {
     serviceType: ServiceType,
     body: CreateService
   ): Promise<NoResponse> {
-    const Route = Routes.Services(serviceType).UpdateDomains;
+    const Route = this.routes(serviceType).UpdateDomains;
     const res = await this.client.rest.post(Route, { json: body });
     return res;
   }
@@ -195,7 +198,7 @@ export class ServicesManager extends BaseManager {
     serviceType: ServiceType,
     body: UpdateRedirects
   ): Promise<NoResponse> {
-    const Route = Routes.Services(serviceType).UpdateRedirects;
+    const Route = this.routes(serviceType).UpdateRedirects;
     const res = await this.client.rest.post(Route, { json: body });
     return res;
   }
@@ -207,7 +210,7 @@ export class ServicesManager extends BaseManager {
     serviceType: ServiceType,
     body: UpdateBasicAuth
   ): Promise<NoResponse> {
-    const Route = Routes.Services(serviceType).UpdateBasicAuth;
+    const Route = this.routes(serviceType).UpdateBasicAuth;
     const res = await this.client.rest.post(Route, { json: body });
     return res;
   }
@@ -219,7 +222,7 @@ export class ServicesManager extends BaseManager {
     serviceType: ServiceType,
     body: MountParams
   ): Promise<NoResponse> {
-    const Route = Routes.Services(serviceType).UpdateMounts;
+    const Route = this.routes(serviceType).UpdateMounts;
     const res = await this.client.rest.post(Route, { json: body });
     return res;
   }
@@ -231,7 +234,7 @@ export class ServicesManager extends BaseManager {
     serviceType: ServiceType,
     body: UpdatePorts
   ): Promise<NoResponse> {
-    const Route = Routes.Services(serviceType).UpdatePorts;
+    const Route = this.routes(serviceType).UpdatePorts;
     const res = await this.client.rest.post(Route, { json: body });
     return res;
   }
@@ -243,7 +246,7 @@ export class ServicesManager extends BaseManager {
     serviceType: ServiceType,
     body: UpdateResources
   ): Promise<NoResponse> {
-    const Route = Routes.Services(serviceType).UpdateResources;
+    const Route = this.routes(serviceType).UpdateResources;
     const res = await this.client.rest.post(Route, { json: body });
     return res;
   }
@@ -255,14 +258,14 @@ export class ServicesManager extends BaseManager {
     serviceType: ServiceType,
     body: DeployParams
   ): Promise<NoResponse> {
-    const Route = Routes.Services(serviceType).UpdateDeploy;
+    const Route = this.routes(serviceType).UpdateDeploy;
     const res = await this.client.rest.post(Route, { json: body });
     return res;
   }
 
   async getServiceLogs(body: SelectService): Promise<StringResponse> {
     const service = body.projectName + "_" + body.serviceName;
-    const res = await this.client.rest.get(Routes.Services("").GetServiceLogs, {
+    const res = await this.client.rest.get(this.routes("").GetServiceLogs, {
       json: {
         service,
         lines: 50,
