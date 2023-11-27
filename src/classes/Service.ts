@@ -11,7 +11,7 @@ export class Service extends BaseClass {
 
     this.manager = client.services;
 
-    this.id = this.projectName + "_" + this.name;
+    this.id = data.projectName + "_" + name;
     this.name = name;
     this.projectName = data.projectName;
     this.type = data.type;
