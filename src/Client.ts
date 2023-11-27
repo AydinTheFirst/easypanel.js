@@ -113,14 +113,14 @@ export class Client extends EventEmitter {
     if (list) {
       for (const p of list.projects) {
         const project = new Project(this, p.name, p);
-        this.projects.cache.set(project.name, project);
+        this.projects.cache.set(project.id, project);
       }
 
       for (const s of list.services) {
         const service = new Service(this, s.name, s);
         const project = this.projects.cache.get(service.projectName);
-        if (project) project.services.set(service.name, service);
-        this.services.cache.set(service.name, service);
+        if (project) project.services.set(service.id, service);
+        this.services.cache.set(service.id, service);
       }
     }
 

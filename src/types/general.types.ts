@@ -6,6 +6,7 @@ import { Service } from "../classes/Service.js";
  */
 
 export interface IProject {
+  id: string;
   name: string;
   createdAt: string;
   services: Collection<string, Service>;
@@ -117,6 +118,7 @@ export type ServiceType =
   | "redis";
 
 export interface IService extends UpdateResources, UpdateBuild {
+  id: string;
   type: ServiceType;
   projectName: string;
   name: string;

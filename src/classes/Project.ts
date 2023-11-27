@@ -13,6 +13,7 @@ export class Project extends BaseClass {
 
     this.manager = client.projects;
 
+    this.id = name;
     this.name = name;
     this.createdAt = data.createdAt;
     this.services = new Collection<string, Service>();
