@@ -35,7 +35,25 @@ client.on("ready", async () => {
 await client.login();
 ```
 
-# You may find all examples on [Github](https://github.com/Fristroop/easypanel-api/tree/main/tests)
+### Vitest Test Results
+
+- Total Test Count 48
+- https://github.com/Fristroop/easypanel.js/tree/main/tests
+
+```json
+{
+  "version": "0.34.6",
+  "results": [
+    [":tests/license.test.ts", { "duration": 146, "failed": false }],
+    [":tests/setting.test.ts", { "duration": 2803, "failed": false }],
+    [":tests/monitor.test.ts", { "duration": 4484, "failed": false }],
+    [":tests/projects.test.ts", { "duration": 481, "failed": false }],
+    [":tests/services.test.ts", { "duration": 3855, "failed": false }]
+  ]
+}
+```
+
+### You may find all examples on [Github](https://github.com/Fristroop/easypanel-api/tree/main/tests)
 
 ## Links
 

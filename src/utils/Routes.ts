@@ -34,6 +34,7 @@ const Services = (type: string) => {
     UpdateBackup: "/api/trpc/services.app.updateBackup", // POST
     UpdateAdvanced: "/api/trpc/services.mariadb.updateAdvanced", // POST,
     GetServiceLogs: "/api/trpc/logs.getServiceLogs", // GET
+    CreateFromSchema: "/api/trpc/templates.createFromSchema", // POST
   };
 
   for (const [key, value] of Object.entries(Routes)) {

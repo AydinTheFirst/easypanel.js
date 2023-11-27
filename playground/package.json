@@ -5,7 +5,7 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "dev": "esno index.ts",
+    "dev": "esno --watch index.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -13,5 +13,8 @@
   "license": "ISC",
   "devDependencies": {
     "esno": "^4.0.0"
+  },
+  "dependencies": {
+    "easypanel.js": "^1.0.0"
   }
 }

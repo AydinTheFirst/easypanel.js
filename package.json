@@ -1,18 +1,21 @@
 {
   "name": "easypanel.js",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "A module for interacting with the Easypanel API",
   "main": "dist/index.js",
   "module": "dist/index.js",
   "types": "dist/index.d.ts",
   "type": "module",
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "build": "tsup",
     "dev": "tsup --watch",
     "start": "",
-    "docs": "typedoc src/index.ts src/types/index.types.ts src/managers/index.ts",
-    "test": "npm build && vitest",
-    "relase": "npm run build && npm publish"
+    "docs": "npm run build && typedoc src/index.ts",
+    "test": "npm run build && vitest",
+    "relase": "npm run build && npm run docs && npm publish"
   },
   "keywords": [
     "easypanel",
@@ -30,6 +33,7 @@
     "vitest": "^0.34.6"
   },
   "dependencies": {
+    "@discordjs/collection": "^2.0.0",
     "axios": "^1.6.2"
   },
   "homepage": "https://easypanel-js.fristroop.com",

@@ -1,4 +1,4 @@
-import axios, { AxiosResponse } from "axios";
+import axios from "axios";
 
 /**
  * REST module is developed in order to make easier to work with REST API's.
@@ -9,7 +9,6 @@ export class REST {
   baseURL: string;
   token: string;
   methods: IRequestMethods;
-
   constructor(restConf: IRestConfig) {
     this.baseURL = restConf.baseURL;
 
@@ -24,39 +23,44 @@ export class REST {
   }
 
   makeRequest = async (
-    path: string,
-    data: object,
+    url: string,
+    data: object | null,
     method: string
-  ): Promise<IRestResponse> => {
+  ): Promise<any> => {
     try {
       const res = await axios({
-        url: this.baseURL + path,
-        method,
-        data,
+        baseURL: this.baseURL,
         headers: {
           Authorization: this.token,
         },
+        url,
+        method,
+        data,
       });
 
-      return {
-        ok: res.status >= 200 && res.status < 300,
-        status: res.status,
-        statusText: res.statusText,
-        data: this._responseResolver(res),
-      };
+      return res.data.result.data.json;
     } catch (error: any) {
-      return {
-        ok: false,
-        status: error.response?.status,
-        error: this._errorResolver(error),
-        statusText: String(error),
-      };
+      if (!error.response) {
+        throw new Error(
+          JSON.stringify({
+            status: -1,
+            error: "Could not connect to: " + this.baseURL,
+          })
+        );
+      }
+
+      throw new Error(
+        JSON.stringify({
+          status: error.response.status,
+          error: error.response.data.error.json,
+        })
+      );
     }
   };
 
-  async get(path: string, body: object) {
+  async get(path: string, body: object | null) {
     path = path + "?" + this._bodyToQueryParams(body);
-    body = {};
+    body = null;
     return this.makeRequest(path, body, this.methods.Get);
   }
 
@@ -72,24 +76,6 @@ export class REST {
     return this.makeRequest(path, body, this.methods.Put);
   }
 
-  setToken(token: string) {
-    this.token = token;
-    return this;
-  }
-
-  setBaseURL(baseURL: string) {
-    this.baseURL = baseURL;
-    return this;
-  }
-
-  _responseResolver(res: AxiosResponse) {
-    return res.data.result.data.json;
-  }
-
-  _errorResolver(error: any) {
-    return error.response?.data.error.json;
-  }
-
   _bodyToQueryParams(body: any) {
     return "input=" + encodeURIComponent(JSON.stringify(body));
   }
@@ -100,11 +86,9 @@ export interface IRestConfig {
   token: string;
 }
 
-export interface IRestResponse {
+export interface IRestError {
   ok: boolean;
   status: number;
-  statusText: string;
-  data?: any;
   error?: any;
 }
 

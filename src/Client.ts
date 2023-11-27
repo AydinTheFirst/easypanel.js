@@ -8,7 +8,9 @@ import { Routes } from "./utils/Routes.js";
 
 import EventEmitter from "node:events";
 
-import { ClientConfig, NoResponse, UserRes } from "./types/index.types.js";
+import { ClientConfig, IUser } from "./types/index.types.js";
+import { Project } from "./classes/Project.js";
+import { Service } from "./classes/Service.js";
 
 /**
  * Client class for interacting with the API.
@@ -22,6 +24,8 @@ export class Client extends EventEmitter {
   projects: ProjectsManager;
   services: ServicesManager;
   routes: typeof Routes;
+  refreshRate: number;
+  interval: any;
   constructor(config: ClientConfig) {
     super();
 
@@ -29,7 +33,7 @@ export class Client extends EventEmitter {
 
     this.rest = new REST({
       baseURL: this.config.endpoint,
-      token: this.config.token || "token",
+      token: this.config.token,
     });
 
     this.routes = Routes;
@@ -41,36 +45,26 @@ export class Client extends EventEmitter {
     this.projects = new ProjectsManager(this);
 
     this.services = new ServicesManager(this);
+
+    // 1 min
+    this.refreshRate = config.refreshRate || 60 * 1000;
+    this.interval = null;
   }
 
   /**
    * Middleware before making requests to API!
    * If you provide a token on clientConfig this functions just checks it
-   * If you did not,  it will make regular request
-   * 2FA is not supported yet for credentials authenticating use API token instead
+   * If you did not,  it will make regular authentication request
+   * 2FA is not supported yet instead of credentials authenticating use API token.
    */
   async login(): Promise<Client> {
-    // Token provided see if it works
-    if (this.config.token) {
-      const userRes = await this.getUser();
-      if (!userRes.ok) {
-        throw new Error("Authentication Failed! " + JSON.stringify(userRes));
-      }
-      console.log("Provided token works");
-      this.emit("ready");
-      return this;
-    }
+    const userRes = await this.getUser();
+    if (!userRes) throw Error("Invalid token was provided");
 
-    // Skipped token
-    const res = await this.rest.post(this.routes.Auth.Login, {
-      json: this.config.credentials,
-    });
+    // Set loop to refresh cache
+    this.interval = setInterval(() => this._init(), this.refreshRate);
+    await this._init();
 
-    if (!res.ok) {
-      throw new Error("Authentication Failed! " + JSON.stringify(res));
-    }
-
-    this.rest.setToken(res.data.token);
     this.emit("ready");
     return this;
   }
@@ -78,7 +72,7 @@ export class Client extends EventEmitter {
   /**
    * It logouts regular autentication not API token
    */
-  async logout(): Promise<NoResponse> {
+  async logout(): Promise<null> {
     const res = await this.rest.post(this.routes.Auth.Logout, {});
     return res;
   }
@@ -86,7 +80,7 @@ export class Client extends EventEmitter {
   /**
    * Returns user object
    */
-  async getUser(): Promise<UserRes> {
+  async getUser(): Promise<IUser> {
     const res = await this.rest.get(this.routes.Auth.GetUser, { json: null });
     return res;
   }
@@ -109,5 +103,29 @@ export class Client extends EventEmitter {
       json: null,
     });
     return res;
+  }
+
+  async _init() {
+    let startedAt = Date.now();
+
+    const list = await this.projects.listWithServices();
+
+    if (list) {
+      for (const p of list.projects) {
+        const project = new Project(this, p.name, p);
+        this.projects.cache.set(project.name, project);
+      }
+
+      for (const s of list.services) {
+        const service = new Service(this, s.name, s);
+        const project = this.projects.cache.get(service.projectName);
+        if (project) project.services.set(service.name, service);
+        this.services.cache.set(service.name, service);
+      }
+    }
+
+    let endedAt = Date.now();
+
+    this.emit("refresh", endedAt - startedAt);
   }
 }
