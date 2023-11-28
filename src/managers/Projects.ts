@@ -5,20 +5,21 @@ import { BaseManager } from "./BaseManager.js";
 
 import { Routes } from "../utils/Routes.js";
 
-import { IProject, IInspectedProject, IList } from "../types/general.types.js";
+import { IInspectedProject, IList, IProject } from "../types/general.types.js";
 
 import { Collection } from "../utils/Collection.js";
+import { Project } from "../index.js";
 
 export class ProjectsManager extends BaseManager {
   routes: typeof Routes.Projets;
-  cache: Collection<string, IProject>;
+  cache: Collection<string, Project>;
 
   constructor(client: Client) {
     super(client);
 
     this.routes = Routes.Projets;
 
-    this.cache = new Collection<string, IProject>();
+    this.cache = new Collection<string, Project>();
   }
 
   async canCreate(): Promise<boolean> {
