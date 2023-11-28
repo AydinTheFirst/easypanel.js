@@ -11,6 +11,7 @@ import {
   UpdateRedirects,
   UpdateResources,
   ISelectService,
+  IService,
 } from "../types/general.types.js";
 
 import { Routes } from "../utils/Routes.js";
@@ -231,6 +232,21 @@ export class ServicesManager extends BaseManager {
         body,
       },
     });
+
+    return res;
+  }
+
+  async updateMaintenance(
+    body: ISelectService & Pick<IService, "maintenance">
+  ): Promise<any> {
+    const res = await this.client.rest.post(
+      this.routes(body.type).CreateFromSchema,
+      {
+        json: {
+          body,
+        },
+      }
+    );
 
     return res;
   }

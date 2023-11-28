@@ -96,6 +96,7 @@ const Settings = {
   ChangeCredentials: "/api/trpc/settings.changeCredentials", // POST
   ListCertificates: "/api/trpc/certificates.listCertificates", // GET
   RemoveCertificate: "/api/trpc/certificates.removeCertificate", // POST
+  UpdateMaintenance: "//api/trpc/services.app.updateMaintenance", // POST
 };
 
 export const Routes = {
