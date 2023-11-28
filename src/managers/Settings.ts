@@ -64,15 +64,24 @@ export class SettingsManager extends BaseManager {
   }
 
   async pruneDockerBuilder(): Promise<string> {
-    const res = await this.client.rest.post(this.routes.PruneDockerBuilder, {
+    const res = await this.client.rest.post(this.routes.CleanupDockerBuilder, {
       json: null,
     });
     return res;
   }
 
-  async pruneDockerImages(): Promise<string> {
-    const res = await this.client.rest.post(this.routes.PruneDockerImages, {
+  async cleanupDockerImages(): Promise<string> {
+    const res = await this.client.rest.post(this.routes.CleanupDockerImages, {
       json: null,
+    });
+    return res;
+  }
+
+  async setDailyDockerCleanup(body: {
+    dailyDockerCleanup: boolean;
+  }): Promise<boolean> {
+    const res = await this.client.rest.post(this.routes.SetDailyDockerCleanup, {
+      json: body,
     });
     return res;
   }
@@ -94,13 +103,6 @@ export class SettingsManager extends BaseManager {
   async restartTraefik(): Promise<null> {
     const res = await this.client.rest.post(this.routes.RestartTraefik, {
       json: null,
-    });
-    return res;
-  }
-
-  async setDockerPruneDaily(body: boolean): Promise<boolean> {
-    const res = await this.client.rest.post(this.routes.SetDailyDockerCleanup, {
-      json: body,
     });
     return res;
   }

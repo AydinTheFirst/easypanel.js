@@ -173,10 +173,10 @@ export interface IService extends UpdateResources, UpdateBuild {
     enabled: boolean;
     title: string;
     subtitle: string;
-    customLogo: string;
-    customCss: string;
-    hideLogo: boolean;
-    hideLinks: boolean;
+    customLogo?: string;
+    customCss?: string;
+    hideLogo?: boolean;
+    hideLinks?: boolean;
   };
   [x: string]: any;
 }

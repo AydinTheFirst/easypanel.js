@@ -14,8 +14,16 @@ export const client = new Client({
 client.on("ready", async () => {
   console.log("Client is ready!");
 
-  const certs = await client.settings.listCertificates();
-  console.log(certs);
+  const certs = await client.services.updateMaintenance({
+    projectName: "test",
+    serviceName: "fr",
+    type: "app",
+    maintenance: {
+      enabled: true,
+      subtitle: "subtitle",
+      title: "title",
+    },
+  });
 });
 
 client.on("refresh", (ms) => {

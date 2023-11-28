@@ -238,12 +238,12 @@ export class ServicesManager extends BaseManager {
 
   async updateMaintenance(
     body: ISelectService & Pick<IService, "maintenance">
-  ): Promise<any> {
+  ): Promise<boolean> {
     const res = await this.client.rest.post(
-      this.routes(body.type).CreateFromSchema,
+      this.routes(body.type).UpdateMaintenance,
       {
         json: {
-          body,
+          ...body,
         },
       }
     );

@@ -35,6 +35,7 @@ const Services = (type: string) => {
     UpdateAdvanced: "/api/trpc/services.mariadb.updateAdvanced", // POST,
     GetServiceLogs: "/api/trpc/logs.getServiceLogs", // GET
     CreateFromSchema: "/api/trpc/templates.createFromSchema", // POST
+    UpdateMaintenance: "/api/trpc/services.app.updateMaintenance", // POST
   };
 
   for (const [key, value] of Object.entries(Routes)) {
@@ -89,14 +90,13 @@ const Settings = {
   GetTraefikCustomConfig: "/api/trpc/settings.getTraefikCustomConfig", // GET
   UpdateTraefikCustomConfig: "/api/trpc/settings.updateTraefikCustomConfig", // POST
   RestartTraefik: "/api/trpc/settings.restartTraefik", // POST
-  PruneDockerImages: "/api/trpc/settings.pruneDockerImages", // POST
-  PruneDockerBuilder: "/api/trpc/settings.pruneDockerBuilder", // POST
+  CleanupDockerImages: "/api/trpc/settings.cleanupDockerImages", // POST
+  CleanupDockerBuilder: "/api/trpc/settings.cleanupDockerBuilder", // POST
   SetDailyDockerCleanup: "/api/trpc/settings.setDailyDockerCleanup", // POST
   GetDailyDockerCleanup: "/api/trpc/settings.getDailyDockerCleanup", // GET
   ChangeCredentials: "/api/trpc/settings.changeCredentials", // POST
   ListCertificates: "/api/trpc/certificates.listCertificates", // GET
   RemoveCertificate: "/api/trpc/certificates.removeCertificate", // POST
-  UpdateMaintenance: "//api/trpc/services.app.updateMaintenance", // POST
 };
 
 export const Routes = {

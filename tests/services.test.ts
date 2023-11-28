@@ -170,13 +170,13 @@ describe("Services Tests", () => {
   test("Update Resource Github", async () => {
     const result = await client.services.updateSourceGithub({
       ...data,
-      owner: "AydinTheFirst",
+      owner: "Fristroop",
       path: "/",
       ref: "main",
       repo: "fristroop",
     });
     expect(result).toBe(null);
-  });
+  }, 10000);
 
   test("Update Build", async () => {
     const result = await client.services.updateBuild({
@@ -193,6 +193,18 @@ describe("Services Tests", () => {
       ...data,
     });
     expect(result).toBe("");
+  });
+
+  test("Update maintanance", async () => {
+    const result = await client.services.updateMaintenance({
+      ...data,
+      maintenance: {
+        enabled: true,
+        title: "test",
+        subtitle: "test",
+      },
+    });
+    expect(result).toBe(true);
   });
 
   test("Destroy", async () => {

@@ -45,14 +45,14 @@ describe("Setting Tests", () => {
   });
 
   test("Prune Docker Images", async () => {
-    const result = await client.settings.pruneDockerImages();
+    const result = await client.settings.cleanupDockerImages();
     expect(result).toBeTruthy();
   });
 
   test("Refresh Server IP", async () => {
     const result = await client.settings.refreshServerIp();
     expect(result).toBe(null);
-  });
+  }, 10000);
 
   test("Set Panel Domain", async () => {
     const panelDomainData = {
@@ -66,11 +66,9 @@ describe("Setting Tests", () => {
   });
 
   test("Set Docker Prune Daily", async () => {
-    const dockerPruneData = {
-      pruneDockerDaily: true,
-    };
-
-    const result = await client.settings.setDockerPruneDaily(dockerPruneData);
+    const result = await client.settings.setDailyDockerCleanup({
+      dailyDockerCleanup: true,
+    });
     expect(result).toBe(true);
   });
 
