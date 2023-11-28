@@ -5,9 +5,9 @@ import { BaseManager } from "./BaseManager.js";
 
 import { Routes } from "../utils/Routes.js";
 
-import { Collection } from "@discordjs/collection";
-
 import { IProject, IInspectedProject, IList } from "../types/general.types.js";
+
+import { Collection } from "../utils/Collection.js";
 
 export class ProjectsManager extends BaseManager {
   routes: typeof Routes.Projets;

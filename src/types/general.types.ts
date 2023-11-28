@@ -1,5 +1,5 @@
-import { Collection } from "@discordjs/collection";
 import { Service } from "../classes/Service.js";
+import { Collection } from "../utils/Collection.js";
 
 /**
  * Projects

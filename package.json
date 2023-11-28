@@ -33,7 +33,6 @@
     "vitest": "^0.34.6"
   },
   "dependencies": {
-    "@discordjs/collection": "^2.0.0",
     "axios": "^1.6.2"
   },
   "homepage": "https://easypanel-js.fristroop.com",

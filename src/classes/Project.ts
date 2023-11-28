@@ -1,7 +1,7 @@
-import { Collection } from "@discordjs/collection";
 import { Client } from "../Client.js";
 import { ProjectsManager } from "../managers/Projects.js";
 import { IProject } from "../types/general.types.js";
+import { Collection } from "../utils/Collection.js";
 import { BaseClass } from "./BaseClass.js";
 import { Service } from "./Service.js";
 
