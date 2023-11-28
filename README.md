@@ -1,6 +1,6 @@
 <img width="150" height="150" align="left" style="float: left; margin: 0 10px 0 0;" alt="Xiao" src="https://fristroop.com/assets/logo-7d84cf41.png">
 
-# [easypanel.js](https://github.com/Fristroop/easypanel-api)
+# [easypanel.js](https://github.com/Fristroop/easypanel.js)
 
 💬 Object-oriented library to interact with [Easypanel](https://easypanel.io)!.
 
