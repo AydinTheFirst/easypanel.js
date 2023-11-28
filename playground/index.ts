@@ -13,9 +13,9 @@ export const client = new Client({
 
 client.on("ready", async () => {
   console.log("Client is ready!");
-  client.projects.cache.map((p) => {
-    console.log(p.services.size);
-  });
+
+  const certs = await client.settings.listCertificates();
+  console.log(certs);
 });
 
 client.on("refresh", (ms) => {

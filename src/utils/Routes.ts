@@ -94,6 +94,8 @@ const Settings = {
   SetDailyDockerCleanup: "/api/trpc/settings.setDailyDockerCleanup", // POST
   GetDailyDockerCleanup: "/api/trpc/settings.getDailyDockerCleanup", // GET
   ChangeCredentials: "/api/trpc/settings.changeCredentials", // POST
+  ListCertificates: "/api/trpc/certificates.listCertificates", // GET
+  RemoveCertificate: "/api/trpc/certificates.removeCertificate", // POST
 };
 
 export const Routes = {

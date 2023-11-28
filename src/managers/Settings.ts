@@ -142,4 +142,18 @@ export class SettingsManager extends BaseManager {
     });
     return res;
   }
+
+  async listCertificates(): Promise<{ domain: { main: string } }[]> {
+    const res = await this.client.rest.get(this.routes.ListCertificates, {
+      json: null,
+    });
+    return res;
+  }
+
+  async removeCertificate(body: { domain: string }): Promise<null> {
+    const res = await this.client.rest.post(this.routes.RemoveCertificate, {
+      json: body,
+    });
+    return res;
+  }
 }
