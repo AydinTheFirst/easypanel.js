@@ -136,7 +136,9 @@ export class ServicesManager extends BaseManager {
   /**
    * Updates the environment variables for a service.
    */
-  async updateEnv(body: ISelectService & Pick<Service, "env">): Promise<null> {
+  async updateEnv(
+    body: ISelectService & Pick<Service, "env" | "createDotEnv">
+  ): Promise<null> {
     const Route = this.routes(body.type).UpdateEnv;
     const res = await this.client.rest.post(Route, { json: body });
     return res;

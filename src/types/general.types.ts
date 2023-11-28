@@ -125,6 +125,7 @@ export interface IService extends UpdateResources, UpdateBuild {
   enabled: boolean;
   token: string;
   env?: string;
+  createDotEnv?: boolean;
   command?: string;
   deploy?: {
     replicas?: number;
