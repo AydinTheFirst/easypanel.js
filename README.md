@@ -19,7 +19,8 @@ import "dotenv/config";
 import { Client } from "easypanel.js";
 
 export const client = new Client({
-  endpoint: process.env.domain, // easypanel domain easypanel.example.com
+  endpoint: process.env.domain, // easypanel domain https://easypanel.example.com
+  //@deprecated
   credentials: {
     email: process.env.email,
     password: process.env.psw,
