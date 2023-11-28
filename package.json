@@ -13,7 +13,7 @@
     "build": "tsup",
     "dev": "tsup --watch",
     "start": "",
-    "docs": "npm run build && typedoc src/index.ts",
+    "docs": "npm run build && typedoc src/index.ts --readme README.md",
     "test": "npm run build && vitest",
     "relase": "npm run build && npm run docs && npm publish"
   },
