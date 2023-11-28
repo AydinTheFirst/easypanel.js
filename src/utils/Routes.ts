@@ -91,7 +91,8 @@ const Settings = {
   RestartTraefik: "/api/trpc/settings.restartTraefik", // POST
   PruneDockerImages: "/api/trpc/settings.pruneDockerImages", // POST
   PruneDockerBuilder: "/api/trpc/settings.pruneDockerBuilder", // POST
-  SetDockerPruneDaily: "/api/trpc/settings.setPruneDockerDaily", // POST
+  SetDailyDockerCleanup: "/api/trpc/settings.setDailyDockerCleanup", // POST
+  GetDailyDockerCleanup: "/api/trpc/settings.getDailyDockerCleanup", // GET
   ChangeCredentials: "/api/trpc/settings.changeCredentials", // POST
 };
 

@@ -98,11 +98,16 @@ export class SettingsManager extends BaseManager {
     return res;
   }
 
-  async setDockerPruneDaily(body: {
-    pruneDockerDaily: boolean;
-  }): Promise<boolean> {
-    const res = await this.client.rest.post(this.routes.SetDockerPruneDaily, {
+  async setDockerPruneDaily(body: boolean): Promise<boolean> {
+    const res = await this.client.rest.post(this.routes.SetDailyDockerCleanup, {
       json: body,
+    });
+    return res;
+  }
+
+  async getDockerPruneDaily(): Promise<boolean> {
+    const res = await this.client.rest.get(this.routes.GetDailyDockerCleanup, {
+      json: null,
     });
     return res;
   }
