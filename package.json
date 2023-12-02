@@ -1,6 +1,6 @@
 {
   "name": "easypanel.js",
-  "version": "1.1.4",
+  "version": "1.1.5",
   "description": "A module for interacting with the Easypanel API",
   "main": "dist/index.js",
   "module": "dist/index.js",

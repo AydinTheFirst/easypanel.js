@@ -36,6 +36,8 @@ const Services = (type: string) => {
     GetServiceLogs: "/api/trpc/logs.getServiceLogs", // GET
     CreateFromSchema: "/api/trpc/templates.createFromSchema", // POST
     UpdateMaintenance: "/api/trpc/services.app.updateMaintenance", // POST
+    ListDeployments: "/api/trpc/deployments.listDeployments",
+    GetDeployment: "/api/trpc/deployments.getDeployment",
   };
 
   for (const [key, value] of Object.entries(Routes)) {

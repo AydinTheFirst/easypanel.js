@@ -65,7 +65,9 @@ export class ServicesManager extends BaseManager {
   /**
    * Deploys a service.
    */
-  async deploy(body: ISelectService): Promise<null> {
+  async deploy(
+    body: ISelectService & { forceRebuild?: boolean }
+  ): Promise<null> {
     const Route = this.routes(body.type).Deploy;
     const res = await this.client.rest.post(Route, { json: body });
     return res;
@@ -228,9 +230,7 @@ export class ServicesManager extends BaseManager {
 
   async createFromSchema(body: any): Promise<any> {
     const res = await this.client.rest.post(this.routes("").CreateFromSchema, {
-      json: {
-        body,
-      },
+      json: body,
     });
 
     return res;
@@ -242,10 +242,45 @@ export class ServicesManager extends BaseManager {
     const res = await this.client.rest.post(
       this.routes(body.type).UpdateMaintenance,
       {
-        json: {
-          ...body,
-        },
+        json: body,
       }
+    );
+
+    return res;
+  }
+
+  async listDeployments(body: ISelectService): Promise<
+    {
+      projectName: string;
+      serviceName: string;
+      id: string;
+      createdAt: string;
+      updatedAt: string;
+      status: "done" | "error" | "pending";
+    }[]
+  > {
+    const res = await this.client.rest.get(
+      this.routes(body.type).ListDeployments,
+      {
+        json: body,
+      }
+    );
+    return res;
+  }
+
+  async getDeployment(body: ISelectService & { id: string }): Promise<{
+    projectName: string;
+    serviceName: string;
+    id: string;
+    createdAt: string;
+    updatedAt: string;
+    status: "done" | "error" | "pending";
+    description: string;
+    log: string;
+  }> {
+    const res = await this.client.rest.get(
+      this.routes(body.type).GetDeployment,
+      { json: body }
     );
 
     return res;

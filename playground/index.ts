@@ -14,16 +14,14 @@ export const client = new Client({
 client.on("ready", async () => {
   console.log("Client is ready!");
 
-  const certs = await client.services.updateMaintenance({
+  const deps = await client.services.getDeployment({
     projectName: "test",
-    serviceName: "fr",
+    serviceName: "firefox",
     type: "app",
-    maintenance: {
-      enabled: true,
-      subtitle: "subtitle",
-      title: "title",
-    },
+    id: "clpnt1oh8003c1eo26sxdh967",
   });
+
+  console.log(deps.log);
 });
 
 client.on("refresh", (ms) => {
