@@ -14,14 +14,11 @@ export const client = new Client({
 client.on("ready", async () => {
   console.log("Client is ready!");
 
-  const deps = await client.services.getDeployment({
-    projectName: "test",
-    serviceName: "firefox",
-    type: "app",
-    id: "clpnt1oh8003c1eo26sxdh967",
+  const res = await client.projects.getDockerContainers({
+    service: "fristroop_fristroop",
   });
 
-  console.log(deps.log);
+  console.log(res[0].Command);
 });
 
 client.on("refresh", (ms) => {
