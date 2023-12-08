@@ -5,7 +5,12 @@ import { BaseManager } from "./BaseManager.js";
 
 import { Routes } from "../utils/Routes.js";
 
-import { IInspectedProject, IList, IProject } from "../types/general.types.js";
+import {
+  DockerContainer,
+  IInspectedProject,
+  IList,
+  IProject,
+} from "../types/general.types.js";
 
 import { Collection } from "../utils/Collection.js";
 import { Project } from "../index.js";
@@ -64,6 +69,15 @@ export class ProjectsManager extends BaseManager {
   async listWithServices(): Promise<IList> {
     const res = await this.client.rest.get(this.routes.ListWithServices, {
       json: null,
+    });
+    return res;
+  }
+
+  async getDockerContainers(body: {
+    service: string;
+  }): Promise<DockerContainer[]> {
+    const res = await this.client.rest.get(this.routes.GetDockerContainers, {
+      json: body,
     });
     return res;
   }

@@ -6,6 +6,7 @@ const Projets = {
   Inspect: "/api/trpc/projects.inspectProject", // GET
   Create: "/api/trpc/projects.createProject", // POST
   Destroy: "/api/trpc/projects.destroyProject", // POST
+  GetDockerContainers: "/api/trpc/projects.getDockerContainers", // GET
 };
 
 const Services = (type: string) => {
