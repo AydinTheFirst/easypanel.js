@@ -113,7 +113,7 @@ export type ServiceType =
   | "app"
   | "mysql"
   | "mariadb"
-  | "postrages"
+  | "postgres"
   | "mongo"
   | "redis";
 

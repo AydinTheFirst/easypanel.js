@@ -18,7 +18,7 @@ client.on("ready", async () => {
     service: "fristroop_fristroop",
   });
 
-  console.log(res[0].Command);
+  console.log(res);
 });
 
 client.on("refresh", (ms) => {
