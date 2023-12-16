@@ -19,6 +19,8 @@ import { Service } from "../classes/Service.js";
 
 import { Collection } from "../utils/Collection.js";
 
+import YAML from "yaml";
+
 export class ServicesManager extends BaseManager {
   routes: typeof Routes.Services;
   cache: Collection<string, Service>;
@@ -33,7 +35,7 @@ export class ServicesManager extends BaseManager {
   /**
    * Creates a new service.
    */
-  async create(body: ISelectService): Promise<Service> {
+  async create(body: ISelectService): Promise<IService> {
     const domains = [
       {
         host: "$(EASYPANEL_DOMAIN)",
@@ -284,5 +286,61 @@ export class ServicesManager extends BaseManager {
     );
 
     return res;
+  }
+
+  async createFromDockerCompose(body: {
+    projectName: string;
+    file: string;
+  }): Promise<IService[]> {
+    const file = YAML.parse(body.file);
+
+    const services = [];
+
+    for (const entry of Object.entries(file.services)) {
+      const key: string = entry[0];
+      const data: any = entry[1];
+
+      const obj: any = {};
+
+      obj.env = Object.entries(data.environment || {})
+        .map(([key, value]) => `${key}=${value}`)
+        .join("\n");
+
+      obj.mounts = data.volumes?.map((volume: string) => {
+        const [hostPath, mountPath] = volume.split(":");
+        return {
+          type: "bind",
+          hostPath,
+          mountPath,
+        };
+      });
+
+      obj.ports = data.ports?.map((port: string) => {
+        const [published, target] = port.split(":").map(Number);
+        return {
+          published,
+          target,
+          protocol: "tcp",
+        };
+      });
+
+      obj.source = {
+        type: "image",
+        image: data.image,
+        username: "",
+        password: "",
+      };
+
+      const s = await this.create({
+        type: "app",
+        projectName: body.projectName,
+        serviceName: key,
+        ...obj,
+      });
+
+      services.push(s);
+    }
+
+    return services;
   }
 }

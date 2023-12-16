@@ -1,6 +1,7 @@
 /* eslint-disable no-undef */
 import "dotenv/config";
 import { Client } from "../dist";
+import fs from "fs";
 
 export const client = new Client({
   endpoint: process.env.endpoint as string,
@@ -14,8 +15,11 @@ export const client = new Client({
 client.on("ready", async () => {
   console.log("Client is ready!");
 
-  const res = await client.projects.getDockerContainers({
-    service: "fristroop_fristroop",
+  const yaml = fs.readFileSync("./docker-compose.example.yml", "utf-8");
+
+  const res = await client.services.createFromDockerCompose({
+    file: yaml,
+    projectName: "test",
   });
 
   console.log(res);

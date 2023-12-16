@@ -185,6 +185,7 @@ export type ISelectService = {
   type: ServiceType;
   projectName: string;
   serviceName: string;
+  [x: string]: any;
 };
 
 export interface GitParams {
