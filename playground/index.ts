@@ -22,7 +22,7 @@ client.on("ready", async () => {
     projectName: "test",
   });
 
-  console.log(res);
+  console.log(res[0]);
 });
 
 client.on("refresh", (ms) => {
