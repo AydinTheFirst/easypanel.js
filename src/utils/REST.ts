@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 
 /**
  * REST module is developed in order to make easier to work with REST API's.

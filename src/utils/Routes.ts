@@ -1,3 +1,5 @@
+import { ServiceType } from "../index.js";
+
 // Completed
 const Projets = {
   List: "/api/trpc/projects.listProjects", // GET
@@ -102,6 +104,18 @@ const Settings = {
   RemoveCertificate: "/api/trpc/certificates.removeCertificate", // POST
 };
 
+const Backups = {
+  CreateBackup: "/api/trpc/backups.createBackupDestination",
+  ListBackups: "/api/trpc/backups.listBackupDestinations",
+  UpdateBackup: "/api/trpc/backups.updateBackupDestination",
+  RemoveBackup: "/api/trpc/backups.removeBackupDestination",
+  RestoreBackup: "/api/trpc/backups.restoreBackup",
+  GetBackupLog: "/api/trpc/backups.getBackupLog",
+  RunManualBackup: (type: ServiceType) => {
+    return "/api/trpc/services.app.runManualBackup".replace("app", type);
+  },
+};
+
 export const Routes = {
   Projets,
   Services,
@@ -109,4 +123,5 @@ export const Routes = {
   Auth,
   License,
   Settings,
+  Backups,
 };

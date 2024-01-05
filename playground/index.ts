@@ -17,12 +17,8 @@ client.on("ready", async () => {
 
   const yaml = fs.readFileSync("./docker-compose.example.yml", "utf-8");
 
-  const res = await client.services.createFromDockerCompose({
-    file: yaml,
-    projectName: "test",
-  });
-
-  console.log(res[0]);
+  const res = await client.backups.listDestinations();
+  console.log(res);
 });
 
 client.on("refresh", (ms) => {

@@ -11,6 +11,7 @@ import EventEmitter from "node:events";
 import { ClientConfig, IUser } from "./types/index.types.js";
 import { Project } from "./classes/Project.js";
 import { Service } from "./classes/Service.js";
+import { BackupsManager } from "./managers/BackupsManager.js";
 
 /**
  * Client class for interacting with the API.
@@ -19,17 +20,22 @@ import { Service } from "./classes/Service.js";
 export class Client extends EventEmitter {
   config: ClientConfig; // Client Config
   rest: REST;
+  routes: typeof Routes;
+  refreshRate: number;
+  interval: any;
+
   settings: SettingsManager;
   monitor: MonitorManager;
   projects: ProjectsManager;
   services: ServicesManager;
-  routes: typeof Routes;
-  refreshRate: number;
-  interval: any;
+  backups: BackupsManager;
   constructor(config: ClientConfig) {
     super();
 
     this.config = config;
+
+    if (!this.config.endpoint) throw Error("No endpoint was provided");
+    if (!this.config.token) throw Error("No token was provided");
 
     this.rest = new REST({
       baseURL: this.config.endpoint,
@@ -39,12 +45,10 @@ export class Client extends EventEmitter {
     this.routes = Routes;
 
     this.settings = new SettingsManager(this);
-
     this.monitor = new MonitorManager(this);
-
     this.projects = new ProjectsManager(this);
-
     this.services = new ServicesManager(this);
+    this.backups = new BackupsManager(this);
 
     // 1 min
     this.refreshRate = config.refreshRate || 60 * 1000;
