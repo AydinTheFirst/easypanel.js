@@ -67,7 +67,7 @@ export class BackupsManager extends BaseManager {
     return res;
   }
 
-  async runManualBackup(type: ServiceType) {
+  async runManualBackup(type: ServiceType): Promise<void> {
     const res = await this.client.rest.post(
       Routes.Backups.RunManualBackup(type),
       {

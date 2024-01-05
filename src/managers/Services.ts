@@ -36,13 +36,13 @@ export class ServicesManager extends BaseManager {
    * Creates a new service.
    */
   async create(body: ISelectService): Promise<IService> {
-    const domains = [
+    body.domains = [
       {
         host: "$(EASYPANEL_DOMAIN)",
       },
     ];
     const Route = this.routes(body.type).Create;
-    const res = await this.client.rest.post(Route, { json: body, domains });
+    const res = await this.client.rest.post(Route, { json: body });
     return res;
   }
 
