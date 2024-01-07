@@ -1,12 +1,8 @@
 import { Client } from "../Client.js";
 import { BaseManager } from "./BaseManager.js";
 
-import {
-  ChangeCredentialsParams,
-  IPanelDomain,
-} from "../types/general.types.js";
-
 import { Routes } from "../utils/Routes.js";
+import { ChangeCredentialsParams, IPanelDomain } from "../types/settings.t.js";
 
 /**
  * Settings Manager

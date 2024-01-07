@@ -1,14 +1,13 @@
 import { Client } from "../Client.js";
 import { BaseManager } from "./BaseManager.js";
 
+import { Routes } from "../utils/Routes.js";
 import {
   IAdvancedStats,
-  IDockerTaskStats,
   IContainerStats,
+  IDockerTaskStats,
   ISystemStats,
-} from "../types/general.types.js";
-
-import { Routes } from "../utils/Routes.js";
+} from "../types/monitor.t.js";
 
 /**
  * Monitor Manager

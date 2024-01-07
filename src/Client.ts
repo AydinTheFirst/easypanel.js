@@ -9,8 +9,6 @@ import { Routes } from "./utils/Routes.js";
 import EventEmitter from "node:events";
 
 import { ClientConfig, IUser } from "./types/index.types.js";
-import { Project } from "./classes/Project.js";
-import { Service } from "./classes/Service.js";
 import { BackupsManager } from "./managers/BackupsManager.js";
 
 /**
@@ -21,9 +19,8 @@ export class Client extends EventEmitter {
   config: ClientConfig; // Client Config
   rest: REST;
   routes: typeof Routes;
-  refreshRate: number;
-  interval: any;
 
+  // Managers
   settings: SettingsManager;
   monitor: MonitorManager;
   projects: ProjectsManager;
@@ -44,15 +41,13 @@ export class Client extends EventEmitter {
 
     this.routes = Routes;
 
+    // Managers
+
     this.settings = new SettingsManager(this);
     this.monitor = new MonitorManager(this);
     this.projects = new ProjectsManager(this);
     this.services = new ServicesManager(this);
     this.backups = new BackupsManager(this);
-
-    // 1 min
-    this.refreshRate = config.refreshRate || 60 * 1000;
-    this.interval = null;
   }
 
   /**
@@ -62,23 +57,14 @@ export class Client extends EventEmitter {
    * 2FA is not supported yet instead of credentials authenticating use API token.
    */
   async login(): Promise<Client> {
-    const userRes = await this.getUser();
-    if (!userRes) throw Error("Invalid token was provided");
-
-    // Set loop to refresh cache
-    this.interval = setInterval(() => this._init(), this.refreshRate);
-    await this._init();
+    try {
+      await this.getUser();
+    } catch (error: any) {
+      throw new Error(error);
+    }
 
     this.emit("ready");
     return this;
-  }
-
-  /**
-   * It logouts regular autentication not API token
-   */
-  async logout(): Promise<null> {
-    const res = await this.rest.post(this.routes.Auth.Logout, {});
-    return res;
   }
 
   /**
@@ -107,29 +93,5 @@ export class Client extends EventEmitter {
       json: null,
     });
     return res;
-  }
-
-  async _init() {
-    let startedAt = Date.now();
-
-    const list = await this.projects.listWithServices();
-
-    if (list) {
-      for (const p of list.projects) {
-        const project = new Project(this, p.name, p);
-        this.projects.cache.set(project.id, project);
-      }
-
-      for (const s of list.services) {
-        const service = new Service(this, s.name, s);
-        const project = this.projects.cache.get(service.projectName);
-        if (project) project.services.set(service.id, service);
-        this.services.cache.set(service.id, service);
-      }
-    }
-
-    let endedAt = Date.now();
-
-    this.emit("refresh", endedAt - startedAt);
   }
 }

@@ -2,12 +2,12 @@ import { Client } from "../Client.js";
 import { BaseManager } from "./BaseManager.js";
 
 import { Routes } from "../utils/Routes.js";
-import { ISelectService, ServiceType } from "../index.js";
 import {
   IBackupDestRes,
   IBackupParams,
   IRestoreParams,
 } from "../types/backups.t.js";
+import { ISelectService, ServiceType } from "../types/services.t.js";
 
 /**
  * Monitor Manager

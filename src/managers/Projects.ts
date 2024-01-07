@@ -1,30 +1,20 @@
-// eslint-disable-next-line no-unused-vars
 import { Client } from "../Client.js";
-
 import { BaseManager } from "./BaseManager.js";
-
 import { Routes } from "../utils/Routes.js";
-
 import {
-  DockerContainer,
+  IDockerContainer,
   IInspectedProject,
-  IList,
   IProject,
-} from "../types/general.types.js";
-
-import { Collection } from "../utils/Collection.js";
-import { Project } from "../index.js";
+  IProjectsWithServices,
+} from "../types/peojects.t.js";
 
 export class ProjectsManager extends BaseManager {
   routes: typeof Routes.Projets;
-  cache: Collection<string, Project>;
 
   constructor(client: Client) {
     super(client);
 
     this.routes = Routes.Projets;
-
-    this.cache = new Collection<string, Project>();
   }
 
   async canCreate(): Promise<boolean> {
@@ -66,7 +56,7 @@ export class ProjectsManager extends BaseManager {
     return res;
   }
 
-  async listWithServices(): Promise<IList> {
+  async listWithServices(): Promise<IProjectsWithServices> {
     const res = await this.client.rest.get(this.routes.ListWithServices, {
       json: null,
     });
@@ -75,7 +65,7 @@ export class ProjectsManager extends BaseManager {
 
   async getDockerContainers(body: {
     service: string;
-  }): Promise<DockerContainer[]> {
+  }): Promise<IDockerContainer[]> {
     const res = await this.client.rest.get(this.routes.GetDockerContainers, {
       json: body,
     });

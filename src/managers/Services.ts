@@ -1,46 +1,48 @@
 import { Client } from "../Client.js";
 import { BaseManager } from "./BaseManager.js";
-
-import {
-  UpdateBasicAuth,
-  UpdateBuild,
-  UpdateGit,
-  UpdateGithub,
-  UpdateImage,
-  UpdatePorts,
-  UpdateRedirects,
-  UpdateResources,
-  ISelectService,
-  IService,
-} from "../types/general.types.js";
-
 import { Routes } from "../utils/Routes.js";
-import { Service } from "../classes/Service.js";
-
-import { Collection } from "../utils/Collection.js";
-
 import YAML from "yaml";
+import {
+  BuildType,
+  IBasicAuth,
+  IDeploy,
+  IDomain,
+  IGitSource,
+  IGithubSource,
+  IImageSource,
+  IMaintanance,
+  IMount,
+  IPort,
+  IRedirect,
+  IResourceLimits,
+  ISelectService,
+  Service,
+} from "../types/services.t.js";
 
 export class ServicesManager extends BaseManager {
   routes: typeof Routes.Services;
-  cache: Collection<string, Service>;
   constructor(client: Client) {
     super(client);
 
     this.routes = Routes.Services;
-
-    this.cache = new Collection<string, Service>();
   }
 
   /**
    * Creates a new service.
    */
-  async create(body: ISelectService): Promise<IService> {
-    body.domains = [
-      {
-        host: "$(EASYPANEL_DOMAIN)",
-      },
-    ];
+  async create(
+    body: ISelectService & {
+      domains: IDomain[];
+    }
+  ): Promise<Service> {
+    // Push the default domain
+    body.domains.push({
+      host: "$(EASYPANEL_DOMAIN)",
+      https: true,
+      port: 80,
+      path: "/",
+    });
+
     const Route = this.routes(body.type).Create;
     const res = await this.client.rest.post(Route, { json: body });
     return res;
@@ -105,7 +107,7 @@ export class ServicesManager extends BaseManager {
   /**
    * Updates the source from GitHub for a service.
    */
-  async updateSourceGithub(body: UpdateGithub): Promise<null> {
+  async updateSourceGithub(body: UpdateGithubParams): Promise<null> {
     const Route = this.routes(body.type).UpdateSourceGithub;
     const res = await this.client.rest.post(Route, { json: body });
     return res;
@@ -114,7 +116,7 @@ export class ServicesManager extends BaseManager {
   /**
    * Updates the source from Git for a service.
    */
-  async updateSourceGit(body: UpdateGit): Promise<null> {
+  async updateSourceGit(body: UpdateGitParams): Promise<null> {
     const Route = this.routes(body.type).UpdateSourceGit;
     const res = await this.client.rest.post(Route, { json: body });
     return res;
@@ -123,7 +125,7 @@ export class ServicesManager extends BaseManager {
   /**
    * Updates the source from an image for a service.
    */
-  async updateSourceImage(body: UpdateImage): Promise<null> {
+  async updateSourceImage(body: UpdateImageParams): Promise<null> {
     const Route = this.routes(body.type).UpdateSourceImage;
     const res = await this.client.rest.post(Route, { json: body });
     return res;
@@ -132,18 +134,19 @@ export class ServicesManager extends BaseManager {
   /**
    * Updates the build configuration for a service.
    */
-  async updateBuild(body: UpdateBuild): Promise<null> {
+  async updateBuild(body: UpdateBuildParams): Promise<null> {
     const Route = this.routes(body.type).UpdateBuild;
-    const res = await this.client.rest.post(Route, { json: body });
+    const res = await this.client.rest.post(Route, {
+      json: { body },
+    });
+
     return res;
   }
 
   /**
    * Updates the environment variables for a service.
    */
-  async updateEnv(
-    body: ISelectService & Pick<Service, "env" | "createDotEnv">
-  ): Promise<null> {
+  async updateEnv(body: UpdateEnvParams): Promise<null> {
     const Route = this.routes(body.type).UpdateEnv;
     const res = await this.client.rest.post(Route, { json: body });
     return res;
@@ -152,9 +155,7 @@ export class ServicesManager extends BaseManager {
   /**
    * Updates the domain configuration for a service.
    */
-  async updateDomains(
-    body: ISelectService & Pick<Service, "domains">
-  ): Promise<null> {
+  async updateDomains(body: UpdateDomainsParams): Promise<null> {
     const Route = this.routes(body.type).UpdateDomains;
     const res = await this.client.rest.post(Route, { json: body });
     return res;
@@ -163,7 +164,7 @@ export class ServicesManager extends BaseManager {
   /**
    * Updates the redirects configuration for a service.
    */
-  async updateRedirects(body: UpdateRedirects): Promise<null> {
+  async updateRedirects(body: UpdateRedirectsParams): Promise<null> {
     const Route = this.routes(body.type).UpdateRedirects;
     const res = await this.client.rest.post(Route, { json: body });
     return res;
@@ -172,7 +173,7 @@ export class ServicesManager extends BaseManager {
   /**
    * Updates the basic authentication configuration for a service.
    */
-  async updateBasicAuth(body: UpdateBasicAuth): Promise<null> {
+  async updateBasicAuth(body: UpdateBasicAuthParams): Promise<null> {
     const Route = this.routes(body.type).UpdateBasicAuth;
     const res = await this.client.rest.post(Route, { json: body });
     return res;
@@ -181,9 +182,7 @@ export class ServicesManager extends BaseManager {
   /**
    * Updates the mounts configuration for a service.
    */
-  async updateMounts(
-    body: ISelectService & Pick<Service, "mounts">
-  ): Promise<null> {
+  async updateMounts(body: UpdateMountsParams): Promise<null> {
     const Route = this.routes(body.type).UpdateMounts;
     const res = await this.client.rest.post(Route, { json: body });
     return res;
@@ -192,7 +191,7 @@ export class ServicesManager extends BaseManager {
   /**
    * Updates the ports configuration for a service.
    */
-  async updatePorts(body: UpdatePorts): Promise<null> {
+  async updatePorts(body: UpdatePortsParams): Promise<null> {
     const Route = this.routes(body.type).UpdatePorts;
     const res = await this.client.rest.post(Route, { json: body });
     return res;
@@ -201,7 +200,7 @@ export class ServicesManager extends BaseManager {
   /**
    * Updates the resources configuration for a service.
    */
-  async updateResources(body: UpdateResources): Promise<null> {
+  async updateResources(body: UpdateResourcesParams): Promise<null> {
     const Route = this.routes(body.type).UpdateResources;
     const res = await this.client.rest.post(Route, { json: body });
     return res;
@@ -210,9 +209,7 @@ export class ServicesManager extends BaseManager {
   /**
    * Updates the deployment configuration for a service.
    */
-  async updateDeploy(
-    body: ISelectService & Pick<Service, "deploy">
-  ): Promise<null> {
+  async updateDeploy(body: UpdateDeployParams): Promise<null> {
     const Route = this.routes(body.type).UpdateDeploy;
     const res = await this.client.rest.post(Route, { json: body });
     return res;
@@ -238,9 +235,7 @@ export class ServicesManager extends BaseManager {
     return res;
   }
 
-  async updateMaintenance(
-    body: ISelectService & Pick<IService, "maintenance">
-  ): Promise<boolean> {
+  async updateMaintenance(body: UpdateMaintenanceParams): Promise<boolean> {
     const res = await this.client.rest.post(
       this.routes(body.type).UpdateMaintenance,
       {
@@ -291,7 +286,7 @@ export class ServicesManager extends BaseManager {
   async createFromDockerCompose(body: {
     projectName: string;
     file: string;
-  }): Promise<IService[]> {
+  }): Promise<Service[]> {
     const file = YAML.parse(body.file);
 
     const services = [];
@@ -344,3 +339,41 @@ export class ServicesManager extends BaseManager {
     return services;
   }
 }
+
+/** Define Params */
+type UpdateGitParams = ISelectService & Omit<IGitSource, "type">;
+type UpdateGithubParams = ISelectService & Omit<IGithubSource, "type">;
+type UpdateImageParams = ISelectService & Omit<IImageSource, "type">;
+type UpdateBuildParams = ISelectService & {
+  build: {
+    type: BuildType;
+  };
+};
+type UpdateEnvParams = ISelectService & {
+  env: string;
+  createDotEnv: boolean;
+};
+type UpdateRedirectsParams = ISelectService & {
+  redirects: IRedirect[];
+};
+type UpdateDomainsParams = ISelectService & {
+  domains: IDomain[];
+};
+type UpdateBasicAuthParams = ISelectService & {
+  basicAuth: IBasicAuth[];
+};
+type UpdatePortsParams = ISelectService & {
+  ports: IPort[];
+};
+type UpdateResourcesParams = ISelectService & {
+  resources: IResourceLimits;
+};
+type UpdateMountsParams = ISelectService & {
+  mounts: IMount[];
+};
+type UpdateDeployParams = ISelectService & {
+  deploy: IDeploy;
+};
+type UpdateMaintenanceParams = ISelectService & {
+  maintenance: IMaintanance;
+};

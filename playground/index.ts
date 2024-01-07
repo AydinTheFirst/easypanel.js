@@ -15,13 +15,7 @@ export const client = new Client({
 client.on("ready", async () => {
   console.log("Client is ready!");
 
-  const yaml = fs.readFileSync("./docker-compose.example.yml", "utf-8");
-
-  const res = await client.services.create({
-    projectName: "benmuhammed",
-    serviceName: "testdsdas",
-    type: "app",
-  });
+  const res = await client.projects.list();
   console.log(res);
 });
 
