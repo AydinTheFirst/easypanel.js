@@ -1,15 +1,14 @@
 // Client
-import { Client } from "./Client.js";
+export { Client } from "./Client.js";
 
 // Utils
-import { REST } from "./utils/REST.js";
-import { Routes } from "./utils/Routes.js";
+export { REST } from "./utils/REST.js";
+export { Routes } from "./utils/Routes.js";
 
-// Types
-export * from "./types/index.types.js";
-
-export { Client, REST, Routes };
-
-export default {
-  Client,
-};
+// Managers
+export { BackupsManager } from "./managers/Backups.js";
+export { BaseManager } from "./managers/BaseManager.js";
+export { MonitorManager } from "./managers/Monitor.js";
+export { ProjectsManager } from "./managers/Projects.js";
+export { ServicesManager } from "./managers/Services.js";
+export { SettingsManager } from "./managers/Settings.js";

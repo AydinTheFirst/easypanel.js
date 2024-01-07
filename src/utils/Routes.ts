@@ -1,4 +1,4 @@
-import { ServiceType } from "../index.js";
+import { ServiceType } from "../types/services.t.js";
 
 // Completed
 const Projets = {

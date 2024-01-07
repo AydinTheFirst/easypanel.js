@@ -9,7 +9,7 @@ import { Routes } from "./utils/Routes.js";
 import EventEmitter from "node:events";
 
 import { ClientConfig, IUser } from "./types/index.types.js";
-import { BackupsManager } from "./managers/BackupsManager.js";
+import { BackupsManager } from "./managers/Backups.js";
 
 /**
  * Client class for interacting with the API.
