@@ -3,6 +3,7 @@ export class EasypanelError extends Error {
     super("Easypanel Error");
     this.code = error.code;
     this.data = error.data;
+    this.errors = JSON.parse(error.message);
   }
   code: string;
   data: {
@@ -11,6 +12,7 @@ export class EasypanelError extends Error {
     path: string;
     zodErrors: any[];
   };
+  errors: any[];
 }
 
 export interface IEasypanelError {
@@ -22,4 +24,5 @@ export interface IEasypanelError {
     path: string;
     zodErrors: any[];
   };
+  errors: any[];
 }
