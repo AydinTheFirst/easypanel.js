@@ -14,12 +14,12 @@ import {
  * Manages the retrieval of various statistics and monitoring data.
  */
 export class MonitorManager extends BaseManager {
-  routes: typeof Routes.Monitor;
+  routes: typeof this.client.routes.Monitor;
 
   constructor(client: Client) {
     super(client);
 
-    this.routes = Routes.Monitor;
+    this.routes = this.client.routes.Monitor;
   }
 
   async getAdvancedStats(): Promise<IAdvancedStats> {

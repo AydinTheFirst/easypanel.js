@@ -1,30 +1,33 @@
 import { Client } from "../Client.js";
 import { BaseManager } from "./BaseManager.js";
-import { Routes } from "../utils/Routes.js";
 import YAML from "yaml";
+
 import {
   BuildType,
   IBasicAuth,
   IDeploy,
   IDomain,
+  IGetDeployment,
   IGitSource,
   IGithubSource,
   IImageSource,
+  IListDeployment,
   IMaintanance,
   IMount,
   IPort,
   IRedirect,
   IResourceLimits,
+  ISelectDatabaseService,
   ISelectService,
   Service,
 } from "../types/services.t.js";
 
 export class ServicesManager extends BaseManager {
-  routes: typeof Routes.Services;
+  routes: typeof this.client.routes.Services;
   constructor(client: Client) {
     super(client);
 
-    this.routes = Routes.Services;
+    this.routes = this.client.routes.Services;
   }
 
   /**
@@ -32,10 +35,14 @@ export class ServicesManager extends BaseManager {
    */
   async create(
     body: ISelectService & {
-      domains: IDomain[];
+      domains?: IDomain[];
+      password?: string;
+      rootPassword?: string;
+      image?: string;
     }
   ): Promise<Service> {
     // Push the default domain
+    if (!body.domains) body.domains = [];
     body.domains.push({
       host: "$(EASYPANEL_DOMAIN)",
       https: true,
@@ -246,16 +253,7 @@ export class ServicesManager extends BaseManager {
     return res;
   }
 
-  async listDeployments(body: ISelectService): Promise<
-    {
-      projectName: string;
-      serviceName: string;
-      id: string;
-      createdAt: string;
-      updatedAt: string;
-      status: "done" | "error" | "pending";
-    }[]
-  > {
+  async listDeployments(body: ISelectService): Promise<IListDeployment[]> {
     const res = await this.client.rest.get(
       this.routes(body.type).ListDeployments,
       {
@@ -265,16 +263,9 @@ export class ServicesManager extends BaseManager {
     return res;
   }
 
-  async getDeployment(body: ISelectService & { id: string }): Promise<{
-    projectName: string;
-    serviceName: string;
-    id: string;
-    createdAt: string;
-    updatedAt: string;
-    status: "done" | "error" | "pending";
-    description: string;
-    log: string;
-  }> {
+  async getDeployment(
+    body: ISelectService & { id: string }
+  ): Promise<IGetDeployment> {
     const res = await this.client.rest.get(
       this.routes(body.type).GetDeployment,
       { json: body }
@@ -338,6 +329,18 @@ export class ServicesManager extends BaseManager {
 
     return services;
   }
+
+  exposePort(body: ExposePortParams): Promise<null> {
+    return this.client.rest.post(this.routes(body.type).ExposeService, {
+      json: body,
+    });
+  }
+
+  updateAdvanced(body: UpdateAdvancedParams): Promise<null> {
+    return this.client.rest.post(this.routes(body.type).UpdateAdvanced, {
+      json: body,
+    });
+  }
 }
 
 /** Define Params */
@@ -349,31 +352,51 @@ type UpdateBuildParams = ISelectService & {
     type: BuildType;
   };
 };
+
 type UpdateEnvParams = ISelectService & {
   env: string;
   createDotEnv: boolean;
 };
+
 type UpdateRedirectsParams = ISelectService & {
   redirects: IRedirect[];
 };
+
 type UpdateDomainsParams = ISelectService & {
   domains: IDomain[];
 };
+
 type UpdateBasicAuthParams = ISelectService & {
   basicAuth: IBasicAuth[];
 };
+
 type UpdatePortsParams = ISelectService & {
   ports: IPort[];
 };
+
 type UpdateResourcesParams = ISelectService & {
   resources: IResourceLimits;
 };
+
 type UpdateMountsParams = ISelectService & {
   mounts: IMount[];
 };
+
 type UpdateDeployParams = ISelectService & {
   deploy: IDeploy;
 };
+
 type UpdateMaintenanceParams = ISelectService & {
   maintenance: IMaintanance;
+};
+
+// Database
+type ExposePortParams = ISelectDatabaseService & {
+  exposedPort: number;
+};
+
+type UpdateAdvancedParams = ISelectDatabaseService & {
+  image: string;
+  command: string;
+  env: string;
 };

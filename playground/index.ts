@@ -6,17 +6,24 @@ import fs from "fs";
 export const client = new Client({
   endpoint: process.env.endpoint as string,
   token: process.env.token as string, // when provided package will skip authenticating if token works!
-  credentials: {
-    email: "",
-    password: "",
-  },
 });
 
 client.on("ready", async () => {
   console.log("Client is ready!");
 
-  const res = await client.projects.list();
-  console.log(res);
+  await client.services.updateDomains({
+    projectName: "benmuhammed",
+    serviceName: "aydinthefirst_test",
+    type: "app",
+    domains: [
+      {
+        host: "*.fristroop.com",
+        https: true,
+        path: "/",
+        port: 3000,
+      },
+    ],
+  });
 });
 
 client.on("refresh", (ms) => {

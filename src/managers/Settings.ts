@@ -1,7 +1,6 @@
 import { Client } from "../Client.js";
 import { BaseManager } from "./BaseManager.js";
 
-import { Routes } from "../utils/Routes.js";
 import { ChangeCredentialsParams, IPanelDomain } from "../types/settings.t.js";
 
 /**
@@ -9,12 +8,12 @@ import { ChangeCredentialsParams, IPanelDomain } from "../types/settings.t.js";
  * Manages various settings and configurations.
  */
 export class SettingsManager extends BaseManager {
-  routes: typeof Routes.Settings;
+  routes: typeof this.client.routes.Settings;
 
   constructor(client: Client) {
     super(client);
 
-    this.routes = Routes.Settings;
+    this.routes = this.client.routes.Settings;
   }
 
   async changeCredentials(body: ChangeCredentialsParams): Promise<null> {

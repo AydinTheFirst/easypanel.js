@@ -6,15 +6,23 @@ export type ServiceType =
   | "mongo"
   | "redis";
 
+export type DatabaseServiceType = Exclude<ServiceType, "app">;
+
 export interface ISelectService {
   projectName: string;
   serviceName: string;
   type: ServiceType;
 }
 
+export interface ISelectDatabaseService {
+  projectName: string;
+  serviceName: string;
+  type: DatabaseServiceType;
+}
+
 export interface IDatabaseService {
   /** Redis is not a database but it contains same features. */
-  type: "mysql" | "mariadb" | "postgres" | "mongo" | "redis";
+  type: DatabaseServiceType;
   projectName: string;
   name: string;
   image: string;
@@ -179,3 +187,20 @@ export type BuildType =
   | "heroku-buildpacks"
   | "paketo-buildpacks"
   | "nixpacks";
+
+/** Deployments */
+export type DeploymentStatus = "done" | "error" | "pending";
+
+export interface IListDeployment {
+  projectName: string;
+  serviceName: string;
+  id: string;
+  createdAt: string;
+  updatedAt: string;
+  status: DeploymentStatus;
+  description: string;
+}
+
+export interface IGetDeployment extends IListDeployment {
+  log: string;
+}

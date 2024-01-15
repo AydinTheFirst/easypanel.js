@@ -1,25 +1,24 @@
 import { Client } from "../Client.js";
 import { BaseManager } from "./BaseManager.js";
 
-import { Routes } from "../utils/Routes.js";
 import {
   IBackupDestRes,
   IBackupParams,
   IRestoreParams,
 } from "../types/backups.t.js";
-import { ISelectService, ServiceType } from "../types/services.t.js";
+import { ISelectDatabaseService } from "../types/services.t.js";
 
 /**
  * Monitor Manager
  * Manages the retrieval of various statistics and monitoring data.
  */
 export class BackupsManager extends BaseManager {
-  routes: typeof Routes.Backups;
+  routes: typeof this.client.routes.Backups;
 
   constructor(client: Client) {
     super(client);
 
-    this.routes = Routes.Backups;
+    this.routes = this.client.routes.Backups;
   }
 
   async createDestination(body: IBackupParams): Promise<void> {
@@ -60,18 +59,25 @@ export class BackupsManager extends BaseManager {
     return res;
   }
 
-  async getLog(body: ISelectService): Promise<string> {
+  async getLog(body: Omit<ISelectDatabaseService, "type">): Promise<string> {
     const res = await this.client.rest.get(this.routes.GetBackupLog, {
       json: body,
     });
     return res;
   }
 
-  async runManualBackup(type: ServiceType): Promise<void> {
+  async clearLog(body: Omit<ISelectDatabaseService, "type">): Promise<void> {
+    const res = await this.client.rest.post(this.routes.ClearBackupLog, {
+      json: body,
+    });
+    return res;
+  }
+
+  async runManualBackup(body: ISelectDatabaseService): Promise<void> {
     const res = await this.client.rest.post(
-      Routes.Backups.RunManualBackup(type),
+      this.routes.RunManualBackup(body.type),
       {
-        json: null,
+        json: body,
       }
     );
     return res;

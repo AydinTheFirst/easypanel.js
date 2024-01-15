@@ -1,6 +1,5 @@
 import { ServiceType } from "../types/services.t.js";
 
-// Completed
 const Projets = {
   List: "/api/trpc/projects.listProjects", // GET
   ListWithServices: "/api/trpc/projects.listProjectsAndServices", // GET
@@ -16,10 +15,12 @@ const Services = (type: string) => {
     Create: "/api/trpc/services.app.createService", // POST
     Inspect: "/api/trpc/services.app.inspectService", // GET
     Destroy: "/api/trpc/services.app.destroyService", // POST
-    Deploy: "/api/trpc/services.app.deployService", // POST
     Disable: "/api/trpc/services.app.disableService", // POST
     Enable: "/api/trpc/services.app.enableService", // POST
-    ExposeService: "/api/trpc/services.app.exposeService", // POST
+    UpdateResources: "/api/trpc/services.app.updateResources", // POST
+
+    // App
+    Deploy: "/api/trpc/services.app.deployService", // POST
     GetServiceStats: "/api/trpc/monitor.getServiceStats", // GET
     RefreshDeployToken: "/api/trpc/services.app.refreshDeployToken", // POST
     UpdateSourceGithub: "/api/trpc/services.app.updateSourceGithub", // POST
@@ -32,15 +33,17 @@ const Services = (type: string) => {
     UpdateBasicAuth: "/api/trpc/services.app.updateBasicAuth", // POST
     UpdateMounts: "/api/trpc/services.app.updateMounts", // POST
     UpdatePorts: "/api/trpc/services.app.updatePorts", // POST
-    UpdateResources: "/api/trpc/services.app.updateResources", // POST
     UpdateDeploy: "/api/trpc/services.app.updateResources", // POST
     UpdateBackup: "/api/trpc/services.app.updateBackup", // POST
-    UpdateAdvanced: "/api/trpc/services.mariadb.updateAdvanced", // POST,
     GetServiceLogs: "/api/trpc/logs.getServiceLogs", // GET
     CreateFromSchema: "/api/trpc/templates.createFromSchema", // POST
     UpdateMaintenance: "/api/trpc/services.app.updateMaintenance", // POST
     ListDeployments: "/api/trpc/deployments.listDeployments",
     GetDeployment: "/api/trpc/deployments.getDeployment",
+
+    // Database
+    ExposeService: "/api/trpc/services.app.exposeService", // POST
+    UpdateAdvanced: "/api/trpc/services.app.updateAdvanced", // POST,
   };
 
   for (const [key, value] of Object.entries(Routes)) {
@@ -51,7 +54,6 @@ const Services = (type: string) => {
   return Routes;
 };
 
-// Completed
 const Monitor = {
   GetAdvancedStats: "/api/trpc/monitor.getAdvancedStats", // GET
   GetSystemStats: "/api/trpc/monitor.getSystemStats", // GET
@@ -59,14 +61,12 @@ const Monitor = {
   GetMonitorTableData: "/api/trpc/monitor.getMonitorTableData", // GET
 };
 
-// Completed
 const Auth = {
   GetUser: "/api/trpc/auth.getUser", // GET
   Logout: "/api/trpc/auth.logout", // POST
   Login: "/api/trpc/auth.login", // POST
 };
 
-// Completed
 const License = (type: string) => {
   const Routes = {
     Get: "/api/trpc/portalLicense.getLicensePayload", // GET
@@ -81,7 +81,6 @@ const License = (type: string) => {
   return Routes;
 };
 
-// Completed
 const Settings = {
   RestartEasypanel: "/api/trpc/settings.restartEasypanel", // POST
   GetServerIp: "/api/trpc/settings.getServerIp", // GET
@@ -111,6 +110,7 @@ const Backups = {
   RemoveBackup: "/api/trpc/backups.removeBackupDestination",
   RestoreBackup: "/api/trpc/backups.restoreBackup",
   GetBackupLog: "/api/trpc/backups.getBackupLog",
+  ClearBackupLog: "/api/trpc/backups.clearBackupLog",
   RunManualBackup: (type: ServiceType) => {
     return "/api/trpc/services.app.runManualBackup".replace("app", type);
   },

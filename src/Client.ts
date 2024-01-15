@@ -8,7 +8,7 @@ import { Routes } from "./utils/Routes.js";
 
 import EventEmitter from "node:events";
 
-import { ClientConfig, IUser } from "./types/index.types.js";
+import { ClientConfig, IUser } from "./types/index.t.js";
 import { BackupsManager } from "./managers/Backups.js";
 
 /**
@@ -42,7 +42,6 @@ export class Client extends EventEmitter {
     this.routes = Routes;
 
     // Managers
-
     this.settings = new SettingsManager(this);
     this.monitor = new MonitorManager(this);
     this.projects = new ProjectsManager(this);

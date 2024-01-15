@@ -1,5 +1,9 @@
 # Changelogs
 
+# v1.2.1
+
+- Fix type exports
+
 # v1.2.0
 
 - Cache is removed!

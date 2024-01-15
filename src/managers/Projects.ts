@@ -1,20 +1,20 @@
 import { Client } from "../Client.js";
 import { BaseManager } from "./BaseManager.js";
-import { Routes } from "../utils/Routes.js";
+
 import {
   IDockerContainer,
   IInspectedProject,
   IProject,
   IProjectsWithServices,
-} from "../types/peojects.t.js";
+} from "../types/projects.t.js";
 
 export class ProjectsManager extends BaseManager {
-  routes: typeof Routes.Projets;
+  routes: typeof this.client.routes.Projets;
 
   constructor(client: Client) {
     super(client);
 
-    this.routes = Routes.Projets;
+    this.routes = this.client.routes.Projets;
   }
 
   async canCreate(): Promise<boolean> {
