@@ -32,6 +32,7 @@ export class REST {
 
       return res.data.result.data.json;
     } catch (error: any) {
+      if (!error.response) throw new Error(error);
       throw new EasypanelError(error.response.data.error.json);
     }
   };
