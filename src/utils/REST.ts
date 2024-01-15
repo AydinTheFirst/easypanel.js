@@ -1,4 +1,5 @@
-import axios, { AxiosError } from "axios";
+import axios from "axios";
+import { EasypanelError } from "./Error.js";
 
 /**
  * REST module is developed in order to make easier to work with REST API's.
@@ -8,23 +9,14 @@ import axios, { AxiosError } from "axios";
 export class REST {
   baseURL: string;
   token: string;
-  methods: IRequestMethods;
   constructor(restConf: IRestConfig) {
     this.baseURL = restConf.baseURL;
-
     this.token = restConf.token;
-
-    this.methods = {
-      Get: "get",
-      Delete: "delete",
-      Put: "put",
-      Post: "post",
-    };
   }
 
   makeRequest = async (
     url: string,
-    data: object | null,
+    data: any,
     method: string
   ): Promise<any> => {
     try {
@@ -40,40 +32,18 @@ export class REST {
 
       return res.data.result.data.json;
     } catch (error: any) {
-      if (!error.response) {
-        throw new Error(
-          JSON.stringify({
-            status: -1,
-            error: "Could not connect to: " + this.baseURL,
-          })
-        );
-      }
-
-      throw new Error(
-        JSON.stringify({
-          status: error.response.status,
-          error: error.response.data.error.json,
-        })
-      );
+      throw new EasypanelError(error.response.data.error.json);
     }
   };
 
   async get(path: string, body: object | null) {
     path = path + "?" + this._bodyToQueryParams(body);
     body = null;
-    return this.makeRequest(path, body, this.methods.Get);
-  }
-
-  async delete(path: string, body: object) {
-    return this.makeRequest(path, body, this.methods.Delete);
+    return this.makeRequest(path, body, "GET");
   }
 
   async post(path: string, body: object) {
-    return this.makeRequest(path, body, this.methods.Post);
-  }
-
-  async put(path: string, body: object) {
-    return this.makeRequest(path, body, this.methods.Put);
+    return this.makeRequest(path, body, "POST");
   }
 
   _bodyToQueryParams(body: any) {

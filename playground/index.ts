@@ -11,19 +11,23 @@ export const client = new Client({
 client.on("ready", async () => {
   console.log("Client is ready!");
 
-  await client.services.updateDomains({
-    projectName: "benmuhammed",
-    serviceName: "aydinthefirst_test",
-    type: "app",
-    domains: [
-      {
-        host: "*.fristroop.com",
-        https: true,
-        path: "/",
-        port: 3000,
-      },
-    ],
-  });
+  try {
+    await client.services.updateDomains({
+      projectName: "benmuhammed",
+      serviceName: "aydinthefirst_test",
+      type: "app",
+      domains: [
+        {
+          host: "*.fristroop.com",
+          https: true,
+          path: "/",
+          port: 3000,
+        },
+      ],
+    });
+  } catch (error) {
+    console.log(error);
+  }
 });
 
 client.on("refresh", (ms) => {
