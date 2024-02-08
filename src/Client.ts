@@ -10,6 +10,8 @@ import EventEmitter from "node:events";
 
 import { ClientConfig, IUser } from "./types/index.t.js";
 import { BackupsManager } from "./managers/Backups.js";
+import { UsersManager } from "./managers/Users.js";
+import { ClusterManager } from "./managers/Cluster.js";
 
 /**
  * Client class for interacting with the API.
@@ -26,6 +28,8 @@ export class Client extends EventEmitter {
   projects: ProjectsManager;
   services: ServicesManager;
   backups: BackupsManager;
+  users: UsersManager;
+  cluster: ClusterManager;
   constructor(config: ClientConfig) {
     super();
 
@@ -47,6 +51,8 @@ export class Client extends EventEmitter {
     this.projects = new ProjectsManager(this);
     this.services = new ServicesManager(this);
     this.backups = new BackupsManager(this);
+    this.users = new UsersManager(this);
+    this.cluster = new ClusterManager(this);
   }
 
   /**
