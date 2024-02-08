@@ -286,6 +286,8 @@ export class ServicesManager extends BaseManager {
       const key: string = entry[0];
       const data: any = entry[1];
 
+      console.log(key);
+
       const obj: any = {};
 
       obj.env = Object.entries(data.environment || {})

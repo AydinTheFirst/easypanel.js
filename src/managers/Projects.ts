@@ -71,4 +71,29 @@ export class ProjectsManager extends BaseManager {
     });
     return res;
   }
+
+  updateAccess = async (body: UpdateAccessParams): Promise<void> => {
+    const res = await this.client.rest.post(this.routes.updateAccess, {
+      json: body,
+    });
+
+    return res;
+  };
+
+  updateEnv = async (body: {
+    projectName: string;
+    env: string;
+  }): Promise<void> => {
+    const res = await this.client.rest.post(this.routes.updateEnv, {
+      json: body,
+    });
+
+    return res;
+  };
+}
+
+interface UpdateAccessParams {
+  projectName: string;
+  userId: string;
+  active: boolean;
 }

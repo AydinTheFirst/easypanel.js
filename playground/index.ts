@@ -12,18 +12,11 @@ client.on("ready", async () => {
   console.log("Client is ready!");
 
   try {
-    await client.services.updateDomains({
-      projectName: "benmuhammed",
-      serviceName: "aydinthefirst_test",
-      type: "app",
-      domains: [
-        {
-          host: "*.fristroop.com",
-          https: true,
-          path: "/",
-          port: 3000,
-        },
-      ],
+    const file = fs.readFileSync("./docker-compose.yml").toString();
+    console.log(file);
+    await client.services.createFromDockerCompose({
+      projectName: "pterodactyl",
+      file: fs.readFileSync("./docker-compose.yml").toString(),
     });
   } catch (error) {
     console.log(error);

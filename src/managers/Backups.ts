@@ -9,8 +9,8 @@ import {
 import { ISelectDatabaseService } from "../types/services.t.js";
 
 /**
- * Monitor Manager
- * Manages the retrieval of various statistics and monitoring data.
+ * BackupsManager
+ * Base manager for handling backups
  */
 export class BackupsManager extends BaseManager {
   routes: typeof this.client.routes.Backups;

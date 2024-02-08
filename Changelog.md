@@ -1,5 +1,11 @@
 # Changelogs
 
+# v1.2.2
+
+- feat => Cluster support (license required)
+- feat => Users Support (license required)
+- feat => Update project env
+
 # v1.2.1
 
 - Fix type exports

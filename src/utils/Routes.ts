@@ -8,6 +8,8 @@ const Projets = {
   Create: "/api/trpc/projects.createProject", // POST
   Destroy: "/api/trpc/projects.destroyProject", // POST
   GetDockerContainers: "/api/trpc/projects.getDockerContainers", // GET
+  updateAccess: "/api/trpc/projects.updateAccess", // POST
+  updateEnv: "/api/trpc/projects.updateProjectEnv", // POST
 };
 
 const Services = (type: string) => {
@@ -116,6 +118,20 @@ const Backups = {
   },
 };
 
+const Cluster = {
+  list: "/api/trpc/cluster.listNodes",
+  addWorkerCmd: "/api/trpc/cluster.addWorkerCommnad",
+  remove: "/api/trpc/cluster.removeNode",
+};
+
+const Users = {
+  list: "/api/trpc/users.listUsers",
+  create: "/api/trpc/users.createUser",
+  update: "/api/trpc/users.updateUser",
+  generateToken: "/api/trpc/users.generateApiToken",
+  revokeToken: "/api/trpc/users.revokeApiToken",
+  remove: "/api/trpc/users.destroyUser",
+};
 export const Routes = {
   Projets,
   Services,
@@ -124,4 +140,6 @@ export const Routes = {
   License,
   Settings,
   Backups,
+  Cluster,
+  Users,
 };
