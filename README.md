@@ -1,6 +1,6 @@
 <img width="150" height="150" align="left" style="float: left; margin: 0 10px 0 0;" alt="Xiao" src="https://fristroop.com/assets/logo-7d84cf41.png">
 
-# [easypanel.js](https://github.com/Fristroop/easypanel.js)
+# [easypanel.js](https://github.com/AydinTheFirst/easypanel.js)
 
 💬 Object-oriented library to interact with [Easypanel](https://easypanel.io)!.
 
@@ -39,7 +39,7 @@ await client.login();
 ### Vitest Test Results
 
 - Total Test Count 48
-- https://github.com/Fristroop/easypanel.js/tree/main/tests
+- https://github.com/AydinTheFirst/easypanel.js/tree/main/tests
 
 ```json
 {
@@ -54,11 +54,11 @@ await client.login();
 }
 ```
 
-### You may find all examples on [Github](https://github.com/Fristroop/easypanel-api/tree/main/tests)
+### You may find all examples on [Github](https://github.com/AydinTheFirst/easypanel-api/tree/main/tests)
 
 ## Links
 
-- [Website Documentation](https://easypanel-js.fristroop.com)
-- [Fristroop Discord server](https://discord.gg/c4hrGHwSgS)
+- [Website Documentation](https://easypanel-js.AydinTheFirst.com)
+- [AydinTheFirst Discord server](https://discord.gg/c4hrGHwSgS)
 - [GitHub](https://github.com/Fristroop/easypanel.js)
 - [NPM](https://www.npmjs.com/package/easypanel.js)

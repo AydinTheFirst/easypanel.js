@@ -39,10 +39,10 @@
   },
   "homepage": "https://easypanel-js.fristroop.com",
   "repository": {
-    "url": "https://github.com/Fristroop/easypanel.js",
+    "url": "https://github.com/AydinTheFirst/easypanel.js",
     "type": "git"
   },
   "bugs": {
-    "url": "https://github.com/Fristroop/easypanel.js/issues"
+    "url": "https://github.com/AydinTheFirst/easypanel.js/issues"
   }
 }
