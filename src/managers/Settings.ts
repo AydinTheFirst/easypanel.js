@@ -1,7 +1,7 @@
-import { Client } from "../Client.js";
-import { BaseManager } from "./BaseManager.js";
+import { Client } from "@/Client";
+import { BaseManager } from "./BaseManager";
 
-import { ChangeCredentialsParams, IPanelDomain } from "../types/settings.t.js";
+import { ChangeCredentialsParams, IPanelDomain } from "../types/settings.js";
 
 /**
  * Settings Manager
@@ -18,139 +18,115 @@ export class SettingsManager extends BaseManager {
 
   async changeCredentials(body: ChangeCredentialsParams): Promise<null> {
     const res = await this.client.rest.post(this.routes.ChangeCredentials, {
-      json: body,
+      body,
     });
-    return res;
+    return res.data;
   }
 
   async getGithubToken(): Promise<string> {
-    const res = await this.client.rest.get(this.routes.GetGithubToken, {
-      json: null,
-    });
-    return res;
+    const res = await this.client.rest.get(this.routes.GetGithubToken);
+    return res.data;
   }
 
   async getLetsEncryptEmail(): Promise<string> {
-    const res = await this.client.rest.get(this.routes.GetLetsEncryptEmail, {
-      json: null,
-    });
-    return res;
+    const res = await this.client.rest.get(this.routes.GetLetsEncryptEmail);
+    return res.data;
   }
 
   async getPanelDomain(): Promise<IPanelDomain> {
-    const res = await this.client.rest.get(this.routes.GetPanelDomain, {
-      json: null,
-    });
-    return res;
+    const res = await this.client.rest.get(this.routes.GetPanelDomain);
+    return res.data;
   }
 
   async getServerIp(): Promise<string> {
-    const res = await this.client.rest.get(this.routes.GetServerIp, {
-      json: null,
-    });
-    return res;
+    const res = await this.client.rest.get(this.routes.GetServerIp);
+    return res.data;
   }
 
   async getTraefikCustomConfig(): Promise<string> {
-    const res = await this.client.rest.get(this.routes.GetTraefikCustomConfig, {
-      json: null,
-    });
-    return res;
+    const res = await this.client.rest.get(this.routes.GetTraefikCustomConfig);
+    return res.data;
   }
 
   async pruneDockerBuilder(): Promise<string> {
-    const res = await this.client.rest.post(this.routes.CleanupDockerBuilder, {
-      json: null,
-    });
-    return res;
+    const res = await this.client.rest.post(this.routes.CleanupDockerBuilder);
+    return res.data;
   }
 
   async cleanupDockerImages(): Promise<string> {
-    const res = await this.client.rest.post(this.routes.CleanupDockerImages, {
-      json: null,
-    });
-    return res;
+    const res = await this.client.rest.post(this.routes.CleanupDockerImages);
+    return res.data;
   }
 
   async setDailyDockerCleanup(body: {
     dailyDockerCleanup: boolean;
   }): Promise<boolean> {
     const res = await this.client.rest.post(this.routes.SetDailyDockerCleanup, {
-      json: body,
+      body,
     });
-    return res;
+    return res.data;
   }
 
   async refreshServerIp(): Promise<null> {
-    const res = await this.client.rest.post(this.routes.RefreshServerIp, {
-      json: null,
-    });
-    return res;
+    const res = await this.client.rest.post(this.routes.RefreshServerIp);
+    return res.data;
   }
 
   async restartEasypanel(): Promise<null> {
-    const res = await this.client.rest.post(this.routes.RestartEasypanel, {
-      json: null,
-    });
-    return res;
+    const res = await this.client.rest.post(this.routes.RestartEasypanel);
+    return res.data;
   }
 
   async restartTraefik(): Promise<null> {
-    const res = await this.client.rest.post(this.routes.RestartTraefik, {
-      json: null,
-    });
-    return res;
+    const res = await this.client.rest.post(this.routes.RestartTraefik);
+    return res.data;
   }
 
   async getDockerPruneDaily(): Promise<boolean> {
-    const res = await this.client.rest.get(this.routes.GetDailyDockerCleanup, {
-      json: null,
-    });
-    return res;
+    const res = await this.client.rest.get(this.routes.GetDailyDockerCleanup);
+    return res.data;
   }
 
   async setGithubToken(body: { githubToken: string }): Promise<string> {
     const res = await this.client.rest.post(this.routes.SetGithubToken, {
-      json: body,
+      body,
     });
-    return res;
+    return res.data;
   }
 
   async setPanelDomain(body: IPanelDomain): Promise<null> {
     const res = await this.client.rest.post(this.routes.SetPanelDomain, {
-      json: body,
+      body,
     });
-    return res;
+    return res.data;
   }
 
   async updateTraefikCustomConfig(body: { config: string }): Promise<null> {
     const res = await this.client.rest.post(
       this.routes.UpdateTraefikCustomConfig,
-      { json: body }
+      { body }
     );
-    return res;
+    return res.data;
   }
 
   async setLetsEncryptEmail(body: {
     letsEncryptEmail: string;
   }): Promise<string> {
     const res = await this.client.rest.post(this.routes.setLetsEncryptEmail, {
-      json: body,
+      body,
     });
-    return res;
+    return res.data;
   }
 
   async listCertificates(): Promise<{ domain: { main: string } }[]> {
-    const res = await this.client.rest.get(this.routes.ListCertificates, {
-      json: null,
-    });
-    return res;
+    const res = await this.client.rest.get(this.routes.ListCertificates);
+    return res.data;
   }
 
   async removeCertificate(body: { domain: string }): Promise<null> {
     const res = await this.client.rest.post(this.routes.RemoveCertificate, {
-      json: body,
+      body,
     });
-    return res;
+    return res.data;
   }
 }

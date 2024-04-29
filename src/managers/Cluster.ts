@@ -1,6 +1,6 @@
-import { Client } from "../Client.js";
-import { Cluster } from "../types/cluster.t.js";
-import { BaseManager } from "./BaseManager.js";
+import { Client } from "@/Client";
+import { BaseManager } from "./BaseManager";
+import { Cluster } from "@/types/cluster";
 
 export class ClusterManager extends BaseManager {
   routes: typeof this.client.routes.Cluster;
@@ -11,26 +11,20 @@ export class ClusterManager extends BaseManager {
   }
 
   list = async (): Promise<Cluster[]> => {
-    const res = await this.client.rest.get(this.routes.list, {
-      json: null,
-    });
+    const res = await this.client.rest.get(this.routes.list);
 
-    return res;
+    return res.data;
   };
 
   addWorkerCommand = async (): Promise<string> => {
-    const res = await this.client.rest.post(this.routes.addWorkerCmd, {
-      json: null,
-    });
+    const res = await this.client.rest.post(this.routes.addWorkerCmd);
 
-    return res;
+    return res.data;
   };
 
   remove = async (id: string): Promise<void> => {
-    const res = await this.client.rest.post(this.routes.remove, {
-      json: { ID: id },
-    });
+    const res = await this.client.rest.post(this.routes.remove, { ID: id });
 
-    return res;
+    return res.data;
   };
 }

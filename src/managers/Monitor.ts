@@ -1,13 +1,11 @@
-import { Client } from "../Client.js";
-import { BaseManager } from "./BaseManager.js";
-
-import { Routes } from "../utils/Routes.js";
+import { Client } from "@/Client";
+import { BaseManager } from "./BaseManager";
 import {
   IAdvancedStats,
   IContainerStats,
   IDockerTaskStats,
   ISystemStats,
-} from "../types/monitor.t.js";
+} from "@/types/monitor";
 
 /**
  * Monitor Manager
@@ -23,30 +21,22 @@ export class MonitorManager extends BaseManager {
   }
 
   async getAdvancedStats(): Promise<IAdvancedStats> {
-    const res = await this.client.rest.get(this.routes.GetAdvancedStats, {
-      json: null,
-    });
-    return res;
+    const res = await this.client.rest.get(this.routes.GetAdvancedStats);
+    return res.data;
   }
 
   async getDockerTaskStats(): Promise<IDockerTaskStats> {
-    const res = await this.client.rest.get(this.routes.GetDockerTaskStats, {
-      json: null,
-    });
-    return res;
+    const res = await this.client.rest.get(this.routes.GetDockerTaskStats);
+    return res.data;
   }
 
   async getMonitorTableData(): Promise<IContainerStats[]> {
-    const res = await this.client.rest.get(this.routes.GetMonitorTableData, {
-      json: null,
-    });
-    return res;
+    const res = await this.client.rest.get(this.routes.GetMonitorTableData);
+    return res.data;
   }
 
   async getSystemStats(): Promise<ISystemStats> {
-    const res = await this.client.rest.get(this.routes.GetSystemStats, {
-      json: null,
-    });
-    return res;
+    const res = await this.client.rest.get(this.routes.GetSystemStats);
+    return res.data;
   }
 }

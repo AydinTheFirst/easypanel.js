@@ -1,4 +1,4 @@
-import { Service } from "./services.t.js";
+import { Service } from "./services.js";
 
 export interface IProject {
   id: string;

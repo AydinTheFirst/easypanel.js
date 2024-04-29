@@ -1,12 +1,8 @@
-import { Client } from "../Client.js";
-import { BaseManager } from "./BaseManager.js";
+import { Client } from "@/Client";
+import { BaseManager } from "./BaseManager";
 
-import {
-  IBackupDestRes,
-  IBackupParams,
-  IRestoreParams,
-} from "../types/backups.t.js";
-import { ISelectDatabaseService } from "../types/services.t.js";
+import { IBackupDestRes, IBackupParams, IRestoreParams } from "@/types/backups";
+import { ISelectDatabaseService } from "../types/services.js";
 
 /**
  * BackupsManager
@@ -23,63 +19,57 @@ export class BackupsManager extends BaseManager {
 
   async createDestination(body: IBackupParams): Promise<void> {
     const res = await this.client.rest.post(this.routes.CreateBackup, {
-      json: body,
+      body,
     });
-    return res;
+    return res.data;
   }
 
   async listDestinations(): Promise<IBackupDestRes> {
-    const res = await this.client.rest.get(this.routes.ListBackups, {
-      json: null,
-    });
-    return res;
+    const res = await this.client.rest.get(this.routes.ListBackups);
+    return res.data;
   }
 
   async updateDestination(id: string, body: IBackupParams): Promise<void> {
     const res = await this.client.rest.post(this.routes.UpdateBackup, {
-      json: {
-        id,
-        ...body,
-      },
+      id,
+      ...body,
     });
-    return res;
+    return res.data;
   }
 
   async destroyDestination(id: string): Promise<void> {
     const res = await this.client.rest.post(this.routes.RemoveBackup, {
-      json: { id },
+      id,
     });
-    return res;
+    return res.data;
   }
 
   async restore(body: IRestoreParams): Promise<void> {
     const res = await this.client.rest.post(this.routes.RestoreBackup, {
-      json: body,
+      body,
     });
-    return res;
+    return res.data;
   }
 
   async getLog(body: Omit<ISelectDatabaseService, "type">): Promise<string> {
     const res = await this.client.rest.get(this.routes.GetBackupLog, {
-      json: body,
+      params: body,
     });
-    return res;
+    return res.data;
   }
 
   async clearLog(body: Omit<ISelectDatabaseService, "type">): Promise<void> {
     const res = await this.client.rest.post(this.routes.ClearBackupLog, {
-      json: body,
+      body,
     });
-    return res;
+    return res.data;
   }
 
   async runManualBackup(body: ISelectDatabaseService): Promise<void> {
     const res = await this.client.rest.post(
       this.routes.RunManualBackup(body.type),
-      {
-        json: body,
-      }
+      body
     );
-    return res;
+    return res.data;
   }
 }

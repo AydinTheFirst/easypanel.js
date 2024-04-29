@@ -1,4 +1,4 @@
-import { ServiceType } from "../types/services.t.js";
+import { ServiceType } from "../types/services.js";
 
 const Projets = {
   List: "/api/trpc/projects.listProjects", // GET

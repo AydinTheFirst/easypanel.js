@@ -1,14 +1,19 @@
 {
   "compilerOptions": {
     "target": "ESNext", // Choose the ECMAScript target version
-    "module": "NodeNext", // Specify module code generation
+    "module": "ESNext", // Specify module code generation
     "declaration": true, // Generate .d.ts files
     "strict": true, // Enable all strict type-checking options
-    "moduleResolution": "NodeNext",
+    "moduleResolution": "Node",
     "esModuleInterop": true, // Emit additional JavaScript to simplify import
     "skipLibCheck": true, // Skip type checking of declaration files
-    "forceConsistentCasingInFileNames": true // Ensure that casing is consistent in file names
+    "forceConsistentCasingInFileNames": true, // Ensure that casing is consistent in file names,
+
+    "paths": {
+      "@/*": ["./src/*"] // Define path mapping for module names
+    }
   },
+
   "include": ["src/**/*.ts"], // Specify files to include in compilation
   "exclude": ["node_modules", "dist"] // Specify files to exclude from compilation
 }

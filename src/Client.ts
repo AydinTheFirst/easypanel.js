@@ -1,17 +1,18 @@
-import { MonitorManager } from "./managers/Monitor.js";
-import { ProjectsManager } from "./managers/Projects.js";
-import { ServicesManager } from "./managers/Services.js";
-import { SettingsManager } from "./managers/Settings.js";
-
-import { REST } from "./utils/REST.js";
-import { Routes } from "./utils/Routes.js";
-
+import { AxiosInstance } from "axios";
 import EventEmitter from "node:events";
 
-import { ClientConfig, IUser } from "./types/index.t.js";
-import { BackupsManager } from "./managers/Backups.js";
-import { UsersManager } from "./managers/Users.js";
-import { ClusterManager } from "./managers/Cluster.js";
+import { MonitorManager } from "@/managers/Monitor";
+import { BackupsManager } from "@/managers/Backups";
+import { ProjectsManager } from "@/managers/Projects";
+import { ServicesManager } from "@/managers/Services";
+import { SettingsManager } from "@/managers/Settings";
+import { UsersManager } from "@/managers/Users";
+import { ClusterManager } from "@/managers/Cluster";
+
+import { ClientConfig, IUser } from "@/types";
+
+import { Routes } from "@/utils/Routes";
+import { createAxiosInstance } from "@/utils/http";
 
 /**
  * Client class for interacting with the API.
@@ -19,7 +20,7 @@ import { ClusterManager } from "./managers/Cluster.js";
  */
 export class Client extends EventEmitter {
   config: ClientConfig; // Client Config
-  rest: REST;
+  rest: AxiosInstance;
   routes: typeof Routes;
 
   // Managers
@@ -38,11 +39,7 @@ export class Client extends EventEmitter {
     if (!this.config.endpoint) throw Error("No endpoint was provided");
     if (!this.config.token) throw Error("No token was provided");
 
-    this.rest = new REST({
-      baseURL: this.config.endpoint,
-      token: this.config.token,
-    });
-
+    this.rest = createAxiosInstance(this.config.endpoint, this.config.token);
     this.routes = Routes;
 
     // Managers
@@ -76,17 +73,15 @@ export class Client extends EventEmitter {
    * Returns user object
    */
   async getUser(): Promise<IUser> {
-    const res = await this.rest.get(this.routes.Auth.GetUser, { json: null });
-    return res;
+    const res = await this.rest.get(this.routes.Auth.GetUser);
+    return res.data;
   }
 
   /**
    * Returns long license payload
    */
   async getLicensePayload(type: "lemon" | "portal"): Promise<any> {
-    const res = await this.rest.get(this.routes.License(type).Get, {
-      json: null,
-    });
+    const res = await this.rest.get(this.routes.License(type).Get);
     return res;
   }
 
@@ -94,9 +89,7 @@ export class Client extends EventEmitter {
    * Activates your license
    */
   async activateLicense(type: "lemon" | "portal"): Promise<any> {
-    const res = await this.rest.post(this.routes.License(type).Activate, {
-      json: null,
-    });
+    const res = await this.rest.post(this.routes.License(type).Activate);
     return res;
   }
 }

@@ -1,5 +1,5 @@
-import { Client } from "../Client.js";
-import { BaseManager } from "./BaseManager.js";
+import { Client } from "@/Client";
+import { BaseManager } from "./BaseManager";
 
 export class UsersManager extends BaseManager {
   routes: typeof this.client.routes.Users;
@@ -9,54 +9,48 @@ export class UsersManager extends BaseManager {
   }
 
   async list() {
-    const res = await this.client.rest.get(this.routes.list, {
-      json: null,
-    });
+    const res = await this.client.rest.get(this.routes.list);
 
-    return res;
+    return res.data;
   }
 
   async create(body: UserParams) {
-    const res = await this.client.rest.post(this.routes.create, {
-      json: body,
-    });
+    const res = await this.client.rest.post(this.routes.create, { body });
 
-    return res;
+    return res.data;
   }
 
   async update(id: string, body: UserParams) {
     const res = await this.client.rest.post(this.routes.update, {
-      json: {
-        id,
-        ...body,
-      },
+      id,
+      ...body,
     });
 
-    return res;
+    return res.data;
   }
 
   async remove(id: string) {
     const res = await this.client.rest.post(this.routes.remove, {
-      json: { id },
+      id,
     });
 
-    return res;
+    return res.data;
   }
 
   revokeToken = async (id: string) => {
     const res = await this.client.rest.post(this.routes.revokeToken, {
-      json: { id },
+      id,
     });
 
-    return res;
+    return res.data;
   };
 
   generateToken = async (id: string) => {
     const res = await this.client.rest.post(this.routes.generateToken, {
-      json: { id },
+      id,
     });
 
-    return res;
+    return res.data;
   };
 }
 

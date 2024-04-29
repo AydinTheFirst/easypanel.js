@@ -1,4 +1,4 @@
-import { Client } from "../Client.js";
+import { Client } from "@/Client";
 
 /**
  * Base manager for all managers.
