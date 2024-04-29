@@ -1,8 +1,9 @@
 import axios from "axios";
+import { EasypanelError } from "./EasypanelError";
 
 export const createAxiosInstance = (baseURL: string, token: string) => {
-  return axios.create({
-    baseURL: baseURL + "/api/trpc",
+  const instance = axios.create({
+    baseURL: baseURL,
     headers: {
       Authorization: token,
       "Content-Type": "application/json",
@@ -13,10 +14,6 @@ export const createAxiosInstance = (baseURL: string, token: string) => {
         const parse = JSON.parse(data);
         if (parse.result) {
           return parse.result.data.json;
-        }
-
-        if (parse.error) {
-          return parse.error.json;
         }
 
         return parse;
@@ -33,9 +30,37 @@ export const createAxiosInstance = (baseURL: string, token: string) => {
 
     paramsSerializer: (params: any) => {
       params = isEmptyObject(params) ? null : params;
-      return "input=" + encodeURIComponent(JSON.stringify({ json: params }));
+      const query = `input=${encodeURIComponent(
+        JSON.stringify({ json: params })
+      )}`;
+      return query;
     },
   });
+
+  instance.interceptors.request.use(
+    (config) => {
+      return config;
+    },
+    (error) => {
+      return Promise.reject(error);
+    }
+  );
+
+  instance.interceptors.response.use(
+    (config) => {
+      return config;
+    },
+    (error) => {
+      if (error.response) {
+        const err = error.response.data.error.json;
+        throw new EasypanelError(err.message, err);
+      }
+
+      return Promise.reject(error);
+    }
+  );
+
+  return instance;
 };
 
 const isEmptyObject = (obj: any) => {

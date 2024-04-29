@@ -1,6 +1,6 @@
 /* eslint-disable no-undef */
 import "dotenv/config";
-import { Client } from "../dist/index.cjs";
+import { Client } from "../dist";
 
 export const client = new Client({
   endpoint: process.env.endpoint as string,

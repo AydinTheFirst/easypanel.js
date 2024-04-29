@@ -2,6 +2,7 @@ import { Client } from "@/Client";
 import { BaseManager } from "./BaseManager";
 
 import { ChangeCredentialsParams, IPanelDomain } from "../types/settings.js";
+import { DockerManager } from "./Docker";
 
 /**
  * Settings Manager
@@ -9,17 +10,20 @@ import { ChangeCredentialsParams, IPanelDomain } from "../types/settings.js";
  */
 export class SettingsManager extends BaseManager {
   routes: typeof this.client.routes.Settings;
-
+  docker: DockerManager;
   constructor(client: Client) {
     super(client);
 
     this.routes = this.client.routes.Settings;
+
+    this.docker = new DockerManager(client);
   }
 
   async changeCredentials(body: ChangeCredentialsParams): Promise<null> {
-    const res = await this.client.rest.post(this.routes.ChangeCredentials, {
-      body,
-    });
+    const res = await this.client.rest.post(
+      this.routes.ChangeCredentials,
+      body
+    );
     return res.data;
   }
 
@@ -43,30 +47,6 @@ export class SettingsManager extends BaseManager {
     return res.data;
   }
 
-  async getTraefikCustomConfig(): Promise<string> {
-    const res = await this.client.rest.get(this.routes.GetTraefikCustomConfig);
-    return res.data;
-  }
-
-  async pruneDockerBuilder(): Promise<string> {
-    const res = await this.client.rest.post(this.routes.CleanupDockerBuilder);
-    return res.data;
-  }
-
-  async cleanupDockerImages(): Promise<string> {
-    const res = await this.client.rest.post(this.routes.CleanupDockerImages);
-    return res.data;
-  }
-
-  async setDailyDockerCleanup(body: {
-    dailyDockerCleanup: boolean;
-  }): Promise<boolean> {
-    const res = await this.client.rest.post(this.routes.SetDailyDockerCleanup, {
-      body,
-    });
-    return res.data;
-  }
-
   async refreshServerIp(): Promise<null> {
     const res = await this.client.rest.post(this.routes.RefreshServerIp);
     return res.data;
@@ -77,44 +57,23 @@ export class SettingsManager extends BaseManager {
     return res.data;
   }
 
-  async restartTraefik(): Promise<null> {
-    const res = await this.client.rest.post(this.routes.RestartTraefik);
-    return res.data;
-  }
-
-  async getDockerPruneDaily(): Promise<boolean> {
-    const res = await this.client.rest.get(this.routes.GetDailyDockerCleanup);
-    return res.data;
-  }
-
   async setGithubToken(body: { githubToken: string }): Promise<string> {
-    const res = await this.client.rest.post(this.routes.SetGithubToken, {
-      body,
-    });
+    const res = await this.client.rest.post(this.routes.SetGithubToken, body);
     return res.data;
   }
 
   async setPanelDomain(body: IPanelDomain): Promise<null> {
-    const res = await this.client.rest.post(this.routes.SetPanelDomain, {
-      body,
-    });
-    return res.data;
-  }
-
-  async updateTraefikCustomConfig(body: { config: string }): Promise<null> {
-    const res = await this.client.rest.post(
-      this.routes.UpdateTraefikCustomConfig,
-      { body }
-    );
+    const res = await this.client.rest.post(this.routes.SetPanelDomain, body);
     return res.data;
   }
 
   async setLetsEncryptEmail(body: {
     letsEncryptEmail: string;
   }): Promise<string> {
-    const res = await this.client.rest.post(this.routes.setLetsEncryptEmail, {
-      body,
-    });
+    const res = await this.client.rest.post(
+      this.routes.setLetsEncryptEmail,
+      body
+    );
     return res.data;
   }
 
@@ -124,9 +83,10 @@ export class SettingsManager extends BaseManager {
   }
 
   async removeCertificate(body: { domain: string }): Promise<null> {
-    const res = await this.client.rest.post(this.routes.RemoveCertificate, {
-      body,
-    });
+    const res = await this.client.rest.post(
+      this.routes.RemoveCertificate,
+      body
+    );
     return res.data;
   }
 }

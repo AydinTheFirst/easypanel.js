@@ -17,8 +17,8 @@ const Services = (type: string) => {
     Create: "/api/trpc/services.app.createService", // POST
     Inspect: "/api/trpc/services.app.inspectService", // GET
     Destroy: "/api/trpc/services.app.destroyService", // POST
-    Disable: "/api/trpc/services.app.disableService", // POST
-    Enable: "/api/trpc/services.app.enableService", // POST
+    Disable: "/api/trpc/services.app.stopService", // POST
+    Enable: "/api/trpc/services.app.startService", // POST
     UpdateResources: "/api/trpc/services.app.updateResources", // POST
 
     // App

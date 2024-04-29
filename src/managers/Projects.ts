@@ -25,7 +25,7 @@ export class ProjectsManager extends BaseManager {
   async create(body: { name: string }): Promise<IProject> {
     const Route = this.routes.Create.replace("app", body.name);
     const res = await this.client.rest.post(Route, {
-      body,
+      ...body,
     });
 
     return res.data;
@@ -33,7 +33,7 @@ export class ProjectsManager extends BaseManager {
 
   async destroy(body: { name: string }): Promise<null> {
     const res = await this.client.rest.post(this.routes.Destroy, {
-      body,
+      ...body,
     });
 
     return res.data;
@@ -68,7 +68,7 @@ export class ProjectsManager extends BaseManager {
 
   updateAccess = async (body: UpdateAccessParams): Promise<void> => {
     const res = await this.client.rest.post(this.routes.updateAccess, {
-      body,
+      ...body,
     });
 
     return res.data;
@@ -79,7 +79,7 @@ export class ProjectsManager extends BaseManager {
     env: string;
   }): Promise<void> => {
     const res = await this.client.rest.post(this.routes.updateEnv, {
-      body,
+      ...body,
     });
 
     return res.data;

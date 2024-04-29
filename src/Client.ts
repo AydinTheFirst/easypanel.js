@@ -13,6 +13,7 @@ import { ClientConfig, IUser } from "@/types";
 
 import { Routes } from "@/utils/Routes";
 import { createAxiosInstance } from "@/utils/http";
+import { TraefikManager } from "./managers/Traefik";
 
 /**
  * Client class for interacting with the API.
@@ -31,6 +32,7 @@ export class Client extends EventEmitter {
   backups: BackupsManager;
   users: UsersManager;
   cluster: ClusterManager;
+  traefik: TraefikManager;
   constructor(config: ClientConfig) {
     super();
 
@@ -50,6 +52,7 @@ export class Client extends EventEmitter {
     this.backups = new BackupsManager(this);
     this.users = new UsersManager(this);
     this.cluster = new ClusterManager(this);
+    this.traefik = new TraefikManager(this);
   }
 
   /**
@@ -82,7 +85,7 @@ export class Client extends EventEmitter {
    */
   async getLicensePayload(type: "lemon" | "portal"): Promise<any> {
     const res = await this.rest.get(this.routes.License(type).Get);
-    return res;
+    return res.data;
   }
 
   /**
@@ -90,6 +93,6 @@ export class Client extends EventEmitter {
    */
   async activateLicense(type: "lemon" | "portal"): Promise<any> {
     const res = await this.rest.post(this.routes.License(type).Activate);
-    return res;
+    return res.data;
   }
 }

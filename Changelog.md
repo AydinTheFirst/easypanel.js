@@ -1,5 +1,11 @@
 # Changelogs
 
+# v1.3
+
+- refactor => REST class is replaced with axios instance
+- refactor methods and fix according to latest relase
+- feat => DockerManager, TraefikManager and tests
+
 # v1.2.2
 
 - feat => Cluster support (license required)

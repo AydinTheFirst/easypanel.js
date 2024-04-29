@@ -7,8 +7,8 @@ describe("Setting Tests", () => {
   test("Change Credentials", async () => {
     const result = await client.settings.changeCredentials({
       email: process.env.email as string,
-      oldPassword: process.env.psw as string,
-      newPassword: process.env.psw as string,
+      oldPassword: process.env.password as string,
+      newPassword: process.env.password as string,
     });
     expect(result).toBe(null);
   });
@@ -34,21 +34,6 @@ describe("Setting Tests", () => {
     expect(result).toBeTruthy();
   });
 
-  test("Get Traefik Custom Config", async () => {
-    const result = await client.settings.getTraefikCustomConfig();
-    expect(result).toBe("");
-  });
-
-  test("Prune Docker Builder", async () => {
-    const result = await client.settings.pruneDockerBuilder();
-    expect(result).toBeTruthy();
-  });
-
-  test("Prune Docker Images", async () => {
-    const result = await client.settings.cleanupDockerImages();
-    expect(result).toBeTruthy();
-  });
-
   test("Refresh Server IP", async () => {
     const result = await client.settings.refreshServerIp();
     expect(result).toBe(null);
@@ -65,27 +50,9 @@ describe("Setting Tests", () => {
     expect(result).toBe(null);
   });
 
-  test("Set Docker Prune Daily", async () => {
-    const result = await client.settings.setDailyDockerCleanup({
-      dailyDockerCleanup: true,
-    });
-    expect(result).toBe(true);
-  });
-
   test("Set Github Token", async () => {
     //const result = await client.settings.setGithubToken({ githubToken });
     expect(2 + 2).toBe(4);
-  });
-
-  test("Update Traefik Custom Config", async () => {
-    const traefikConfigData = {
-      config: "",
-    };
-
-    const result = await client.settings.updateTraefikCustomConfig(
-      traefikConfigData
-    );
-    expect(result).toBe(null);
   });
 
   test("Set Let's Encrypt Email", async () => {
@@ -93,11 +60,6 @@ describe("Setting Tests", () => {
       letsEncryptEmail: process.env.email as string,
     });
     expect(result).toBeTruthy();
-  });
-
-  test("Restart Traefik", async () => {
-    const result = await client.settings.restartTraefik();
-    expect(result).toBe(null);
   });
 
   test("Restart Easypanel", async () => {

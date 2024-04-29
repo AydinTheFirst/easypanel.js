@@ -154,6 +154,7 @@ export interface IRedirect {
   regex: string;
   replacement: string;
   permanent: boolean;
+  enabled: boolean;
 }
 
 /** Basic Auth */

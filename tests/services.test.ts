@@ -1,6 +1,6 @@
 import { describe, test, expect } from "vitest";
 import { client } from "./index.js";
-import { ISelectService } from "../src/types/general.types.js";
+import { ISelectService } from "../dist/index.js";
 
 describe("Services Tests", () => {
   let data: ISelectService = {
@@ -45,7 +45,7 @@ describe("Services Tests", () => {
       basicAuth: [
         {
           username: "example@gmail.com",
-          password: process.env.psw as string,
+          password: process.env.password as string,
         },
       ],
     });
@@ -57,6 +57,8 @@ describe("Services Tests", () => {
     const result = await client.services.updateDeploy({
       ...data,
       deploy: {
+        command: "",
+        replicas: 1,
         zeroDowntime: true,
       },
     });
@@ -82,6 +84,7 @@ describe("Services Tests", () => {
     const result = await client.services.updateEnv({
       ...data,
       env: "",
+      createDotEnv: false,
     });
     expect(result).toBe(null);
   });
@@ -122,6 +125,7 @@ describe("Services Tests", () => {
           permanent: true,
           regex: "ss",
           replacement: "ss",
+          enabled: true,
         },
       ],
     });
@@ -148,6 +152,7 @@ describe("Services Tests", () => {
         path: "git@bitbucket.org:easypanel/easypanel.git",
         ref: "ref",
         repo: "fristroop",
+        autoDeploy: true,
       });
       expect(2 + 2).toBe(4);
     } catch (error) {
@@ -174,6 +179,7 @@ describe("Services Tests", () => {
       path: "/",
       ref: "main",
       repo: "fristroop",
+      autoDeploy: false,
     });
     expect(result).toBe(null);
   }, 10000);
@@ -202,6 +208,10 @@ describe("Services Tests", () => {
         enabled: true,
         title: "test",
         subtitle: "test",
+        customCss: "test",
+        customLogo: "https://example.com",
+        hideLogo: false,
+        hideLinks: false,
       },
     });
     expect(result).toBe(true);
