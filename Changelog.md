@@ -1,6 +1,6 @@
 # Changelogs
 
-# v1.3
+# v1.4
 
 - refactor => REST class is replaced with axios instance
 - refactor methods and fix according to latest relase
