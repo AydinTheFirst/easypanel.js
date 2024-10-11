@@ -3,7 +3,7 @@ import { EasypanelError } from "./EasypanelError";
 
 export const createAxiosInstance = (baseURL: string, token: string) => {
   const instance = axios.create({
-    baseURL: baseURL,
+    baseURL: baseURL + "/api/trpc",
     headers: {
       Authorization: token,
       "Content-Type": "application/json",

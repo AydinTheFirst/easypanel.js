@@ -1,6 +1,6 @@
 {
   "name": "easypanel.js",
-  "version": "1.4.0",
+  "version": "2.0.0",
   "description": "A module for interacting with the Easypanel API",
   "main": "dist/index.js",
   "module": "dist/index.js",
@@ -12,10 +12,10 @@
   "scripts": {
     "build": "tsup",
     "dev": "tsup --watch",
-    "start": "",
     "docs": "typedoc src/index.ts --readme README.md",
     "test": "vitest",
-    "relase": "pnpm run build && npm publish"
+    "relase": "pnpm run build && npm publish",
+    "lint": "eslint . --fix"
   },
   "keywords": [
     "easypanel",
@@ -26,18 +26,23 @@
   "author": "AydinTheFirst",
   "license": "ISC",
   "devDependencies": {
+    "@eslint/js": "^9.12.0",
+    "@types/eslint__js": "^8.42.3",
     "@types/node": "^20.10.6",
     "dotenv": "^16.3.1",
-    "eslint": "^8.54.0",
+    "eslint": "^8.56.0",
     "tsup": "^8.0.1",
     "typedoc": "^0.25.3",
+    "typescript": "^5.6.3",
+    "typescript-eslint": "^8.8.1",
     "vitest": "^0.34.6"
   },
   "dependencies": {
     "axios": "^1.6.2",
+    "class-validator": "^0.14.1",
     "yaml": "^2.3.4"
   },
-  "homepage": "https://easypanel-js.fristroop.com",
+  "homepage": "https://easypanel-js.aydinthefirst.com",
   "repository": {
     "url": "https://github.com/AydinTheFirst/easypanel.js",
     "type": "git"
