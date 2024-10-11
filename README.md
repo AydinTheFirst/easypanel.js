@@ -25,6 +25,9 @@ const client = new Client({
 
   // user token which can be claimed at https://easypanel.example.com/settings/users - Settings > Users
   token: process.env.token,
+
+  // when set to true it validates the token, when it fails, throws error
+  validate: true,
 });
 
 const projects = await client.projects.list();

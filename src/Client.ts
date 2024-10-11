@@ -27,6 +27,13 @@ export class Client {
     if (!this.config.token) throw Error("No token was provided");
 
     this.http = createAxiosInstance(this.config.endpoint, this.config.token);
+
+    if (this.config.validate) this.validate();
+  }
+
+  async validate() {
+    const user = await this.auth.getUser();
+    if (!user) throw Error("Invalid token was provided");
   }
 
   auth = new AuthManager(this);

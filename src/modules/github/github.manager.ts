@@ -6,7 +6,7 @@ export class GithubManager {
 
   async listRepos() {
     const { data } = await this.client.http.get<ListGithubReposResponse>(
-      "/git.listRepos"
+      "/github.listRepos"
     );
 
     return data;
