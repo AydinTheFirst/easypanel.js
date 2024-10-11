@@ -6,7 +6,7 @@ import {
   GetDeploymentResponse,
   KillDeploymentResponse,
   ListDeploymentsResponse,
-} from "./deplotments.types";
+} from "./deployments.types";
 import { KillActionInput } from "../actions";
 import { GetDeploymentInput, ListDeploymentsInput } from "./deployments.dto";
 

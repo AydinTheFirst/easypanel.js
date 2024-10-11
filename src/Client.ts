@@ -3,11 +3,15 @@ import { AxiosInstance } from "axios";
 import { ClientConfig } from "@/types";
 
 import { createAxiosInstance } from "@/http";
-import { ActionsManager, AuthManager, BackupsManager } from "./modules";
-import { BrandingManager } from "./modules/branding/branding.manager";
-import { DeploymentsManager } from "./modules/deployments";
-import { GitManager } from "./modules/git/git.manager";
-import { GithubManager } from "./modules/github/github.manager";
+import {
+  ActionsManager,
+  AuthManager,
+  BackupsManager,
+  BrandingManager,
+  DeploymentsManager,
+  GithubManager,
+  GitManager,
+} from "./modules";
 
 /**
  * Client class for interacting with the API.
