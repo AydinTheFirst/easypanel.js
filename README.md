@@ -1,4 +1,4 @@
-<img width="150" height="150" align="left" style="float: left; margin: 0 10px 0 0;" alt="Xiao" src="https://fristroop.com/assets/logo-7d84cf41.png">
+<img width="150" height="150" align="left" style="float: left; margin: 0 10px 0 0;" alt="easypanel.js" src="/public/easypanel.svg">
 
 # [easypanel.js](https://github.com/AydinTheFirst/easypanel.js)
 
@@ -15,50 +15,32 @@ npm install easypanel.js
 Here is a an example
 
 ```js
+// index.mjs
 import "dotenv/config";
 import { Client } from "easypanel.js";
 
-export const client = new Client({
-  endpoint: process.env.domain, // easypanel domain https://easypanel.example.com
-  //@deprecated
-  credentials: {
-    email: process.env.email,
-    password: process.env.psw,
-  },
-  token: process.env.token, // when provided package will skip authenticating if token works!
+const client = new Client({
+  // easypanel domain https://easypanel.example.com
+  endpoint: process.env.domain,
+
+  // user token which can be claimed at https://easypanel.example.com/settings/users - Settings > Users
+  token: process.env.token,
 });
 
-client.on("ready", async () => {
-  console.log("Client is ready!");
-  console.log(await client.projects.list());
-});
-
-await client.login();
+const projects = await client.projects.list();
+console.log(projects);
 ```
 
-### Vitest Test Results
+## More about easypanel API
 
-- Total Test Count 48
-- https://github.com/AydinTheFirst/easypanel.js/tree/main/tests
+Easypanel provides swagger documentation and this library is built according to it.
 
-```json
-{
-  "version": "0.34.6",
-  "results": [
-    [":tests/license.test.ts", { "duration": 146, "failed": false }],
-    [":tests/setting.test.ts", { "duration": 2803, "failed": false }],
-    [":tests/monitor.test.ts", { "duration": 4484, "failed": false }],
-    [":tests/projects.test.ts", { "duration": 481, "failed": false }],
-    [":tests/services.test.ts", { "duration": 3855, "failed": false }]
-  ]
-}
-```
+## Contributing
 
-### You may find all examples on [Github](https://github.com/AydinTheFirst/easypanel-api/tree/main/tests)
+Any contributions are welcomed!
 
 ## Links
 
 - [Website Documentation](https://easypanel-js.AydinTheFirst.com)
-- [AydinTheFirst Discord server](https://discord.gg/c4hrGHwSgS)
-- [GitHub](https://github.com/Fristroop/easypanel.js)
+- [GitHub](https://github.com/AydinTheFirst/easypanel.js)
 - [NPM](https://www.npmjs.com/package/easypanel.js)
