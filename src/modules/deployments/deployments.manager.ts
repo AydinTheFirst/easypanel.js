@@ -1,5 +1,3 @@
-import { validateOrReject } from "class-validator";
-
 import { Client } from "@/Client";
 
 import {
@@ -7,14 +5,17 @@ import {
   KillDeploymentResponse,
   ListDeploymentsResponse,
 } from "./deployments.types";
-import { KillActionInput } from "../actions";
-import { GetDeploymentInput, ListDeploymentsInput } from "./deployments.dto";
+import {
+  GetDeploymentInput,
+  ListDeploymentsInput,
+  KillDeploymentInput,
+} from "./deployments.dto";
 
 export class DeploymentsManager {
   constructor(private client: Client) {}
 
   async list(body: ListDeploymentsInput) {
-    await validateOrReject(body);
+    await this.client.validateInput(body);
 
     const { data } = await this.client.http.get<ListDeploymentsResponse>(
       "/deployments.listDeployments",
@@ -27,7 +28,7 @@ export class DeploymentsManager {
   }
 
   async get(body: GetDeploymentInput) {
-    await validateOrReject(body);
+    await this.client.validateInput(body);
 
     const { data } = await this.client.http.get<GetDeploymentResponse>(
       `/deployments.getDeployment`,
@@ -39,8 +40,8 @@ export class DeploymentsManager {
     return data;
   }
 
-  async kill(body: KillActionInput) {
-    await validateOrReject(body);
+  async kill(body: KillDeploymentInput) {
+    await this.client.validateInput(body);
 
     const { data } = await this.client.http.post<KillDeploymentResponse>(
       `/deployments.killDeployment`,

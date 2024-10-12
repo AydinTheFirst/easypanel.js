@@ -5,3 +5,7 @@ export * from "./branding";
 export * from "./deployments";
 export * from "./git";
 export * from "./github";
+export * from "./licenses";
+export * from "./monitor";
+export * from "./setup";
+export * from "./templates";

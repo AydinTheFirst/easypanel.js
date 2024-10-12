@@ -1,8 +1,8 @@
 import { AxiosInstance } from "axios";
 
 import { ClientConfig } from "@/types";
-
 import { createAxiosInstance } from "@/http";
+
 import {
   ActionsManager,
   AuthManager,
@@ -11,7 +11,11 @@ import {
   DeploymentsManager,
   GithubManager,
   GitManager,
+  LicensesManager,
+  MonitorManager,
+  SetupManager,
 } from "./modules";
+import { validateOrReject } from "class-validator";
 
 /**
  * Client class for interacting with the API.
@@ -36,6 +40,10 @@ export class Client {
     if (!user) throw Error("Invalid token was provided");
   }
 
+  async validateInput(input: object) {
+    if (this.config.validate) await validateOrReject(input);
+  }
+
   auth = new AuthManager(this);
   actions = new ActionsManager(this);
   backups = new BackupsManager(this);
@@ -43,4 +51,8 @@ export class Client {
   deployments = new DeploymentsManager(this);
   git = new GitManager(this);
   github = new GithubManager(this);
+  licenses = new LicensesManager(this);
+  monitor = new MonitorManager(this);
+  setup = new SetupManager(this);
+  templates = new SetupManager(this);
 }

@@ -18,7 +18,6 @@ import {
   RestoreBackupInput,
   UpdateBackupDestinationInput,
 } from "./backups.dto";
-import { validateOrReject } from "class-validator";
 
 export class BackupsManager {
   constructor(private client: Client) {}
@@ -40,7 +39,7 @@ export class BackupsManager {
   }
 
   async getLog(body: GetBackupLogInput) {
-    await validateOrReject(body);
+    await this.client.validateInput(body);
 
     const { data } = await this.client.http.post<GetBackupLogResponse>(
       "/backups.getBackupLog",
@@ -51,7 +50,7 @@ export class BackupsManager {
   }
 
   async clearLog(body: ClearBackupLogInput) {
-    await validateOrReject(body);
+    await this.client.validateInput(body);
 
     const { data } = await this.client.http.post<ClearBackupLogResponse>(
       "/backups.clearBackupLog",
@@ -62,7 +61,7 @@ export class BackupsManager {
   }
 
   async createDestination(body: CreateBackupDestinationInput) {
-    await validateOrReject(body);
+    await this.client.validateInput(body);
 
     const { data } =
       await this.client.http.post<CreateBackupDestinationResponse>(
@@ -74,7 +73,7 @@ export class BackupsManager {
   }
 
   async updateDestination(body: UpdateBackupDestinationInput) {
-    await validateOrReject(body);
+    await this.client.validateInput(body);
 
     const { data } =
       await this.client.http.post<UpdateBackupDestinationResponse>(
@@ -86,7 +85,7 @@ export class BackupsManager {
   }
 
   async destroyDestination(body: DestroyBackupDestinationInput) {
-    await validateOrReject(body);
+    await this.client.validateInput(body);
 
     const { data } =
       await this.client.http.post<DestroyBackupDestinationResponse>(
@@ -98,7 +97,7 @@ export class BackupsManager {
   }
 
   async restore(body: RestoreBackupInput) {
-    await validateOrReject(body);
+    await this.client.validateInput(body);
 
     const { data } = await this.client.http.post<RestoreBackupResponse>(
       "/backups.restoreBackup",

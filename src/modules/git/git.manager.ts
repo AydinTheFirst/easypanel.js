@@ -1,5 +1,3 @@
-import { validateOrReject } from "class-validator";
-
 import { Client } from "@/Client";
 
 import { GenerateKeyInput, GetPublicKeyInput } from "./git.dto";
@@ -9,7 +7,7 @@ export class GitManager {
   constructor(private client: Client) {}
 
   async getPublicKey(body: GetPublicKeyInput) {
-    await validateOrReject(body);
+    await this.client.validateInput(body);
 
     const { data } = await this.client.http.get<GetPublicKeyResponse>(
       "/git.getPublicKey",
@@ -22,7 +20,7 @@ export class GitManager {
   }
 
   async generateKey(body: GenerateKeyInput) {
-    await validateOrReject(body);
+    await this.client.validateInput(body);
 
     const { data } = await this.client.http.post<GenerateKeyresponse>(
       "/git.generateKey",

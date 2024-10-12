@@ -5,7 +5,6 @@ import {
   KillActionInput,
   ListActionsInput,
 } from "./actions.dto";
-import { validateOrReject } from "class-validator";
 import {
   GetActionResponse,
   KillActionResponse,
@@ -16,7 +15,7 @@ export class ActionsManager {
   constructor(private client: Client) {}
 
   async list(body: ListActionsInput) {
-    await validateOrReject(body);
+    await this.client.validateInput(body);
 
     const { data } = await this.client.http.post<ListActionsResponse>(
       "/actions.listActions",
@@ -27,7 +26,7 @@ export class ActionsManager {
   }
 
   async get(body: GetActionInput) {
-    await validateOrReject(body);
+    await this.client.validateInput(body);
 
     const { data } = await this.client.http.post<GetActionResponse>(
       "/actions.getAction",
@@ -38,7 +37,7 @@ export class ActionsManager {
   }
 
   async kill(body: GetActionInput) {
-    await validateOrReject(body);
+    await this.client.validateInput(body);
 
     const { data } = await this.client.http.post<KillActionResponse>(
       "/actions.killAction",

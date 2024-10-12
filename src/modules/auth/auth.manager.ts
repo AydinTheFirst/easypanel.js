@@ -28,6 +28,8 @@ export class AuthManager {
   }
 
   async login(body: LoginInput) {
+    await this.client.validateInput(body);
+
     const { data } = await this.client.http.post<LoginResponse>(
       "/auth.login",
       body

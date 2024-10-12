@@ -1,4 +1,5 @@
 import axios from "axios";
+
 import { EasypanelError } from "./EasypanelError";
 
 export const createAxiosInstance = (baseURL: string, token: string) => {

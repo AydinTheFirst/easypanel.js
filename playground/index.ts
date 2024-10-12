@@ -9,11 +9,3 @@ export const client = new Client({
   token: process.env.token as string, // when provided package will skip authenticating if token works!
   validate: true,
 });
-
-client.github
-  .listRepos()
-  .then(console.log)
-  .catch((e: EasypanelError) => {
-    console.error(e);
-    console.error(e.rawError);
-  });

@@ -1,10 +1,10 @@
 import { Client } from "@/Client";
+
 import {
   ListCertificatesResponse,
   RemoveCertificateResponse,
 } from "./certificates.types";
 import { RemoveCertificateInput } from "./certificates.dto";
-import { validateOrReject } from "class-validator";
 
 export class CertificatesManager {
   constructor(private client: Client) {}
@@ -18,7 +18,7 @@ export class CertificatesManager {
   }
 
   async remove(body: RemoveCertificateInput) {
-    await validateOrReject(body);
+    await this.client.validateInput(body);
 
     const { data } = await this.client.http.post<RemoveCertificateResponse>(
       "/certificates.removeCertificate",

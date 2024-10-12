@@ -1,4 +1,5 @@
 import { Client } from "@/Client";
+
 import { ListGithubReposResponse } from "./github.types";
 
 export class GithubManager {
